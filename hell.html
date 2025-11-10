@@ -9,17 +9,22 @@
 <body>
   <h1>🔥 Welcome to Hell 🔥</h1>
   <div id="meme-container">
-    <img id="meme" src="assets/memes/meme1.jpg" alt="Meme">
+    <img id="meme" src="assets/memes/1.JPG" alt="Meme">
   </div>
-  <button onclick="window.location.href='index.html'">Escape Harperville</button>
+  <button onclick="window.location.href='index.html'">Escape HarperHELL</button>
 
   <script>
-    const memes = ["meme1.jpg","meme2.jpg","meme3.jpg"];
+    const memes = [
+      "1.JPG","2.JPG","3.JPG","4.JPG","5.JPG","6.WEBP","7.JPG","8.JPG",
+      "9.AVIF","10.JPG","11.JPG","12.JPG","13.JPG","14.JPG","15.JPG","16.JPG",
+      "17.WEBP","18.JPG","19.WEBP","20.JPG","21.JPG","22.PNG","23.PNG"
+    ];
+
     let i = 0;
     setInterval(() => {
       document.getElementById("meme").src = "assets/memes/" + memes[i];
       i = (i+1) % memes.length;
-    }, 3000);
+    }, 3000); // swap every 3 seconds
   </script>
 </body>
 </html>
