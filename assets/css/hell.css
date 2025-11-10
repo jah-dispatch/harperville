@@ -1,0 +1,34 @@
+body {
+  background: linear-gradient(to bottom, black, red);
+  color: white;
+  text-align: center;
+  font-family: 'Impact', sans-serif;
+}
+
+h1 {
+  text-shadow: 0 0 10px crimson, 0 0 20px orange;
+}
+
+#meme-container img {
+  max-width: 80%;
+  margin: 20px auto;
+  display: block;
+  box-shadow: 0 0 30px crimson;
+  border-radius: 12px;
+}
+
+button {
+  background: crimson;
+  color: #fff;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  background: red;
+  box-shadow: 0 0 20px red;
+}
