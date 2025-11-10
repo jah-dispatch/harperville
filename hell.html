@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome to Hell</title>
+  <link rel="stylesheet" href="css/hell.css">
+</head>
+<body>
+  <h1>🔥 Welcome to Hell 🔥</h1>
+  <div id="meme-container">
+    <img id="meme" src="assets/memes/meme1.jpg" alt="Meme">
+  </div>
+  <button onclick="window.location.href='index.html'">Escape Harperville</button>
+
+  <script>
+    const memes = ["meme1.jpg","meme2.jpg","meme3.jpg"];
+    let i = 0;
+    setInterval(() => {
+      document.getElementById("meme").src = "assets/memes/" + memes[i];
+      i = (i+1) % memes.length;
+    }, 3000);
+  </script>
+</body>
+</html>
