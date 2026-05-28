@@ -26,23 +26,27 @@
 
             <div class="page-divider"></div>
 
-
             <h2>Just some quick thoughts...</h2>            
-            <div class="glass-panel card">
-                <p>Why are government employees so rigid and unresponsive to the needs of the people they serve?</p>
-            </div>
             
-            <div class="glass-panel card">
-                <p>How many licks does it take to get to the center of a Tootsie Pop? ... I have the answer. 48!!</p>
-            </div>
+            <div id="thought-container">
+                
+                <div class="glass-panel card">
+                    <p>Why are government employees so rigid and unresponsive to the needs of the people they serve?</p>
+                </div>
+                
+                <div class="glass-panel card">
+                    <p>How many licks does it take to get to the center of a Tootsie Pop? ... I have the answer. 48!!</p>
+                </div>
 
-            <div class="glass-panel card">
-                <p>I think money should grow on trees. Then enough people would have it to make a difference.</p>
-            </div>
+                <div class="glass-panel card">
+                    <p>I think money should grow on trees. Then enough people would have it to make a difference.</p>
+                </div>
 
-            <div class="glass-panel card">
-                <p>It takes 5 seconds to respond to a simple email. Yet I get the two day treatment every two days like clockwork because I'm just a case number.</p>
-            </div>
+                <div class="glass-panel card">
+                    <p>It takes 5 seconds to respond to a simple email. Yet I get the two day treatment every two days like clockwork because I'm just a case number.</p>
+                </div>
+                
+                </div> <div id="pagination-controls" class="pagination-glass"></div>
 
         </main>
 
@@ -55,5 +59,71 @@
         </footer>
 
     </div>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const container = document.getElementById("thought-container");
+        const cards = Array.from(container.getElementsByClassName("card"));
+        const paginationControls = document.getElementById("pagination-controls");
+        
+        // Define how many items per page
+        const cardsPerPage = 3;
+        let currentPage = 1;
+        const totalPages = Math.ceil(cards.length / cardsPerPage);
+
+        function displayPage(page) {
+            // 1. Hide everything first
+            cards.forEach(card => {
+                card.style.display = "none";
+                card.style.animation = "none"; // Reset animation
+            });
+            
+            // 2. Calculate which cards to show
+            const startIndex = (page - 1) * cardsPerPage;
+            const endIndex = startIndex + cardsPerPage;
+            
+            // 3. Show the active cards with a slick fade-in
+            cards.slice(startIndex, endIndex).forEach(card => {
+                card.style.display = "block";
+                // Trigger reflow for animation
+                void card.offsetWidth; 
+                card.style.animation = "fadeInCard 0.4s ease forwards";
+            });
+            
+            updateButtons(page);
+        }
+
+        function updateButtons(activePage) {
+            paginationControls.innerHTML = ""; // Clear old buttons
+            
+            // Only show pagination if there is more than 1 page
+            if (totalPages > 1) {
+                for (let i = 1; i <= totalPages; i++) {
+                    const btn = document.createElement("button");
+                    btn.textContent = i;
+                    btn.classList.add("page-btn");
+                    
+                    if (i === activePage) {
+                        btn.classList.add("active");
+                    }
+                    
+                    btn.addEventListener("click", () => {
+                        currentPage = i;
+                        displayPage(currentPage);
+                        // Optional: Smoothly scroll back to the top of the thoughts section
+                        document.querySelector("h2").scrollIntoView({ behavior: "smooth" });
+                    });
+                    
+                    paginationControls.appendChild(btn);
+                }
+            }
+        }
+
+        // Boot it up
+        if (cards.length > 0) {
+            displayPage(1);
+        }
+    });
+    </script>
 </body>
 </html>
