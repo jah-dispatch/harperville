@@ -5,12 +5,12 @@ import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from "https://w
 
 // PASTE YOUR EXACT FIREBASE CONFIG OBJECT HERE FROM STEP 1
 const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_AUTH_DOMAIN",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_STORAGE_BUCKET",
-    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-    appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyDT9oH9Viddedfi06aCTibBknaIRU6nstQ",
+  authDomain: "harperville-thought-box.firebaseapp.com",
+  projectId: "harperville-thought-box",
+  storageBucket: "harperville-thought-box.firebasestorage.app",
+  messagingSenderId: "444340361399",
+  appId: "1:444340361399:web:e073a9c43548ab2e829532"
 };
 
 // Initialize Firebase
