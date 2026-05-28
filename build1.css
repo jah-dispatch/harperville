@@ -76,14 +76,30 @@ body {
     background-color: #000;
 }
 
-.skew-text {
+/* Override the gradient and hide the etched leaf for a pure black void on launch */
+.landing-container {
+    background: #000 !important; 
+    justify-content: center; /* Vertically centers the text block */
+}
+
+.landing-container::after {
+    display: none !important;
+}
+
+.loud-text-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Tight spacing between the stacked lines */
+    width: 100%;
+}
+
+.loud-text {
     font-family: 'Bowlby One', cursive;
-    font-size: 4.5rem; /* Massive typography */
+    font-size: 6rem; /* Massively scaled up for aggressive impact */
     line-height: 1;
     white-space: nowrap;
-    position: absolute;
+    margin: 0;
     text-transform: uppercase;
-    z-index: 10;
     
     /* IMAGE MASKING MAGIC: Emerald/Gold dipped aspen leaf texture */
     background-image: url('assets/images/text-mask-gold-green.png'); 
@@ -94,24 +110,34 @@ body {
     background-clip: text;
 }
 
-/* Bottom Left to Top Right */
-.text-up {
-    animation: sweepUp 8s linear forwards; 
+/* Top & Bottom Lines (Start Left) */
+.scroll-left {
+    animation: slideLeftStall 8s ease-in-out forwards;
 }
 
-/* Top Left to Bottom Right */
-.text-down {
-    animation: sweepDown 8s linear forwards; 
+/* Middle Line (Start Right - Reversed) */
+.scroll-right {
+    animation: slideRightStall 8s ease-in-out forwards;
 }
 
-@keyframes sweepUp {
-    0% { transform: translate(-100vw, 100vh) rotate(-25deg); }
-    100% { transform: translate(100vw, -100vh) rotate(-25deg); }
+/* 
+  The Stalled Animations:
+  0% - 25%: Slams into the center frame
+  25% - 75%: The "Stall" (a slow, tense 4-second pan)
+  75% - 100%: Reverses the scroll and snaps back out of frame
+*/
+@keyframes slideLeftStall {
+    0%   { transform: translateX(-150%); }
+    25%  { transform: translateX(-5%); }
+    75%  { transform: translateX(5%); } 
+    100% { transform: translateX(-150%); }
 }
 
-@keyframes sweepDown {
-    0% { transform: translate(-100vw, -100vh) rotate(25deg); }
-    100% { transform: translate(100vw, 100vh) rotate(25deg); }
+@keyframes slideRightStall {
+    0%   { transform: translateX(150%); }
+    25%  { transform: translateX(5%); } 
+    75%  { transform: translateX(-5%); } 
+    100% { transform: translateX(150%); }
 }
 
 /* --- GLASSMORPHISM UI --- */
@@ -410,4 +436,96 @@ body {
 @keyframes fadeInCard {
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
+}
+/* --- MS-DOS BOOT SEQUENCE (Landing Page) --- */
+.dos-body {
+    background-color: #000;
+}
+
+/* Force pure black void for the terminal */
+.dos-container {
+    background: #000 !important; 
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.dos-container::after {
+    display: none !important; /* Disables the etched leaf here */
+}
+
+.dos-content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 50px; /* Spacing between text and loading bar */
+}
+
+/* Terminal Typography */
+.dos-title {
+    font-family: 'Courier New', Courier, monospace;
+    color: #33ff33; /* Classic terminal green */
+    font-size: 2.2rem; 
+    text-align: center;
+    margin: 0;
+    line-height: 1.4;
+    text-transform: uppercase;
+    text-shadow: 0 0 6px rgba(51, 255, 51, 0.6); /* CRT Phosphor Glow */
+}
+
+/* The Blinking Underscore */
+.dos-cursor {
+    animation: blinkCursor 1s step-end infinite;
+}
+
+@keyframes blinkCursor {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* The Loading Bar Container */
+.dos-loading-area {
+    width: 85%;
+    height: 35px;
+    border: 3px solid #33ff33;
+    padding: 4px;
+    box-sizing: border-box;
+    position: relative;
+    box-shadow: 0 0 6px rgba(51, 255, 51, 0.4);
+}
+
+/* The Stuttering Progress Blocks */
+.dos-progress-bar {
+    height: 100%;
+    background-color: #33ff33;
+    width: 0%;
+    box-shadow: 0 0 10px rgba(51, 255, 51, 0.8);
+    /* "steps(15)" makes it load in 15 distinct, choppy blocks */
+    animation: loadBars 5.5s steps(15, end) forwards;
+    animation-delay: 1s; /* Pauses for 1 second before starting */
+}
+
+@keyframes loadBars {
+    0% { width: 0%; }
+    100% { width: 100%; }
+}
+
+/* The Final Subtext */
+.dos-subtext {
+    font-family: 'Courier New', Courier, monospace;
+    color: #33ff33;
+    font-size: 1.4rem;
+    font-weight: bold;
+    margin: 0;
+    text-align: center;
+    text-shadow: 0 0 6px rgba(51, 255, 51, 0.6);
+    opacity: 0; /* Hidden initially */
+    /* Snaps onto the screen instantly after the loading bar finishes */
+    animation: fadeInDos 0.1s forwards;
+    animation-delay: 6.8s; 
+}
+
+@keyframes fadeInDos {
+    to { opacity: 1; }
 }

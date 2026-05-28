@@ -3,20 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Harperville | The No Bullshit Zone | Jack Aspen Harper</title>
+    <title>Harperville | System Boot</title>
     <link rel="stylesheet" href="build1.css">
-    <!-- Automated redirection after exactly 4 seconds (4000ms) -->
+    
+    <!-- SESSION LOGIC: Only show once per visit -->
     <script>
-        setTimeout(function() {
-            window.location.href = "splash.html";
-        }, 8000);
+        // Check if the browser remembers seeing the intro this session
+        if (sessionStorage.getItem('hasSeenIntro')) {
+            // Immediately redirect without loading the animation
+            window.location.replace("splash.html"); 
+        } else {
+            // Mark that they are seeing it now
+            sessionStorage.setItem('hasSeenIntro', 'true');
+            // Run the 8-second immersive timer, then redirect
+            setTimeout(function() {
+                window.location.href = "splash.html";
+            }, 8000);
+        }
     </script>
 </head>
-<body class="landing-body">
-    <div class="app-container">
-        <!-- Criss-cross animated text with image masking -->
-        <h1 class="skew-text text-up">THIS IS A NO BULLSHIT ZONE</h1>
-        <h1 class="skew-text text-down">THIS IS A NO BULLSHIT ZONE</h1>
+<body class="dos-body">
+    <div class="app-container dos-container">
+        
+        <div class="dos-content">
+            <!-- The Tagline with Blinking Cursor -->
+            <h1 class="dos-title">THIS IS A NO BULLSHIT ZONE!<span class="dos-cursor">_</span></h1>
+            
+            <!-- The DOS Loading Bar -->
+            <div class="dos-loading-area">
+                <div class="dos-progress-bar"></div>
+            </div>
+            
+            <!-- The Stalled Subtext -->
+            <p class="dos-subtext">Take a number or take my name!</p>
+        </div>
+
     </div>
 </body>
 </html>
