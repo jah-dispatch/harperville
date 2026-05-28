@@ -12,52 +12,49 @@
     --main-bg-gradient: linear-gradient(135deg, var(--emerald-green), #0a0a0a, var(--gold-aspen));
     
     /* Etched Aspen Texture Element */
-    --etched-glass-leaf: url('etched-aspen-leaf.png');
+    --etched-glass-leaf: url('assets/images/etched-aspen-leaf.png');
     
     /* Glass Panel Settings */
     --glass-bg: rgba(255, 255, 255, 0.05);
     --glass-border: rgba(255, 255, 255, 0.1);
 }
 
-/* --- BASE & CENTERING (The "App Container") --- */
+/* --- BASE & CENTERING (The Desktop Void) --- */
 body {
     margin: 0;
     padding: 0;
-    background-color: #0a0a0a; /* Dark void for desktop background */
+    background-color: #0a0a0a; 
     display: flex;
     justify-content: center;
-    min-height: 100vh;
+    align-items: center; /* Centers the phone vertically on desktop */
+    height: 100vh; /* Locks the body to exactly the window height */
+    overflow: hidden; /* Kills the main desktop scrollbar completely */
     font-family: 'Commissioner', sans-serif;
     color: var(--text-primary);
 }
 
-/* The Mobile Screen Constrainer - Device-Ready Frame */
+/* --- THE APP CONTAINER (Device-Ready Frame) --- */
 .app-container {
     width: 100%;
     max-width: 480px; /* Locks to a mobile width */
-    min-height: 100vh;
+    height: 100%; 
+    max-height: 90vh; /* Creates a physical "phone" height constraint */
     position: relative;
-    overflow: hidden;
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
     
-    /* Device-like aesthetics ready for border image overlay */
-    background: #121212;
-    border: 2px solid #2a2a2a; /* Simple dark edge until phone mockup */
-    border-radius: 40px; /* App-like rounded frame */
+    /* Device-like aesthetics */
+    border: 2px solid #2a2a2a; 
+    border-radius: 40px; 
     box-shadow: 0 10px 100px rgba(0, 0, 0, 0.8);
-}
-
-/* --- THE ETCHED ASPEN LEAF BACKGROUND (Applied to main body only) --- */
-.main-body {
-    background: var(--main-bg-gradient);
-    position: relative;
+    background: var(--main-bg-gradient); 
     z-index: 1;
+    overflow: hidden; /* Crucial: Keeps the scrolling content inside the rounded corners */
 }
 
-/* Specialized layer for the gold corner-framing etched leaf texture */
-.main-body::after {
+/* Etched Leaf Layer applied directly to the container */
+.app-container::after {
     content: '';
     position: absolute;
     top: 50%;
@@ -65,14 +62,13 @@ body {
     transform: translate(-50%, -50%);
     width: 100%;
     height: 100%;
-    max-width: 480px; /* Match app container */
     background-image: var(--etched-glass-leaf);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    opacity: 0.15; /* Increased opacity to let the gold vector shine through */
-    z-index: -1; /* Placed behind content and ahead of gradient */
-    pointer-events: none; /* User can't interact with texture */
+    opacity: 0.15; /* Lets the gold shine through */
+    z-index: -1; /* Keeps it behind the glass panels */
+    pointer-events: none;
 }
 
 /* --- LANDING PAGE ANIMATIONS & TEXT MASKING --- */
@@ -90,10 +86,9 @@ body {
     z-index: 10;
     
     /* IMAGE MASKING MAGIC: Emerald/Gold dipped aspen leaf texture */
-    background-image: url('text-mask-gold-green.png'); 
+    background-image: url('assets/images/text-mask-gold-green.png'); 
     background-size: cover;
     background-position: center;
-    
     color: transparent;
     -webkit-background-clip: text;
     background-clip: text;
@@ -101,12 +96,12 @@ body {
 
 /* Bottom Left to Top Right */
 .text-up {
-    animation: sweepUp 4s linear forwards;
+    animation: sweepUp 8s linear forwards; 
 }
 
 /* Top Left to Bottom Right */
 .text-down {
-    animation: sweepDown 4s linear forwards;
+    animation: sweepDown 8s linear forwards; 
 }
 
 @keyframes sweepUp {
@@ -119,10 +114,7 @@ body {
     100% { transform: translate(100vw, 100vh) rotate(25deg); }
 }
 
-
 /* --- GLASSMORPHISM UI --- */
-
-/* Glass Utility Class */
 .glass-panel {
     background: var(--glass-bg);
     backdrop-filter: blur(12px); /* High frosting */
@@ -139,26 +131,49 @@ body {
     color: #f8f8f8;
 }
 
-/* Header & Nav */
+/* --- VISUAL DIVIDER --- */
+.page-divider {
+    display: block;
+    width: 100%;
+    max-width: 120px; 
+    aspect-ratio: 5 / 7; 
+    margin: 10px auto; 
+    
+    background-image: url('assets/images/jack-family-guy-unicorn-harper.png');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.85; 
+}
+
+/* --- HEADER & NAV --- */
 .nav-header {
     padding: 15px 20px;
     display: flex;
-    justify-content: space-between;
+    flex-direction: column; /* Stacks the logo on top of the menu */
+    justify-content: center;
     align-items: center;
+    gap: 12px; /* Adds clean breathing room between logo and links */
     z-index: 10;
-    border-radius: 0 0 20px 20px; /* Rounded bottom frame */
+    border-radius: 0 0 20px 20px; 
 }
 
 .nav-icon {
-    width: 44px; /* Tappable size */
+    width: 44px; 
     height: 44px;
     cursor: pointer;
+}
+
+.hidden-menu {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap; /* Allows links to wrap if screen is very narrow */
+    gap: 15px; 
 }
 
 .hidden-menu a {
     color: var(--text-primary);
     text-decoration: none;
-    margin-left: 15px;
     font-size: 0.9rem;
     transition: color 0.3s ease;
 }
@@ -167,11 +182,19 @@ body {
     color: var(--gold-aspen);
 }
 
-/* Content Area */
+/* --- CONTENT AREA (The Scrollable Zone) --- */
 .content-area {
     flex: 1;
     padding: 30px 20px;
-    overflow-y: auto;
+    overflow-y: auto; /* Enables internal scrolling */
+    
+    /* Hides the internal scrollbar for a cleaner app aesthetic */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/Edge */
+}
+
+.content-area::-webkit-scrollbar {
+    display: none; /* Safari/Chrome */
 }
 
 .card {
@@ -186,156 +209,29 @@ body {
     margin: 0;
 }
 
-/* Footer */
+/* --- FOOTER --- */
 .main-footer {
-    padding: 20px;
+    padding: 10px 15px; 
     text-align: center;
-    border-radius: 20px 20px 0 0; /* Rounded top frame */
+    border-radius: 20px 20px 0 0; 
     margin-top: auto;
 }
 
 .footer-logo {
-    width: 32px;
-    height: 32px;
-    margin-bottom: 10px;
+    width: 24px; 
+    height: 24px;
+    margin-bottom: 5px;
     opacity: 0.8;
 }
 
-.footer-subtext {
+.main-footer p {
+    margin: 2px 0; 
     font-size: 0.8rem;
+}
+
+.footer-subtext {
+    font-size: 0.75rem;
     color: var(--gold-aspen);
     opacity: 0.7;
-    margin-top: 5px;
-}
-/* --- BASE & CENTERING (The Desktop Void) --- */
-body {
-    margin: 0;
-    padding: 0;
-    background-color: #0a0a0a; /* The dark void for desktop */
-    display: flex;
-    justify-content: center;
-    min-height: 100vh;
-    font-family: 'Commissioner', sans-serif;
-    color: var(--text-primary);
-}
-
-/* The Mobile Screen Constrainer - Device-Ready Frame */
-.app-container {
-    width: 100%;
-    max-width: 480px; /* Locks to a mobile width */
-    min-height: 100vh;
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    box-sizing: border-box;
-    
-    /* Device-like aesthetics */
-    border: 2px solid #2a2a2a; 
-    border-radius: 40px; 
-    box-shadow: 0 10px 100px rgba(0, 0, 0, 0.8);
-    
-    /* THE FIX: Gradient moved here, solid background removed */
-    background: var(--main-bg-gradient); 
-    z-index: 1;
-}
-
-/* THE FIX: Leaf texture moved to target the app container directly */
-.app-container::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 100%;
-    height: 100%;
-    background-image: var(--etched-glass-leaf);
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    opacity: 0.15; /* Lets the gold shine through */
-    z-index: -1; /* Keeps it behind the glass panels */
-    pointer-events: none;
-}
-/* --- VISUAL DIVIDER --- */
-.page-divider {
-    display: block;
-    width: 100%;
-    max-width: 120px; /* Adjust this value to scale the image up or down */
-    aspect-ratio: 5 / 7; /* Strictly locks your 5:7 ratio */
-    margin: 10px auto; /* 40px breathing room top/bottom, perfectly centered horizontally */
-    
-    /* Image Mapping */
-    background-image: url('jack-family-guy-unicorn-harper.png');
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
-    
-    /* Optional: A slight fade to blend with the glassmorphism UI */
-    opacity: 0.85; 
-}
-/* --- BASE & CENTERING (The Desktop Void) --- */
-body {
-    margin: 0;
-    padding: 0;
-    background-color: #0a0a0a; 
-    display: flex;
-    justify-content: center;
-    align-items: center; /* Centers the phone vertically on desktop */
-    height: 100vh; /* Locks the body to exactly the window height */
-    overflow: hidden; /* Kills the main desktop scrollbar completely */
-    font-family: 'Commissioner', sans-serif;
-    color: var(--text-primary);
-}
-
-/* The Mobile Screen Constrainer - Device-Ready Frame */
-.app-container {
-    width: 100%;
-    max-width: 480px; 
-    height: 100%; 
-    max-height: 90vh; /* Creates a physical "phone" height constraint */
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    box-sizing: border-box;
-    
-    border: 2px solid #2a2a2a; 
-    border-radius: 40px; 
-    box-shadow: 0 10px 100px rgba(0, 0, 0, 0.8);
-    background: var(--main-bg-gradient); 
-    z-index: 1;
-    overflow: hidden; /* Crucial: Keeps the scrolling content inside the rounded corners */
-}
-
-/* THE FIX: Leaf texture moved to target the app container directly */
-.app-container::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 100%;
-    height: 100%;
-    background-image: var(--etched-glass-leaf);
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    opacity: 0.15; 
-    z-index: -1; 
-    pointer-events: none;
-}
-
-/* Content Area - The Scrollable Zone */
-.content-area {
-    flex: 1;
-    padding: 30px 20px;
-    overflow-y: auto; /* Enables internal scrolling */
-    
-    /* Hides the internal scrollbar for a cleaner app aesthetic */
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE/Edge */
-}
-
-.content-area::-webkit-scrollbar {
-    display: none; /* Safari/Chrome */
+    margin-top: 2px; 
 }
