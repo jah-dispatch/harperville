@@ -28,64 +28,77 @@
 
             <h2>Just some quick thoughts...</h2>            
             
+            <!-- JavaScript will completely build this container automatically -->
             <div id="thought-container">
-                
-                <div class="glass-panel card">
-                    <p>Why are government employees so rigid and unresponsive to the needs of the people they serve?</p>
+                <div class="glass-panel card" id="loading-state">
+                    <p style="text-align:center; color:var(--gold-aspen);">Syncing with Firestore Database...</p>
                 </div>
-                
-                <div class="glass-panel card">
-                    <p>How many licks does it take to get to the center of a Tootsie Pop? ... I have the answer. 48!!</p>
-                </div>
+            </div> 
 
-                <div class="glass-panel card">
-                    <p>I think money should grow on trees. Then enough people would have it to make a difference.</p>
-                </div>
-
-                <div class="glass-panel card">
-                    <p>It takes 5 seconds to respond to a simple email. Yet I get the two day treatment every two days like clockwork because I'm just a case number.</p>
-                </div>
-                
-                </div> <div id="pagination-controls" class="pagination-glass"></div>
+            <!-- Pagination buttons automatically injected here -->
+            <div id="pagination-controls" class="pagination-glass"></div>
 
         </main>
 
         <!-- Footer -->
         <footer class="glass-panel main-footer">
-            <!-- Smaller version of your main U01 asset -->
-            <img src="U01-mini-logo.png" alt="U01 Mini Logo" class="footer-logo">
+            <img src="assets/images/U01-mini-logo.png" alt="U01 Mini Logo" class="footer-logo">
             <p>&copy; 2026 Sovereign Authority Operations</p>
             <p class="footer-subtext">Unit of One Collective</p>
         </footer>
 
     </div>
 
-    <script>
-    document.addEventListener("DOMContentLoaded", () => {
+    <!-- DYNAMIC FIREBASE STREAMING ENGINE -->
+    <script type="module">
+        import { db } from "./assets/js/firebase-config.js";
+        import { collection, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
         const container = document.getElementById("thought-container");
-        const cards = Array.from(container.getElementsByClassName("card"));
         const paginationControls = document.getElementById("pagination-controls");
-        
-        // Define how many items per page
         const cardsPerPage = 3;
         let currentPage = 1;
-        const totalPages = Math.ceil(cards.length / cardsPerPage);
+        let allCards = [];
+
+        // Stream thoughts in real-time from database, sorted newest first
+        const q = query(collection(db, "thoughts"), orderBy("timestamp", "desc"));
+        
+        onSnapshot(q, (snapshot) => {
+            container.innerHTML = ""; // Clear loading screen or old cards
+            allCards = [];
+
+            if (snapshot.empty) {
+                container.innerHTML = `<div class="glass-panel card"><p style="text-align:center;">The database is currently silent.</p></div>`;
+                paginationControls.innerHTML = "";
+                return;
+            }
+
+            // Dynamically generate HTML elements for each database document
+            snapshot.forEach((doc) => {
+                const data = doc.data();
+                const card = document.createElement("div");
+                card.className = "glass-panel card";
+                card.innerHTML = `<p>${data.text}</p>`;
+                allCards.push(card);
+                container.appendChild(card);
+            });
+
+            // Run pagination layout
+            displayPage(currentPage);
+        });
 
         function displayPage(page) {
-            // 1. Hide everything first
-            cards.forEach(card => {
+            allCards.forEach(card => {
                 card.style.display = "none";
-                card.style.animation = "none"; // Reset animation
+                card.style.animation = "none";
             });
             
-            // 2. Calculate which cards to show
             const startIndex = (page - 1) * cardsPerPage;
             const endIndex = startIndex + cardsPerPage;
             
-            // 3. Show the active cards with a slick fade-in
-            cards.slice(startIndex, endIndex).forEach(card => {
+            const activeCards = allCards.slice(startIndex, endIndex);
+            activeCards.forEach(card => {
                 card.style.display = "block";
-                // Trigger reflow for animation
                 void card.offsetWidth; 
                 card.style.animation = "fadeInCard 0.4s ease forwards";
             });
@@ -94,23 +107,19 @@
         }
 
         function updateButtons(activePage) {
-            paginationControls.innerHTML = ""; // Clear old buttons
+            paginationControls.innerHTML = "";
+            const totalPages = Math.ceil(allCards.length / cardsPerPage);
             
-            // Only show pagination if there is more than 1 page
             if (totalPages > 1) {
                 for (let i = 1; i <= totalPages; i++) {
                     const btn = document.createElement("button");
                     btn.textContent = i;
-                    btn.classList.add("page-btn");
-                    
-                    if (i === activePage) {
-                        btn.classList.add("active");
-                    }
+                    btn.className = "page-btn";
+                    if (i === activePage) btn.classList.add("active");
                     
                     btn.addEventListener("click", () => {
                         currentPage = i;
                         displayPage(currentPage);
-                        // Optional: Smoothly scroll back to the top of the thoughts section
                         document.querySelector("h2").scrollIntoView({ behavior: "smooth" });
                     });
                     
@@ -118,12 +127,6 @@
                 }
             }
         }
-
-        // Boot it up
-        if (cards.length > 0) {
-            displayPage(1);
-        }
-    });
     </script>
 </body>
 </html>
