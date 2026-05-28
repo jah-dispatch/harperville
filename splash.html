@@ -80,7 +80,17 @@
                 const data = doc.data();
                 const card = document.createElement("div");
                 card.className = "glass-panel card";
-                card.innerHTML = `<p>${data.text}</p>`;
+                
+                // 1. Sanitize text to prevent any accidental HTML injection bugs
+                let safeText = data.text.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+                
+                // 2. The Regex Engine: Hunts for any web address ending in an image file type
+                const imgRegex = /(https?:\/\/[^\s]+\.(?:jpg|jpeg|png|gif|webp))/gi;
+                
+                // 3. Replaces the raw URL text with a fully styled HTML image tag
+                let formattedText = safeText.replace(imgRegex, '<br><img src="$1" alt="Visual Thought" style="max-width:100%; border-radius:12px; margin-top:10px; border:1px solid var(--glass-border); display:block;">');
+                
+                card.innerHTML = `<p>${formattedText}</p>`;
                 allCards.push(card);
                 container.appendChild(card);
             });
