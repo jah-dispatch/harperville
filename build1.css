@@ -235,3 +235,135 @@ body {
     opacity: 0.7;
     margin-top: 2px; 
 }
+/* --- BIO PORTRAIT (About Page) --- */
+.bio-portrait-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 260px; /* Locks it to a clean mobile size */
+    aspect-ratio: 4 / 5; /* Enforces your exact 4:5 ratio */
+    margin: 0 auto 30px auto; /* Perfect centering with breathing room below */
+    border-radius: 20px; /* Matches the app corner aesthetics */
+    overflow: hidden; /* Crucial: Keeps the sweeping shimmer inside the box */
+    
+    /* Dedicated glass casing for the image */
+    background: var(--glass-bg);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+.bio-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures the image fills the 4:5 box perfectly */
+    opacity: 0.85; /* The opacity trick: lets the U01 emerald/gold bleed through you */
+    display: block;
+    filter: contrast(1.1) saturate(1.1); /* Adds a little punch back in after dropping opacity */
+}
+
+/* The Animated Glass Shimmer */
+.bio-portrait-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%; /* Starts out of frame */
+    width: 50%;
+    height: 100%;
+    
+    /* The literal light beam */
+    background: linear-gradient(to right, 
+        rgba(255, 255, 255, 0) 0%, 
+        rgba(255, 255, 255, 0.15) 50%, 
+        rgba(255, 255, 255, 0) 100%);
+    
+    transform: skewX(-25deg); /* Angles the light beam for a modern cut */
+    animation: shimmerSweep 7s infinite; /* Sweeps across every 7 seconds */
+    pointer-events: none; /* Ensures the image underneath is still grabbable/clickable */
+}
+
+@keyframes shimmerSweep {
+    0% { left: -100%; }
+    15% { left: 200%; } /* Sweeps across quickly in the first 15% of the animation */
+    100% { left: 200%; } /* Pauses out of frame for the remaining time so it isn't distracting */
+}
+/* --- THE ARCHITECTURE CARD UI --- */
+.architecture-card {
+    padding: 25px; 
+}
+
+.zone-title {
+    font-family: 'Luckiest Guy', cursive;
+    color: var(--text-primary);
+    font-size: 1.6rem;
+    letter-spacing: 1px;
+    margin-top: 0;
+    margin-bottom: 20px;
+    text-align: center;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--glass-border);
+    padding-bottom: 15px;
+}
+
+.zone-subtitle {
+    font-family: 'Bowlby One', cursive;
+    font-size: 1.1rem;
+    color: var(--emerald-green);
+    /* Adding a subtle text shadow so the dark green pops on the glass */
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+    margin: 30px 0 15px 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.lead-text {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--gold-aspen);
+    margin-bottom: 15px;
+}
+
+.highlight-text {
+    font-weight: 700;
+    color: var(--gold-aspen);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Custom Geometric Bullet List */
+.pillar-list {
+    list-style: none; /* Kills the boring default bullets */
+    padding-left: 0;
+    margin: 0 0 30px 0;
+}
+
+.pillar-list li {
+    position: relative;
+    padding-left: 30px; /* Breathing room for the custom diamond */
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+/* The Aggressive Diamond Bullet Generator */
+.pillar-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 6px;
+    width: 12px;
+    height: 12px;
+    /* Uses your brand gradient to paint the diamond */
+    background: linear-gradient(135deg, var(--emerald-green), var(--gold-aspen));
+    transform: rotate(45deg); /* Tilts the square into a sharp diamond */
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+}
+
+.pillar-name {
+    font-weight: 700;
+    color: var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid var(--gold-aspen); /* Sharp underline */
+    margin-right: 5px;
+}
