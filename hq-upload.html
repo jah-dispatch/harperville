@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harperville | Sovereign HQ</title>
+    <link rel="stylesheet" href="build1.css">
+</head>
+<body class="main-body">
+    <div class="app-container">
+        <header class="glass-panel nav-header">
+            <h1 class="luckiest-header" style="margin:0; font-size:1.5rem;">Sovereign HQ</h1>
+        </header>
+
+        <main class="content-area">
+            <!-- Auth Panel -->
+            <div id="auth-panel" class="glass-panel card" style="text-align: center;">
+                <p id="user-status">Unauthorized Session</p>
+                <button id="login-btn" class="page-btn" style="width:auto; padding:0 20px;">Authorize with Google</button>
+            </div>
+
+            <!-- Upload Panel (Hidden until logged in) -->
+            <div id="upload-panel" class="glass-panel card" style="display: none;">
+                <h3 style="font-family:'Bowlby One',cursive; color:var(--gold-aspen); margin-top:0;">Deploy Thought</h3>
+                <textarea id="thought-input" placeholder="Speak your truth..." style="width:100%; height:120px; background:rgba(0,0,0,0.3); border:1px solid var(--glass-border); color:#fff; border-radius:12px; padding:10px; font-family:'Commissioner',sans-serif; box-sizing:border-box; resize:none;"></textarea>
+                <button id="submit-btn" class="page-btn" style="width:100%; margin-top:15px; background:linear-gradient(135deg, var(--emerald-green), var(--gold-aspen));">Publish to Flagship</button>
+            </div>
+        </main>
+    </div>
+
+    <!-- Firebase Logic for posting -->
+    <script type="module">
+        import { db, auth, provider, signInWithPopup } from "./assets/js/firebase-config.js";
+        import { collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const loginBtn = document.getElementById("login-btn");
+        const authStatus = document.getElementById("user-status");
+        const uploadPanel = document.getElementById("upload-panel");
+        const submitBtn = document.getElementById("submit-btn");
+        const input = document.getElementById("thought-input");
+
+        loginBtn.addEventListener("click", async () => {
+            try {
+                const result = await signInWithPopup(auth, provider);
+                const user = result.user;
+                
+                // CRUCIAL: Write this down from your screen when you log in!
+                console.log("YOUR UNIQUE UID IS:", user.uid);
+                
+                authStatus.innerHTML = `Logged in as: <strong>${user.displayName}</strong><br><small style="color:var(--gold-aspen)">UID: ${user.uid}</small>`;
+                loginBtn.style.display = "none";
+                uploadPanel.style.display = "block";
+            } catch (error) {
+                alert("Authorization failed: " + error.message);
+            }
+        });
+
+        submitBtn.addEventListener("click", async () => {
+            if(!input.value.trim()) return alert("Cannot deploy an empty void.");
+            submitBtn.disabled = true;
+            submitBtn.textContent = "Deploying...";
+
+            try {
+                await addDoc(collection(db, "thoughts"), {
+                    text: input.value.trim(),
+                    timestamp: serverTimestamp()
+                });
+                input.value = "";
+                alert("Thought successfully written to Firestore database.");
+            } catch (error) {
+                alert("Database rejection: Verify your security rules and UID.");
+                console.error(error);
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = "Publish to Flagship";
+            }
+        });
+    </script>
+</body>
+</html>
