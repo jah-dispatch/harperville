@@ -523,7 +523,7 @@ body {
     opacity: 0; /* Hidden initially */
     /* Snaps onto the screen instantly after the loading bar finishes */
     animation: fadeInDos 0.1s forwards;
-    animation-delay: 6.8s; 
+    animation-delay: 4.2s; 
 }
 
 @keyframes fadeInDos {
