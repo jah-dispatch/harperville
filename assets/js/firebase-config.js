@@ -1,9 +1,9 @@
 // Import the Firebase SDK modules from the CDN
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import { getAuth, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-// PASTE YOUR EXACT FIREBASE CONFIG OBJECT HERE FROM STEP 1
+// YOUR SPECIFIC U01 DATABASE KEYS
 const firebaseConfig = {
   apiKey: "AIzaSyDT9oH9Viddedfi06aCTibBknaIRU6nstQ",
   authDomain: "harperville-thought-box.firebaseapp.com",
@@ -13,10 +13,13 @@ const firebaseConfig = {
   appId: "1:444340361399:web:e073a9c43548ab2e829532"
 };
 
-// Initialize Firebase
+// Initialize the Database Engine
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+
+// Initialize the Authentication Engine
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
-export { db, auth, provider, signInWithPopup, signOut };
+// Export the keys so your HTML files can unlock the doors
+export { db, auth, provider };
