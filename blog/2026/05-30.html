@@ -41,14 +41,19 @@
 
             <h2 style="font-family: 'Luckiest Guy', cursive; color: var(--text-primary); text-align: center; letter-spacing: 1px;">Leave a Comment</h2>
             
-            <div class="glass-panel card" style="border-left: 3px solid var(--emerald-green);">
-                <input type="text" id="commenter-name" placeholder="Name / Alias" style="width:100%; background:rgba(0,0,0,0.3); border:1px solid var(--glass-border); color:#fff; border-radius:8px; padding:10px; font-family:'Commissioner',sans-serif; box-sizing:border-box; margin-bottom: 10px;">
-                <textarea id="comment-input" placeholder="Enter the discourse..." style="width:100%; height:80px; background:rgba(0,0,0,0.3); border:1px solid var(--glass-border); color:#fff; border-radius:8px; padding:10px; font-family:'Commissioner',sans-serif; box-sizing:border-box; resize:none;"></textarea>
-                <button id="submit-comment-btn" class="page-btn" style="width:100%; margin-top:10px; background:linear-gradient(135deg, var(--emerald-green), var(--gold-aspen));">Submit Response</button>
+            <div id="login-wall" class="glass-panel card" style="text-align: center; border-left: 3px solid var(--gold-aspen);">
+                <p style="margin-bottom: 15px; font-weight: bold; font-family: 'Bowlby One', cursive;">AUTHENTICATION REQUIRED</p>
+                <p style="font-size: 0.9rem; margin-bottom: 20px;">To maintain the integrity of this perimeter, you must attach your identity to your words.</p>
+                <button id="google-login-btn" class="page-btn" style="width: 100%; background: #fff; color: #000; font-weight: bold; border-radius: 8px;">Sign in with Google</button>
             </div>
 
-            <div id="comments-container" style="margin-top: 20px;">
-                <p style="text-align:center; color:var(--gold-aspen); font-size: 0.9rem;">Loading discourse...</p>
+            <div id="comment-form-area" class="glass-panel card" style="display: none; border-left: 3px solid var(--emerald-green);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                    <p id="logged-in-user" style="margin: 0; font-weight: bold; color: var(--gold-aspen); font-size: 0.9rem;"></p>
+                    <button id="logout-btn" style="background: none; border: none; color: #ff4444; cursor: pointer; font-size: 0.8rem; text-decoration: underline;">Disconnect</button>
+                </div>
+                <textarea id="comment-input" placeholder="Enter the discourse..." style="width:100%; height:80px; background:rgba(0,0,0,0.3); border:1px solid var(--glass-border); color:#fff; border-radius:8px; padding:10px; font-family:'Commissioner',sans-serif; box-sizing:border-box; resize:none;"></textarea>
+                <button id="submit-comment-btn" class="page-btn" style="width:100%; margin-top:10px; background:linear-gradient(135deg, var(--emerald-green), var(--gold-aspen));">Submit Response</button>
             </div>
 
             <div style="height: 40px;"></div> 
