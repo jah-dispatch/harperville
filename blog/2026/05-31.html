@@ -63,20 +63,58 @@
     </div>
 
     <script type="module">
-        import { db } from "/assets/js/firebase-config.js";
+        import { db, auth, provider } from "/assets/js/firebase-config.js";
         import { collection, addDoc, serverTimestamp, query, where, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-        const POST_ID = "2026-05-31"; 
+        const POST_ID = "2026-05-30"; 
+        
+        let currentUser = null; // Stores the verified user
 
+        // UI Elements
+        const loginWall = document.getElementById("login-wall");
+        const commentFormArea = document.getElementById("comment-form-area");
+        const googleLoginBtn = document.getElementById("google-login-btn");
+        const logoutBtn = document.getElementById("logout-btn");
+        const loggedInUserText = document.getElementById("logged-in-user");
+        
         const submitBtn = document.getElementById("submit-comment-btn");
-        const nameInput = document.getElementById("commenter-name");
         const commentInput = document.getElementById("comment-input");
         const commentsContainer = document.getElementById("comments-container");
 
-        submitBtn.addEventListener("click", async () => {
-            const name = nameInput.value.trim() || "Anonymous U01";
-            const text = commentInput.value.trim();
+        // 1. Auth State Listener (Checks if someone is already logged in)
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                currentUser = user;
+                loginWall.style.display = "none";
+                commentFormArea.style.display = "block";
+                loggedInUserText.textContent = `Identified as: ${user.displayName}`;
+            } else {
+                currentUser = null;
+                loginWall.style.display = "block";
+                commentFormArea.style.display = "none";
+            }
+        });
 
+        // 2. Login Action
+        googleLoginBtn.addEventListener("click", async () => {
+            try {
+                await signInWithPopup(auth, provider);
+            } catch (error) {
+                console.error("Login failed", error);
+            }
+        });
+
+        // 3. Logout Action
+        logoutBtn.addEventListener("click", async () => {
+            await signOut(auth);
+        });
+
+        // 4. Submit Secure Comment
+        submitBtn.addEventListener("click", async () => {
+            if (!currentUser) return; // Failsafe
+            
+            const text = commentInput.value.trim();
             if(!text) return alert("You cannot submit an empty thought.");
             
             submitBtn.disabled = true;
@@ -85,14 +123,14 @@
             try {
                 await addDoc(collection(db, "blog_comments"), {
                     postId: POST_ID, 
-                    author: name,
+                    author: currentUser.displayName, // Automatically pulls their real Google name
+                    uid: currentUser.uid, // Silently logs their unique ID for your records
                     text: text,
                     timestamp: serverTimestamp()
                 });
                 commentInput.value = "";
-                nameInput.value = "";
             } catch (error) {
-                alert("Transmission failed. Try again.");
+                alert("Transmission failed. The database rejected the submission.");
                 console.error(error);
             } finally {
                 submitBtn.disabled = false;
@@ -100,11 +138,8 @@
             }
         });
 
-        const q = query(
-            collection(db, "blog_comments"), 
-            where("postId", "==", POST_ID), 
-            orderBy("timestamp", "desc")
-        );
+        // 5. Stream Comments
+        const q = query(collection(db, "blog_comments"), where("postId", "==", POST_ID), orderBy("timestamp", "desc"));
         
         onSnapshot(q, (snapshot) => {
             commentsContainer.innerHTML = ""; 
@@ -116,7 +151,6 @@
 
             snapshot.forEach((doc) => {
                 const data = doc.data();
-                
                 const safeName = data.author.replace(/</g, "&lt;").replace(/>/g, "&gt;");
                 const safeText = data.text.replace(/</g, "&lt;").replace(/>/g, "&gt;");
                 
