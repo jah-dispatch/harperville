@@ -529,3 +529,68 @@ body {
 @keyframes fadeInDos {
     to { opacity: 1; }
 }
+/* --- BLOG ARCHIVE UI --- */
+.blog-archive-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 25px 20px;
+    margin-bottom: 20px;
+    text-decoration: none; /* Kills the default blue link underline */
+    border-left: 4px solid var(--emerald-green);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+/* The Hover State - Tells the user it is an active portal */
+.blog-archive-card:hover {
+    border-left: 4px solid var(--gold-aspen);
+    background: rgba(255, 255, 255, 0.08); /* Slightly brightens the glass */
+    transform: translateY(-2px); /* Lifts the card slightly */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+}
+
+.archive-title {
+    font-family: 'Bowlby One', cursive;
+    font-size: 1.4rem;
+    color: var(--text-primary);
+    margin: 0 0 10px 0;
+    line-height: 1.2;
+}
+
+.archive-date {
+    font-family: 'Commissioner', sans-serif;
+    font-size: 0.9rem;
+    color: var(--gold-aspen);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin: 0;
+}
+/* --- BLOG DISPATCH VISUAL (GIF WRAPPER) --- */
+.dispatch-visual-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 25px; /* Spacing before the text card */
+    padding: 0 10px; /* Buffer so it doesn't hit the absolute edge of the screen */
+    box-sizing: border-box;
+}
+
+.dispatch-visual {
+    max-width: 100%;
+    height: auto;
+    border-radius: 12px; /* Matches the inner card radius */
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4); /* Deep shadow to float it above the void */
+    opacity: 0.85; /* Slight fade to match the glass UI */
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    object-fit: cover; /* Ensures GIPHY dimensions don't distort */
+}
+
+.dispatch-visual:hover {
+    opacity: 1; /* Pops to full brightness */
+    transform: translateY(-2px); /* Very subtle lift */
+}

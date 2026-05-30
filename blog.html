@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harperville | The Archives</title>
+    <link rel="stylesheet" href="build1.css">
+</head>
+<body class="main-body">
+    <div class="app-container">
+        
+       <header class="glass-panel nav-header">
+            <a href="splash.html">
+                <img src="/U01-icon.png" alt="Sovereign Menu" class="nav-icon">
+            </a>
+            <nav class="hidden-menu">
+                <a href="about.html">Jack Harper</a>
+                <a href="advocacy.html">Advocacy</a>
+                <a href="blog.html" style="color: var(--gold-aspen); font-weight: bold;">Blog</a>
+            </nav>
+        </header>
+
+        <main class="content-area">
+            
+            <div class="glass-panel card architecture-card" style="text-align: center; margin-bottom: 30px;">
+                <h1 class="skew-text" style="position:relative; font-size: 3rem; animation:none; white-space:normal; line-height:1.1; transform:none; text-align:center;">SAY WHAT?!?</h1>
+                <p style="font-family: 'Bowlby One', cursive; color: var(--gold-aspen); margin-top: 10px; font-size: 1.2rem;">The Jack Aspen Harper Blog</p>
+            </div>
+
+            <div id="archive-container"></div> 
+
+            <div id="pagination-controls" class="pagination-glass"></div>
+
+            <div style="height: 40px;"></div> </main>
+
+        <footer class="glass-panel main-footer">
+            <img src="/U01-mini-logo.png" alt="U01 Mini Logo" class="footer-logo">
+            <p>&copy; 2026 U01 Authority Operations</p>
+            <p class="footer-subtext">Unit of One Collective</p>
+        </footer>
+
+    </div>
+
+    <script>
+        // ---------------------------------------------------------
+        // THE U01 LEDGER
+        // When you write a new post, copy the top block, paste it above, 
+        // and update the title, date, and link. Keep the newest at the top.
+        // ---------------------------------------------------------
+        const blogDatabase = [
+            
+            { 
+                title: "My Cat Saves My Life Every Day", 
+                date: "May 30, 2026", 
+                link: "blog/2026/05-30.html" 
+            }
+        ];
+
+        // ---------------------------------------------------------
+        // THE RENDER ENGINE (Do not touch below this line)
+        // ---------------------------------------------------------
+        const container = document.getElementById("archive-container");
+        const paginationControls = document.getElementById("pagination-controls");
+        const cardsPerPage = 5; // Shows 5 blog titles per page
+        let currentPage = 1;
+        let allCards = [];
+
+        // Build the HTML cards from the database array
+        blogDatabase.forEach((post) => {
+            const card = document.createElement("a"); 
+            card.href = post.link;
+            card.className = "glass-panel blog-archive-card";
+            
+            card.innerHTML = `
+                <h2 class="archive-title">${post.title}</h2>
+                <p class="archive-date">Dispatch &bull; ${post.date}</p>
+            `;
+            
+            allCards.push(card);
+            container.appendChild(card);
+        });
+
+        // Pagination Logic
+        function displayPage(page) {
+            allCards.forEach(card => {
+                card.style.display = "none";
+                card.style.animation = "none";
+            });
+            
+            const startIndex = (page - 1) * cardsPerPage;
+            const endIndex = startIndex + cardsPerPage;
+            
+            const activeCards = allCards.slice(startIndex, endIndex);
+            activeCards.forEach(card => {
+                card.style.display = "flex"; 
+                void card.offsetWidth; 
+                card.style.animation = "fadeInCard 0.4s ease forwards";
+            });
+            
+            updateButtons(page);
+        }
+
+        function updateButtons(activePage) {
+            paginationControls.innerHTML = "";
+            const totalPages = Math.ceil(allCards.length / cardsPerPage);
+            
+            if (totalPages > 1) {
+                for (let i = 1; i <= totalPages; i++) {
+                    const btn = document.createElement("button");
+                    btn.textContent = i;
+                    btn.className = "page-btn";
+                    if (i === activePage) btn.classList.add("active");
+                    
+                    btn.addEventListener("click", () => {
+                        currentPage = i;
+                        displayPage(currentPage);
+                        document.querySelector(".architecture-card").scrollIntoView({ behavior: "smooth" });
+                    });
+                    
+                    paginationControls.appendChild(btn);
+                }
+            }
+        }
+
+        // Initialize the first page
+        displayPage(currentPage);
+    </script>
+</body>
+</html>
