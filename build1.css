@@ -594,3 +594,35 @@ body {
     opacity: 1; /* Pops to full brightness */
     transform: translateY(-2px); /* Very subtle lift */
 }
+/* --- YOUTUBE DISPATCH BUTTON --- */
+.youtube-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: rgba(255, 0, 0, 0.8); /* YouTube Red with glass transparency */
+    color: #ffffff;
+    font-family: 'Commissioner', sans-serif;
+    font-weight: bold;
+    text-decoration: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.youtube-btn:hover {
+    background: rgba(255, 0, 0, 1); /* Snaps to solid red */
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 0, 0, 0.5);
+    color: #ffffff; 
+}
+
+.youtube-btn svg {
+    transition: transform 0.3s ease;
+}
+
+.youtube-btn:hover svg {
+    transform: scale(1.1); /* Subtle heartbeat effect on the icon */
+}
