@@ -67,7 +67,7 @@
 
     <!-- DYNAMIC FIREBASE STREAMING ENGINE -->
     <script type="module">
-        import { db } from "./assets/js/firebase-config.js";
+        import { db } from "/assets/js/firebase-config.js";
         import { collection, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const container = document.getElementById("thought-container");
@@ -95,16 +95,30 @@
                 const card = document.createElement("div");
                 card.className = "glass-panel card";
                 
-                // 1. Sanitize text to prevent any accidental HTML injection bugs
+                // 1. Time Translator: Converts the Firebase timestamp into readable text
+                let timeString = "Signal lost";
+                if (data.timestamp) {
+                    const date = data.timestamp.toDate();
+                    timeString = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) + ' at ' + date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+                }
+
+                // 2. Sanitize text to prevent any accidental HTML injection bugs
                 let safeText = data.text.replace(/</g, "&lt;").replace(/>/g, "&gt;");
                 
-                // 2. The Regex Engine: Hunts for any web address ending in an image file type
+                // 3. The Regex Engine: Hunts for any web address ending in an image file type
                 const imgRegex = /(https?:\/\/[^\s]+\.(?:jpg|jpeg|png|gif|webp))/gi;
                 
-                // 3. Replaces the raw URL text with a fully styled HTML image tag
+                // 4. Replaces the raw URL text with a fully styled HTML image tag
                 let formattedText = safeText.replace(imgRegex, '<br><img src="$1" alt="Visual Thought" style="max-width:100%; border-radius:12px; margin-top:10px; border:1px solid var(--glass-border); display:block;">');
                 
-                card.innerHTML = `<p>${formattedText}</p>`;
+                // 5. Inject the Timestamp UI directly above the thought
+                card.innerHTML = `
+                    <p style="margin: 0 0 10px 0; font-size: 0.75rem; color: var(--gold-aspen); border-bottom: 1px solid var(--glass-border); padding-bottom: 5px; text-transform: uppercase; letter-spacing: 1px;">
+                        <strong>LOGGED:</strong> ${timeString}
+                    </p>
+                    <p style="margin: 0;">${formattedText}</p>
+                `;
+                
                 allCards.push(card);
                 container.appendChild(card);
             });
