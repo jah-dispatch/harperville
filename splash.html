@@ -159,7 +159,28 @@
             const totalPages = Math.ceil(allCards.length / cardsPerPage);
             
             if (totalPages > 1) {
-                for (let i = 1; i <= totalPages; i++) {
+                // The Previous Anchor
+                const prevBtn = document.createElement("button");
+                prevBtn.innerHTML = "&laquo;"; // The << symbol
+                prevBtn.className = "page-btn";
+                if (activePage === 1) prevBtn.disabled = true;
+                prevBtn.addEventListener("click", () => {
+                    if (currentPage > 1) {
+                        currentPage--;
+                        displayPage(currentPage);
+                        document.querySelector("h2").scrollIntoView({ behavior: "smooth" });
+                    }
+                });
+                paginationControls.appendChild(prevBtn);
+
+                // The Smart Number Window (Caps at 3 buttons)
+                let startPage = Math.max(1, activePage - 1);
+                let endPage = Math.min(totalPages, activePage + 1);
+
+                if (activePage === 1) endPage = Math.min(totalPages, 3);
+                if (activePage === totalPages) startPage = Math.max(1, totalPages - 2);
+
+                for (let i = startPage; i <= endPage; i++) {
                     const btn = document.createElement("button");
                     btn.textContent = i;
                     btn.className = "page-btn";
@@ -173,6 +194,20 @@
                     
                     paginationControls.appendChild(btn);
                 }
+
+                // The Next Anchor
+                const nextBtn = document.createElement("button");
+                nextBtn.innerHTML = "&raquo;"; // The >> symbol
+                nextBtn.className = "page-btn";
+                if (activePage === totalPages) nextBtn.disabled = true;
+                nextBtn.addEventListener("click", () => {
+                    if (currentPage < totalPages) {
+                        currentPage++;
+                        displayPage(currentPage);
+                        document.querySelector("h2").scrollIntoView({ behavior: "smooth" });
+                    }
+                });
+                paginationControls.appendChild(nextBtn);
             }
         }
     </script>
