@@ -626,3 +626,55 @@ body {
 .youtube-btn:hover svg {
     transform: scale(1.1); /* Subtle heartbeat effect on the icon */
 }
+/* --- ADVOCACY LOGO WRAPPER --- */
+.advocacy-image-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 280px; /* Slightly wider to accommodate the circular text */
+    aspect-ratio: 1 / 1; /* A perfect square for the shield emblem */
+    margin: 0 auto 30px auto; 
+    border-radius: 20px; 
+    overflow: hidden; 
+    
+    /* Dedicated glass casing */
+    background: var(--glass-bg);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    
+    /* Centers the logo and adds a breathing buffer */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px; 
+    box-sizing: border-box;
+}
+
+.advocacy-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* CRUCIAL FIX: Prevents the sides from being cut off */
+    opacity: 0.95; 
+    display: block;
+    filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5)); /* Adds a slight 3D float to the emblem */
+}
+/* The Animated Glass Shimmer for the Emblem */
+.advocacy-image-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%; /* Starts completely out of frame */
+    width: 50%;
+    height: 100%;
+    
+    /* The literal light beam */
+    background: linear-gradient(to right, 
+        rgba(255, 255, 255, 0) 0%, 
+        rgba(255, 255, 255, 0.15) 50%, 
+        rgba(255, 255, 255, 0) 100%);
+    
+    transform: skewX(-25deg); /* Angles the light beam for a sharp, modern cut */
+    animation: shimmerSweep 7s infinite; /* Reuses your existing 7-second sweep animation */
+    pointer-events: none; /* Ensures the light doesn't block clicks or interactions */
+}
