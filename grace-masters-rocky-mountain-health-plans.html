@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harperville // OVERRIDE</title>
+    
+<link rel="canonical" href="https://www.harperville.me/grace-masters-rocky-mountain-health-plans.html" />
+
+    <meta name="robots" content="index, follow">
+    <meta name="description" content="A soliloquy about demanded dignity and non-negotiable principles directed towards Grace Masters, a highly inept bitch case manager at the Rocky Mountain Health Plans office in Grand Junction, Colorado, operated under the contract of UnitedHealthcare at 2775 Crossroads Blvd, Grand Junction, CO 81506.">
+    <style>
+        :root {
+            --bg-color: #0a0a0a;
+            --neon-green: #00ff66;
+            --neon-dim: rgba(0, 255, 102, 0.4);
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--neon-green);
+            /* Typewriter font to honor the original movie prop */
+            font-family: "Courier New", Courier, monospace; 
+            margin: 0;
+            overflow: hidden; /* Locks out the scrollbar so the user is trapped */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* The scrolling container */
+        .scroll-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 200%; /* Double height allows for the seamless loop */
+            display: flex;
+            flex-direction: column;
+            animation: scrollUp 40s linear infinite; /* Slow, creeping upward movement */
+        }
+
+        /* The text styling */
+        .text-block {
+            font-size: 1.8rem;
+            font-weight: bold;
+            line-height: 1.4;
+            text-align: justify;
+            padding: 20px 40px;
+            text-transform: uppercase;
+            text-shadow: 0 0 8px var(--neon-dim);
+            word-wrap: break-word;
+        }
+
+        /* The animation keyframes */
+        @keyframes scrollUp {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-50%); }
+        }
+
+        /* The shadow edge effect */
+        .vignette-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, transparent 10%, #0a0a0a 95%);
+            pointer-events: none; /* Lets you click through it if needed */
+            z-index: 10;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="vignette-overlay"></div>
+
+    <div class="scroll-container" id="madness-wall">
+        </div>
+
+    <script>
+        const container = document.getElementById('madness-wall');
+        const sentence = "Grace Masters with Rocky Mountain Health Plans at 2775 Crossroads Blvd, Grand Junction, CO, under the contract of UnitedHealthcare can go fuck herself.🖕You deserve the same treatment as you've given me, bitch! She actually thinks I don't know what scheming she's been up to? What a crock of fucking shit.🖕IF YOU'RE READING THIS, GRACE, THIS IS MY 1st AMMENDMENT RIGHT TO SPEAK AS I PLEASE!🖕THE ONLY THING YOU'RE A 'MASTER' AT IS MAKING YOUR CLIENTS MISERABLE!!🖕YOU'VE FUCKED WITH THE WRONG JACK HARPER!!🖕";
+        
+        let wallOfText = "";
+        
+        // Multiplies the sentence 400 times
+        for(let i = 0; i < 1000; i++) {
+            wallOfText += sentence;
+        }
+        
+        // Duplicates the massive text block twice so the CSS animation can loop perfectly
+        container.innerHTML = `<div class="text-block">${wallOfText}</div><div class="text-block">${wallOfText}</div>`;
+    </script>
+
+</body>
+</html>
