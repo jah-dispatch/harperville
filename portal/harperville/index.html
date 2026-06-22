@@ -122,12 +122,24 @@
             display: none;
             flex-direction: column;
             height: 100%;
+            overflow-y: auto;
         }
 
         .view.active { display: flex; }
 
+        .section-title {
+            font-size: 0.9rem;
+            color: var(--tiger-orange);
+            margin-bottom: 8px;
+            margin-top: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 5px;
+        }
+
         /* Form & Inputs */
-        input[type="text"], select, textarea, input[type="file"] {
+        input[type="text"], input[type="date"], select, textarea, input[type="file"] {
             width: 100%;
             background: #222;
             border: 1px solid #444;
@@ -136,6 +148,7 @@
             border-radius: 8px;
             margin-bottom: 15px;
             font-size: 1rem;
+            color-scheme: dark;
         }
 
         input:focus, select:focus, textarea:focus {
@@ -175,15 +188,6 @@
         }
 
         /* Task Ledger */
-        .ledger-container {
-            flex: 1;
-            overflow-y: auto;
-            background: var(--panel-bg);
-            border-radius: 8px;
-            padding: 10px;
-            border: 1px solid var(--border);
-        }
-
         .task-item {
             background: #222;
             padding: 15px;
@@ -206,7 +210,16 @@
         }
 
         .task-title { font-weight: bold; font-size: 1.1rem; }
-        .task-meta { font-size: 0.8rem; color: var(--text-muted); }
+        
+        .delete-btn {
+            background: rgba(255, 50, 50, 0.1);
+            border: 1px solid rgba(255, 50, 50, 0.3);
+            color: white;
+            border-radius: 6px;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
 
         .task-image {
             max-width: 100%;
@@ -304,13 +317,16 @@
             
             <!-- AGENDA VIEW -->
             <div id="view-agenda" class="view active">
-                <div class="ledger-container" id="tasks-container">
+                <div id="tasks-container">
                     <div style="text-align:center; color: var(--text-muted); margin-top: 20px;">Loading Agenda...</div>
                 </div>
             </div>
 
             <!-- ADD NEW VIEW -->
             <div id="view-add" class="view">
+                <label style="color: var(--tiger-orange); font-size: 0.85rem; font-weight: bold; text-transform: uppercase;">Assign to Shift Date</label>
+                <input type="date" id="task-date" required>
+
                 <label style="color: var(--tiger-orange); font-size: 0.85rem; font-weight: bold; text-transform: uppercase;">Directive Type</label>
                 <select id="task-type">
                     <option value="agenda">Shift Agenda / Task</option>
@@ -332,11 +348,11 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, onSnapshot, updateDoc, doc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, onSnapshot, updateDoc, deleteDoc, doc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
         import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-storage.js";
 
         // ==========================================
-        // 1. INSERT YOUR FIREBASE CONFIG HERE
+        // 1. PASTE YOUR NEW FIREBASE KEYS HERE
         // ==========================================
         const firebaseConfig = {
             apiKey: "AIzaSyBGkqfs3nDZ2Stczs_qzpwEwQfB5zeeX1U",
@@ -348,11 +364,11 @@
         };
 
         // ==========================================
-        // 2. AUTHORIZED EMAILS
+        // 2. AUTHORIZED EMAILS (Lowercase Only)
         // ==========================================
         const AUTHORIZED_EMAILS = [
-            "jackaspenharper@gmail.com", // REPLACE WITH YOUR GMAIL
-            "graciellagalan19@gmail.com" // REPLACE WITH GRACE'S GMAIL
+            "jackaspenharper@gmail.com", 
+            "graciellagalan19@gmail.com" 
         ];
 
         // Initialize Firebase
@@ -369,7 +385,10 @@
         const errorMsg = document.getElementById('error-msg');
         const tasksContainer = document.getElementById('tasks-container');
 
-        // Tab Switching Logic
+        // Set default date picker to today
+        document.getElementById('task-date').value = new Date().toISOString().split('T')[0];
+
+        // Tab Switching
         document.getElementById('tab-agenda').onclick = () => switchTab('agenda');
         document.getElementById('tab-add').onclick = () => switchTab('add');
 
@@ -400,7 +419,6 @@
 
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                // Security Check: Is the email in our authorized list?
                 if (AUTHORIZED_EMAILS.includes(user.email.toLowerCase())) {
                     currentUser = user;
                     authView.style.display = 'none';
@@ -408,7 +426,6 @@
                     errorMsg.style.display = 'none';
                     loadAgenda();
                 } else {
-                    // Unauthorized
                     signOut(auth);
                     errorMsg.style.display = 'block';
                     errorMsg.innerText = `Access Denied for ${user.email}`;
@@ -425,28 +442,28 @@
         // Add a new directive
         document.getElementById('submit-task-btn').onclick = async () => {
             const btn = document.getElementById('submit-task-btn');
+            const shiftDate = document.getElementById('task-date').value;
             const title = document.getElementById('task-title').value;
             const type = document.getElementById('task-type').value;
             const fileInput = document.getElementById('task-image');
             
-            if (!title) return alert("Please enter directive details.");
+            if (!title || !shiftDate) return alert("Please enter a date and directive details.");
             
             btn.innerText = "Uploading...";
             btn.disabled = true;
 
-            let imageUrl = null;
-
-            // Handle Image Upload if a file is selected
-            if (fileInput.files.length > 0) {
-                const file = fileInput.files[0];
-                const storageRef = ref(storage, `uploads/${Date.now()}_${file.name}`);
-                await uploadBytes(storageRef, file);
-                imageUrl = await getDownloadURL(storageRef);
-            }
-
-            // Save to Firestore
             try {
+                let imageUrl = null;
+
+                if (fileInput.files.length > 0) {
+                    const file = fileInput.files[0];
+                    const storageRef = ref(storage, `uploads/${Date.now()}_${file.name}`);
+                    await uploadBytes(storageRef, file);
+                    imageUrl = await getDownloadURL(storageRef);
+                }
+
                 await addDoc(collection(db, "directives"), {
+                    shiftDate: shiftDate,
                     title: title,
                     type: type,
                     completed: false,
@@ -460,65 +477,98 @@
                 document.getElementById('task-title').value = '';
                 fileInput.value = '';
                 switchTab('agenda');
+
             } catch (error) {
-                console.error("Error adding document: ", error);
+                console.error("Error posting directive: ", error);
+                alert("Upload failed! Check your Firestore Security Rules to ensure your email matches exactly.");
             } finally {
                 btn.innerText = "Post Directive";
                 btn.disabled = false;
             }
         };
 
-        // Real-time listener for Agenda
+        // Real-time listener & Chronological Filter
         function loadAgenda() {
-            const q = query(collection(db, "directives"), orderBy("timestamp", "desc"));
+            const q = query(collection(db, "directives"));
             
             onSnapshot(q, (snapshot) => {
                 tasksContainer.innerHTML = '';
-                if(snapshot.empty) {
-                    tasksContainer.innerHTML = '<div style="text-align:center; color: var(--text-muted); margin-top: 20px;">No active directives.</div>';
-                    return;
-                }
+                const today = new Date().toISOString().split('T')[0];
+                let tasksByDate = {};
 
                 snapshot.forEach((docSnap) => {
                     const task = docSnap.data();
-                    const taskId = docSnap.id;
+                    task.id = docSnap.id;
                     
-                    const div = document.createElement('div');
-                    div.className = `task-item ${task.type} ${task.completed ? 'completed' : ''}`;
-                    
-                    // Format comments
-                    let commentsHTML = task.comments.map(c => 
-                        `<div class="comment-display"><span class="comment-author">${c.author}:</span> ${c.text}</div>`
-                    ).join('');
+                    // Filter: Only process if the shift date is today or in the future
+                    if (task.shiftDate && task.shiftDate >= today) {
+                        if (!tasksByDate[task.shiftDate]) {
+                            tasksByDate[task.shiftDate] = [];
+                        }
+                        tasksByDate[task.shiftDate].push(task);
+                    }
+                });
 
-                    div.innerHTML = `
-                        <div class="task-header">
-                            <label class="checkbox-wrapper">
-                                <input type="checkbox" ${task.completed ? 'checked' : ''} onchange="toggleComplete('${taskId}', this.checked)">
-                                <span class="task-title">${task.title}</span>
-                            </label>
-                            <span class="task-meta">${task.type.toUpperCase()}</span>
-                        </div>
+                const sortedDates = Object.keys(tasksByDate).sort();
+
+                if(sortedDates.length === 0) {
+                    tasksContainer.innerHTML = '<div style="text-align:center; color: var(--text-muted); margin-top: 20px;">No upcoming shifts scheduled.</div>';
+                    return;
+                }
+
+                sortedDates.forEach(date => {
+                    // Create Date Header
+                    const header = document.createElement('div');
+                    header.className = 'section-title';
+                    
+                    // Format date nicely (e.g., "Shift: 2026-06-25")
+                    header.innerText = `Scheduled Shift: ${date}`;
+                    tasksContainer.appendChild(header);
+
+                    // Append tasks for this date
+                    tasksByDate[date].forEach(task => {
+                        const div = document.createElement('div');
+                        div.className = `task-item ${task.type} ${task.completed ? 'completed' : ''}`;
                         
-                        ${task.imageUrl ? `<img src="${task.imageUrl}" class="task-image" style="display:block;">` : ''}
-                        
-                        <div class="comment-section">
-                            ${commentsHTML}
-                            <div class="comment-input-row" style="margin-top: 8px;">
-                                <input type="text" id="comment-input-${taskId}" placeholder="Add a note..." style="flex:1;">
-                                <button class="btn-small" onclick="addComment('${taskId}')">Send</button>
+                        let commentsHTML = task.comments.map(c => 
+                            `<div class="comment-display"><span class="comment-author">${c.author}:</span> ${c.text}</div>`
+                        ).join('');
+
+                        div.innerHTML = `
+                            <div class="task-header">
+                                <label class="checkbox-wrapper">
+                                    <input type="checkbox" ${task.completed ? 'checked' : ''} onchange="toggleComplete('${task.id}', this.checked)">
+                                    <span class="task-title">${task.title}</span>
+                                </label>
+                                <button class="delete-btn" onclick="deleteDirective('${task.id}')">Delete</button>
                             </div>
-                        </div>
-                    `;
-                    tasksContainer.appendChild(div);
+                            
+                            ${task.imageUrl ? `<img src="${task.imageUrl}" class="task-image" style="display:block; margin-top:10px;">` : ''}
+                            
+                            <div class="comment-section">
+                                ${commentsHTML}
+                                <div class="comment-input-row" style="margin-top: 8px;">
+                                    <input type="text" id="comment-input-${task.id}" placeholder="Add a note..." style="flex:1;">
+                                    <button class="btn-small" onclick="addComment('${task.id}')">Send</button>
+                                </div>
+                            </div>
+                        `;
+                        tasksContainer.appendChild(div);
+                    });
                 });
             });
         }
 
-        // Global functions for inline HTML event handlers
+        // Global functions for inline HTML
         window.toggleComplete = async (taskId, isChecked) => {
             const taskRef = doc(db, "directives", taskId);
             await updateDoc(taskRef, { completed: isChecked });
+        };
+
+        window.deleteDirective = async (taskId) => {
+            if(confirm("Remove this directive from the shift?")) {
+                await deleteDoc(doc(db, "directives", taskId));
+            }
         };
 
         window.addComment = async (taskId) => {
@@ -528,9 +578,6 @@
 
             const taskRef = doc(db, "directives", taskId);
             
-            // We fetch current comments, append the new one, and update. 
-            // In a production environment with heavy traffic, arrayUnion is better, 
-            // but this is safe for a 2-person app.
             import("https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js").then(async ({ getDoc }) => {
                 const snap = await getDoc(taskRef);
                 const currentComments = snap.data().comments || [];
