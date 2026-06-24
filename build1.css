@@ -678,3 +678,61 @@ body {
     animation: shimmerSweep 7s infinite; /* Reuses your existing 7-second sweep animation */
     pointer-events: none; /* Ensures the light doesn't block clicks or interactions */
 }
+/* --- THE VAULT BENTO GRID --- */
+.bento-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Two equal columns */
+    gap: 15px; /* Clean breathing room between boxes */
+    margin-top: 25px;
+    padding-bottom: 20px;
+}
+
+.bento-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    aspect-ratio: 1 / 1; /* Forces perfect squares */
+    text-decoration: none; /* Kills hyperlink underlines */
+    padding: 15px;
+    border-radius: 20px; /* Matches your main app container curves */
+    transition: all 0.3s ease;
+    
+    /* Standard Glass Casing */
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* The Hover State - Pops off the glass */
+.bento-box:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: var(--gold-aspen);
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 8px 25px rgba(181, 148, 16, 0.3); /* Gold shadow bleed */
+}
+
+.bento-title {
+    font-family: 'Bowlby One', cursive;
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    margin: 0;
+    line-height: 1.2;
+    text-transform: uppercase;
+    transition: color 0.3s ease;
+}
+
+.bento-box:hover .bento-title {
+    color: var(--gold-aspen);
+}
+
+.bento-subtitle {
+    font-family: 'Commissioner', sans-serif;
+    color: #ccc;
+    font-size: 0.8rem;
+    margin-top: 10px;
+    font-weight: 700;
+}

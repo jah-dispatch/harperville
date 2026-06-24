@@ -1,0 +1,69 @@
+/* --- VAULT OVERRIDES: JACK'S FAVES (DARK UNICORN) --- */
+
+:root {
+    /* Overwriting the main theme colors with Neon Unicorn */
+    --emerald-green: #00f3ff; /* Neon Cyan */
+    --gold-aspen: #ff00ff; /* Hot Pink */
+    
+    /* A deep ultraviolet to neon dark gradient */
+    --main-bg-gradient: linear-gradient(135deg, #1a0033 0%, #000000 50%, #001a33 100%);
+}
+
+/* Enhancing the bento boxes specifically for the unicorn theme */
+.bento-box {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 0, 255, 0.2);
+}
+
+.bento-box:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: #00f3ff;
+    box-shadow: 0 8px 30px rgba(255, 0, 255, 0.4); 
+}
+
+/* --- THE SPARKLE ENGINE --- */
+.sparkle-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* CRITICAL: Allows clicks to pass right through the sparkles */
+    z-index: 0; /* Keeps it behind the glass UI */
+    overflow: hidden;
+}
+
+/* Generating multiple layers of stars using pure CSS radial gradients */
+.sparkles-1, .sparkles-2 {
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    background-color: transparent;
+}
+
+.sparkles-1 {
+    background-image: 
+        radial-gradient(2px 2px at 20px 30px, #fff, rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 150px 150px, #ff00ff, rgba(0,0,0,0)),
+        radial-gradient(3px 3px at 80px 250px, #00f3ff, rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 250px 80px, #fff, rgba(0,0,0,0)),
+        radial-gradient(3px 3px at 300px 300px, #ff00ff, rgba(0,0,0,0));
+    background-size: 350px 350px;
+    animation: driftAndBlink 8s infinite linear alternate;
+}
+
+.sparkles-2 {
+    background-image: 
+        radial-gradient(2px 2px at 50px 100px, #00f3ff, rgba(0,0,0,0)),
+        radial-gradient(3px 3px at 200px 50px, #fff, rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 350px 200px, #ff00ff, rgba(0,0,0,0)),
+        radial-gradient(3px 3px at 100px 350px, #00f3ff, rgba(0,0,0,0));
+    background-size: 400px 400px;
+    animation: driftAndBlink 12s infinite linear alternate-reverse;
+}
+
+@keyframes driftAndBlink {
+    0% { transform: translateY(0) translateX(0); opacity: 0.2; }
+    50% { opacity: 0.8; }
+    100% { transform: translateY(-50px) translateX(-20px); opacity: 0.2; }
+}

@@ -1,0 +1,61 @@
+/* --- VAULT OVERRIDES: TAYLOR SWIFT (THE COMPLETE ERAS BLEND) --- */
+
+:root {
+    /* Pushing the UI text and accents to 1989 Blue and Speak Now Purple */
+    --emerald-green: #B6D6EB; 
+    --gold-aspen: #CB94D4; 
+}
+
+/* Overriding the default background with the expanded, moving Eras gradient */
+/* Overriding the default background with the expanded, moving Eras gradient */
+.app-container {
+    /* Flipping the angle to -45deg forces the horizontal animation to cross every color */
+    background: linear-gradient(
+        -45deg, 
+        #B5D3A7, /* Debut Green */
+        #E8C57C, /* Fearless Gold */
+        #CB94D4, /* Speak Now Purple */
+        #CA3C46, /* Red Red */
+        #B6D6EB, /* 1989 Blue */
+        #1a1a1a, /* Reputation Black */
+        #EEA6CC, /* Lover Pink */
+        #C5C5C5, /* Folklore Grey */
+        #B39A82, /* Evermore Tan */
+        #E29A5D, /* Anthology Faded Amber/Orange */
+        #A3D9C9, /* Anthology Mint Green */
+        #28314A, /* Midnights Blue */
+        #EAE5DE  /* TTPD Sepia / Dark Parchment */
+    ) !important;
+    
+    /* 13 colors = 1300% scaling to give every era equal breathing room */
+    background-size: 1300% 1300% !important; 
+    
+    /* Dialed the loop down to 39 seconds (3 seconds per era) for a visible, hypnotic pan */
+    animation: eraShift 39s ease infinite !important; 
+}
+
+@keyframes eraShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Making the glass boxes extra frosted to handle the bright shifting colors behind them */
+.glass-panel {
+    background: rgba(0, 0, 0, 0.45) !important; /* Darkened by 5% to maintain absolute text contrast over the mint layer */
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+}
+
+/* Customizing the Bento Boxes for maximum pop */
+.bento-box {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.bento-box:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: var(--gold-aspen);
+    box-shadow: 0 8px 30px rgba(203, 148, 212, 0.6); /* Speak Now purple glow */
+}
