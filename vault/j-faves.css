@@ -67,3 +67,94 @@
     50% { opacity: 0.8; }
     100% { transform: translateY(-50px) translateX(-20px); opacity: 0.2; }
 }
+/* --- VAULT: SINGLE COLUMN BENTO (MUST-HAVES) --- */
+
+.single-col-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 25px; /* Deep breathing room between product rows */
+    margin-top: 15px;
+    padding-bottom: 30px;
+}
+
+/* The Product Card Architecture */
+.product-card {
+    position: relative; /* Crucial for anchoring the category tag */
+    display: flex;
+    flex-direction: column;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 0, 255, 0.2);
+    border-radius: 20px;
+    padding: 25px;
+    text-align: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.product-card:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: var(--emerald-green); /* Snaps to Neon Cyan */
+    box-shadow: 0 8px 30px rgba(0, 243, 255, 0.3);
+}
+
+/* The Floating Category Tag - FIXED FOR RESPONSIVE TEXT FLOW */
+.category-tag {
+    display: inline-block;
+    align-self: center; /* Prevents the pill from stretching full-width */
+    margin: 0 auto 15px auto; /* Creates clean breathing room directly below the badge */
+    background: var(--gold-aspen); /* Hot Pink from your Unicorn theme */
+    color: #fff;
+    font-family: 'Commissioner', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 6px 12px;
+    border-radius: 30px;
+    box-shadow: 0 2px 10px rgba(255, 0, 255, 0.4);
+    z-index: 5;
+}
+
+/* Dynamic Image Scaling for Products */
+.product-image-wrapper {
+    width: 100%;
+    max-width: 250px; /* Prevents the image from becoming massively oversized on desktop */
+    margin: 20px auto;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0,0,0,0.3); /* Subtle dark backing for transparent PNGs */
+    padding: 10px;
+}
+
+.product-image {
+    width: 100%;
+    height: auto;
+    object-fit: contain; /* Ensures the whole product is always visible, never cropped */
+    display: block;
+    border-radius: 8px;
+}
+
+.product-link {
+    font-family: 'Bowlby One', cursive;
+    color: var(--emerald-green); /* Neon Cyan */
+    font-size: 1.4rem;
+    text-decoration: none;
+    letter-spacing: 1px;
+    transition: color 0.3s ease;
+}
+
+.product-link:hover {
+    color: var(--text-primary);
+    text-decoration: underline;
+}
+
+.product-desc {
+    font-family: 'Commissioner', sans-serif;
+    color: #ccc;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-top: 15px;
+}
