@@ -158,3 +158,34 @@
     line-height: 1.6;
     margin-top: 15px;
 }
+/* --- THE SILVER SHIMMER TEXT EFFECT --- */
+.silver-shimmer {
+    /* A metallic gradient mimicking polished silver reflecting light */
+    background: linear-gradient(
+        -45deg, 
+        #8a8a8a 25%, 
+        #ffffff 40%, 
+        #e0e0e0 50%, 
+        #ffffff 60%, 
+        #8a8a8a 75%
+    );
+    background-size: 200% auto;
+    
+    /* Strips the solid color and forces the gradient inside the text */
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    
+    /* A slow, 4-second continuous loop of light sweeping across */
+    animation: silverSweep 4s linear infinite;
+    
+    /* A subtle glow to pop the text off the dark background */
+    filter: drop-shadow(0 2px 4px rgba(255, 255, 255, 0.15));
+    display: inline-block; /* Ensures the background clips correctly on all browsers */
+}
+
+@keyframes silverSweep {
+    to {
+        background-position: 200% center;
+    }
+}
