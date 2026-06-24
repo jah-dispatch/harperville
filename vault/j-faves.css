@@ -189,3 +189,9 @@
         background-position: 200% center;
     }
 }
+/* --- VAULT: BOOK CLUB SHERBET TAG OVERRIDE --- */
+.category-tag.book-tag {
+    background: #FFCBA4; /* Pastel Orange Sherbet */
+    color: #1a0033; /* Deep ultraviolet for crisp text contrast */
+    box-shadow: 0 2px 10px rgba(255, 203, 164, 0.4); /* Sherbet glow */
+}
