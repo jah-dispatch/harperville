@@ -237,3 +237,15 @@
     50% { transform: translateY(-12px); }
     100% { transform: translateY(0); }
 }
+/* --- IVY'S PICKS OVERRIDES --- */
+.ivy-card:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: #FFCBA4 !important; /* Peach-Orange Sherbet */
+    box-shadow: 0 8px 30px rgba(255, 203, 164, 0.3) !important;
+}
+
+.ivy-tag {
+    background: #00f3ff !important; /* Cyan */
+    color: #1a0033 !important; /* Deep ultraviolet for high contrast readability */
+    box-shadow: 0 2px 10px rgba(0, 243, 255, 0.4) !important;
+}
