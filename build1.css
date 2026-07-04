@@ -3,32 +3,35 @@
 
 /* --- PERSONALIZED DESIGN TOKENS --- */
 :root {
-    /* Elemental Colors */
-    --emerald-green: #005f3a;
-    --gold-aspen: #b59410;
-    --text-primary: #f0f0f0;
+    /* Elemental Colors - Pastel Unicorn Palette */
+    --unicorn-pink: #ffb7b2;
+    --unicorn-lavender: #e2bbfd;
+    --unicorn-mint: #b5ead7;
+    --unicorn-yellow: #fff3b0;
+    --text-primary: #2d2d2d; /* Darkened for readability on pastels */
+    --accent-color: #ff9ce9;
 
     /* Base Background Layers */
-    --main-bg-gradient: linear-gradient(135deg, var(--emerald-green), #0a0a0a, var(--gold-aspen));
+    --main-bg-gradient: linear-gradient(135deg, var(--unicorn-pink), #ffffff, var(--unicorn-lavender));
     
     /* Etched Aspen Texture Element */
     --etched-glass-leaf: url('assets/images/etched-aspen-leaf.png');
     
-    /* Glass Panel Settings */
-    --glass-bg: rgba(255, 255, 255, 0.05);
-    --glass-border: rgba(255, 255, 255, 0.1);
+    /* Glass Panel Settings - Brighter for the pastel theme */
+    --glass-bg: rgba(255, 255, 255, 0.4);
+    --glass-border: rgba(255, 255, 255, 0.6);
 }
 
 /* --- BASE & CENTERING (The Desktop Void) --- */
 body {
     margin: 0;
     padding: 0;
-    background-color: #0a0a0a; 
+    background-color: #fcfcfc; /* Shifted from black to off-white */
     display: flex;
     justify-content: center;
-    align-items: center; /* Centers the phone vertically on desktop */
-    height: 100vh; /* Locks the body to exactly the window height */
-    overflow: hidden; /* Kills the main desktop scrollbar completely */
+    align-items: center; 
+    height: 100vh; 
+    overflow: hidden; 
     font-family: 'Commissioner', sans-serif;
     color: var(--text-primary);
 }
@@ -36,21 +39,21 @@ body {
 /* --- THE APP CONTAINER (Device-Ready Frame) --- */
 .app-container {
     width: 100%;
-    max-width: 480px; /* Locks to a mobile width */
+    max-width: 480px; 
     height: 100%; 
-    max-height: 90vh; /* Creates a physical "phone" height constraint */
+    max-height: 90vh; 
     position: relative;
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
     
     /* Device-like aesthetics */
-    border: 2px solid #2a2a2a; 
+    border: 2px solid var(--unicorn-lavender); /* Softer border */
     border-radius: 40px; 
-    box-shadow: 0 10px 100px rgba(0, 0, 0, 0.8);
+    box-shadow: 0 10px 100px rgba(226, 187, 253, 0.4); /* Pastel glow shadow */
     background: var(--main-bg-gradient); 
     z-index: 1;
-    overflow: hidden; /* Crucial: Keeps the scrolling content inside the rounded corners */
+    overflow: hidden; 
 }
 
 /* Etched Leaf Layer applied directly to the container */
@@ -66,20 +69,20 @@ body {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    opacity: 0.15; /* Lets the gold shine through */
-    z-index: -1; /* Keeps it behind the glass panels */
+    opacity: 0.15; 
+    z-index: -1; 
     pointer-events: none;
 }
 
 /* --- LANDING PAGE ANIMATIONS & TEXT MASKING --- */
 .landing-body {
-    background-color: #000;
+    background-color: #fcfcfc; /* Shifted from black */
 }
 
-/* Override the gradient and hide the etched leaf for a pure black void on launch */
+/* Override the gradient */
 .landing-container {
-    background: #000 !important; 
-    justify-content: center; /* Vertically centers the text block */
+    background: #fcfcfc !important; 
+    justify-content: center; 
 }
 
 .landing-container::after {
@@ -89,19 +92,19 @@ body {
 .loud-text-wrapper {
     display: flex;
     flex-direction: column;
-    gap: 15px; /* Tight spacing between the stacked lines */
+    gap: 15px; 
     width: 100%;
 }
 
 .loud-text {
     font-family: 'Bowlby One', cursive;
-    font-size: 6rem; /* Massively scaled up for aggressive impact */
+    font-size: 6rem; 
     line-height: 1;
     white-space: nowrap;
     margin: 0;
     text-transform: uppercase;
     
-    /* IMAGE MASKING MAGIC: Emerald/Gold dipped aspen leaf texture */
+    /* NOTE: You MUST replace this image file to match the new theme */
     background-image: url('assets/images/text-mask-gold-green.png'); 
     background-size: cover;
     background-position: center;
@@ -110,22 +113,9 @@ body {
     background-clip: text;
 }
 
-/* Top & Bottom Lines (Start Left) */
-.scroll-left {
-    animation: slideLeftStall 8s ease-in-out forwards;
-}
+.scroll-left { animation: slideLeftStall 8s ease-in-out forwards; }
+.scroll-right { animation: slideRightStall 8s ease-in-out forwards; }
 
-/* Middle Line (Start Right - Reversed) */
-.scroll-right {
-    animation: slideRightStall 8s ease-in-out forwards;
-}
-
-/* 
-  The Stalled Animations:
-  0% - 25%: Slams into the center frame
-  25% - 75%: The "Stall" (a slow, tense 4-second pan)
-  75% - 100%: Reverses the scroll and snaps back out of frame
-*/
 @keyframes slideLeftStall {
     0%   { transform: translateX(-150%); }
     25%  { transform: translateX(-5%); }
@@ -143,10 +133,10 @@ body {
 /* --- GLASSMORPHISM UI --- */
 .glass-panel {
     background: var(--glass-bg);
-    backdrop-filter: blur(12px); /* High frosting */
+    backdrop-filter: blur(12px); 
     -webkit-backdrop-filter: blur(12px);
     border: 1px solid var(--glass-border);
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05); /* Lightened shadow */
 }
 
 .luckiest-header {
@@ -154,7 +144,7 @@ body {
     letter-spacing: 2px;
     font-size: 2rem;
     margin-bottom: 1.5rem;
-    color: #f8f8f8;
+    color: var(--accent-color); /* Shifted from white */
 }
 
 /* --- VISUAL DIVIDER --- */
@@ -164,7 +154,6 @@ body {
     max-width: 120px; 
     aspect-ratio: 5 / 7; 
     margin: 10px auto; 
-    
     background-image: url('assets/images/jack-family-guy-unicorn-harper.png');
     background-size: contain;
     background-position: center;
@@ -176,10 +165,10 @@ body {
 .nav-header {
     padding: 15px 20px;
     display: flex;
-    flex-direction: column; /* Stacks the logo on top of the menu */
+    flex-direction: column; 
     justify-content: center;
     align-items: center;
-    gap: 12px; /* Adds clean breathing room between logo and links */
+    gap: 12px; 
     z-index: 10;
     border-radius: 0 0 20px 20px; 
 }
@@ -193,7 +182,7 @@ body {
 .hidden-menu {
     display: flex;
     justify-content: center;
-    flex-wrap: wrap; /* Allows links to wrap if screen is very narrow */
+    flex-wrap: wrap; 
     gap: 15px; 
 }
 
@@ -201,33 +190,32 @@ body {
     color: var(--text-primary);
     text-decoration: none;
     font-size: 0.9rem;
+    font-weight: bold;
     transition: color 0.3s ease;
 }
 
 .hidden-menu a:hover {
-    color: var(--gold-aspen);
+    color: var(--accent-color);
 }
 
-/* --- CONTENT AREA (The Scrollable Zone) --- */
+/* --- CONTENT AREA --- */
 .content-area {
     flex: 1;
     padding: 30px 20px;
-    overflow-y: auto; /* Enables internal scrolling */
-    
-    /* Hides the internal scrollbar for a cleaner app aesthetic */
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE/Edge */
+    overflow-y: auto; 
+    scrollbar-width: none; 
+    -ms-overflow-style: none; 
 }
 
 .content-area::-webkit-scrollbar {
-    display: none; /* Safari/Chrome */
+    display: none; 
 }
 
 .card {
     border-radius: 16px;
     padding: 20px;
     margin-bottom: 20px;
-    background: rgba(255, 255, 255, 0.03); /* Slightly brighter card base */
+    background: rgba(255, 255, 255, 0.5); /* Brightened for pastels */
 }
 
 .card p {
@@ -257,62 +245,58 @@ body {
 
 .footer-subtext {
     font-size: 0.75rem;
-    color: var(--gold-aspen);
-    opacity: 0.7;
+    color: var(--accent-color);
+    opacity: 0.9;
     margin-top: 2px; 
 }
-/* --- BIO PORTRAIT (About Page) --- */
+
+/* --- BIO PORTRAIT --- */
 .bio-portrait-wrapper {
     position: relative;
     width: 100%;
-    max-width: 260px; /* Locks it to a clean mobile size */
-    aspect-ratio: 4 / 5; /* Enforces your exact 4:5 ratio */
-    margin: 0 auto 30px auto; /* Perfect centering with breathing room below */
-    border-radius: 20px; /* Matches the app corner aesthetics */
-    overflow: hidden; /* Crucial: Keeps the sweeping shimmer inside the box */
-    
-    /* Dedicated glass casing for the image */
+    max-width: 260px; 
+    aspect-ratio: 4 / 5; 
+    margin: 0 auto 30px auto; 
+    border-radius: 20px; 
+    overflow: hidden; 
     background: var(--glass-bg);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     border: 1px solid var(--glass-border);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 8px 32px rgba(255, 183, 178, 0.4);
 }
 
 .bio-image {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Ensures the image fills the 4:5 box perfectly */
-    opacity: 0.85; /* The opacity trick: lets the U01 emerald/gold bleed through you */
+    object-fit: cover; 
+    opacity: 0.85; 
     display: block;
-    filter: contrast(1.1) saturate(1.1); /* Adds a little punch back in after dropping opacity */
+    filter: contrast(1.1) saturate(1.1); 
 }
 
-/* The Animated Glass Shimmer */
 .bio-portrait-wrapper::after {
     content: '';
     position: absolute;
     top: 0;
-    left: -100%; /* Starts out of frame */
+    left: -100%; 
     width: 50%;
     height: 100%;
-    
-    /* The literal light beam */
     background: linear-gradient(to right, 
         rgba(255, 255, 255, 0) 0%, 
-        rgba(255, 255, 255, 0.15) 50%, 
+        rgba(255, 255, 255, 0.5) 50%, 
         rgba(255, 255, 255, 0) 100%);
-    
-    transform: skewX(-25deg); /* Angles the light beam for a modern cut */
-    animation: shimmerSweep 7s infinite; /* Sweeps across every 7 seconds */
-    pointer-events: none; /* Ensures the image underneath is still grabbable/clickable */
+    transform: skewX(-25deg); 
+    animation: shimmerSweep 7s infinite; 
+    pointer-events: none; 
 }
 
 @keyframes shimmerSweep {
     0% { left: -100%; }
-    15% { left: 200%; } /* Sweeps across quickly in the first 15% of the animation */
-    100% { left: 200%; } /* Pauses out of frame for the remaining time so it isn't distracting */
+    15% { left: 200%; } 
+    100% { left: 200%; } 
 }
+
 /* --- THE ARCHITECTURE CARD UI --- */
 .architecture-card {
     padding: 25px; 
@@ -320,7 +304,7 @@ body {
 
 .zone-title {
     font-family: 'Luckiest Guy', cursive;
-    color: var(--text-primary);
+    color: var(--accent-color);
     font-size: 1.6rem;
     letter-spacing: 1px;
     margin-top: 0;
@@ -334,9 +318,8 @@ body {
 .zone-subtitle {
     font-family: 'Bowlby One', cursive;
     font-size: 1.1rem;
-    color: var(--emerald-green);
-    /* Adding a subtle text shadow so the dark green pops on the glass */
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+    color: var(--unicorn-lavender);
+    text-shadow: 1px 1px 0px rgba(255,255,255,0.8); /* Flipped shadow for dark text */
     margin: 30px 0 15px 0;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -345,32 +328,30 @@ body {
 .lead-text {
     font-size: 1.1rem;
     font-weight: 700;
-    color: var(--gold-aspen);
+    color: var(--accent-color);
     margin-bottom: 15px;
 }
 
 .highlight-text {
     font-weight: 700;
-    color: var(--gold-aspen);
+    color: var(--accent-color);
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
 
-/* Custom Geometric Bullet List */
 .pillar-list {
-    list-style: none; /* Kills the boring default bullets */
+    list-style: none; 
     padding-left: 0;
     margin: 0 0 30px 0;
 }
 
 .pillar-list li {
     position: relative;
-    padding-left: 30px; /* Breathing room for the custom diamond */
+    padding-left: 30px; 
     margin-bottom: 20px;
     line-height: 1.6;
 }
 
-/* The Aggressive Diamond Bullet Generator */
 .pillar-list li::before {
     content: '';
     position: absolute;
@@ -378,11 +359,10 @@ body {
     top: 6px;
     width: 12px;
     height: 12px;
-    /* Uses your brand gradient to paint the diamond */
-    background: linear-gradient(135deg, var(--emerald-green), var(--gold-aspen));
-    transform: rotate(45deg); /* Tilts the square into a sharp diamond */
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+    background: linear-gradient(135deg, var(--unicorn-pink), var(--unicorn-mint));
+    transform: rotate(45deg); 
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
 .pillar-name {
@@ -390,9 +370,10 @@ body {
     color: var(--text-primary);
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    border-bottom: 2px solid var(--gold-aspen); /* Sharp underline */
+    border-bottom: 2px solid var(--unicorn-mint); 
     margin-right: 5px;
 }
+
 /* --- PAGINATION CONTROLS --- */
 .pagination-glass {
     display: flex;
@@ -411,47 +392,40 @@ body {
     font-family: 'Commissioner', sans-serif;
     font-weight: 700;
     font-size: 1rem;
-    width: 40px; /* Makes them perfectly square touch-targets */
+    width: 40px; 
     height: 40px;
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
 }
 
 .page-btn:hover {
-    border-color: var(--gold-aspen);
-    color: var(--gold-aspen);
+    border-color: var(--accent-color);
+    color: var(--accent-color);
 }
 
-/* The Active Page State */
 .page-btn.active {
-    background: linear-gradient(135deg, var(--emerald-green), var(--gold-aspen));
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    color: #fff;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    background: linear-gradient(135deg, var(--unicorn-pink), var(--unicorn-lavender));
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    color: var(--text-primary);
+    box-shadow: 0 4px 15px rgba(226, 187, 253, 0.5);
 }
 
-/* Smooth fade-in for the cards when switching pages */
-@keyframes fadeInCard {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-/* --- MS-DOS BOOT SEQUENCE (Landing Page) --- */
+/* --- MS-DOS BOOT SEQUENCE --- */
 .dos-body {
-    background-color: #000;
+    background-color: #fcfcfc; /* Killed the black */
 }
 
-/* Force pure black void for the terminal */
 .dos-container {
-    background: #000 !important; 
+    background: #fcfcfc !important; 
     justify-content: center;
     align-items: center;
     padding: 20px;
 }
 
 .dos-container::after {
-    display: none !important; /* Disables the etched leaf here */
+    display: none !important; 
 }
 
 .dos-content {
@@ -459,22 +433,20 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 50px; /* Spacing between text and loading bar */
+    gap: 50px; 
 }
 
-/* Terminal Typography */
 .dos-title {
     font-family: 'Courier New', Courier, monospace;
-    color: #33ff33; /* Classic terminal green */
+    color: var(--accent-color); /* Soft pastel pink */
     font-size: 2.2rem; 
     text-align: center;
     margin: 0;
     line-height: 1.4;
     text-transform: uppercase;
-    text-shadow: 0 0 6px rgba(51, 255, 51, 0.6); /* CRT Phosphor Glow */
+    text-shadow: 0 0 6px rgba(255, 156, 233, 0.6); 
 }
 
-/* The Blinking Underscore */
 .dos-cursor {
     animation: blinkCursor 1s step-end infinite;
 }
@@ -484,26 +456,23 @@ body {
     50% { opacity: 0; }
 }
 
-/* The Loading Bar Container */
 .dos-loading-area {
     width: 85%;
     height: 35px;
-    border: 3px solid #33ff33;
+    border: 3px solid var(--accent-color);
     padding: 4px;
     box-sizing: border-box;
     position: relative;
-    box-shadow: 0 0 6px rgba(51, 255, 51, 0.4);
+    box-shadow: 0 0 6px rgba(255, 156, 233, 0.4);
 }
 
-/* The Stuttering Progress Blocks */
 .dos-progress-bar {
     height: 100%;
-    background-color: #33ff33;
+    background-color: var(--accent-color);
     width: 0%;
-    box-shadow: 0 0 10px rgba(51, 255, 51, 0.8);
-    /* "steps(15)" makes it load in 15 distinct, choppy blocks */
+    box-shadow: 0 0 10px rgba(156, 255, 214, 0.8);
     animation: loadBars 5.5s steps(15, end) forwards;
-    animation-delay: 1s; /* Pauses for 1 second before starting */
+    animation-delay: 1s; 
 }
 
 @keyframes loadBars {
@@ -511,17 +480,15 @@ body {
     100% { width: 100%; }
 }
 
-/* The Final Subtext */
 .dos-subtext {
     font-family: 'Courier New', Courier, monospace;
-    color: #33ff33;
+    color: var(--accent-color);
     font-size: 1.4rem;
     font-weight: bold;
     margin: 0;
     text-align: center;
-    text-shadow: 0 0 6px rgba(51, 255, 51, 0.6);
-    opacity: 0; /* Hidden initially */
-    /* Snaps onto the screen instantly after the loading bar finishes */
+    text-shadow: 0 0 6px rgba(255, 156, 233, 0.6);
+    opacity: 0; 
     animation: fadeInDos 0.1s forwards;
     animation-delay: 4.2s; 
 }
@@ -529,6 +496,7 @@ body {
 @keyframes fadeInDos {
     to { opacity: 1; }
 }
+
 /* --- BLOG ARCHIVE UI --- */
 .blog-archive-card {
     display: flex;
@@ -538,18 +506,17 @@ body {
     text-align: center;
     padding: 25px 20px;
     margin-bottom: 20px;
-    text-decoration: none; /* Kills the default blue link underline */
-    border-left: 4px solid var(--emerald-green);
+    text-decoration: none; 
+    border-left: 4px solid var(--unicorn-mint);
     transition: all 0.3s ease;
     cursor: pointer;
 }
 
-/* The Hover State - Tells the user it is an active portal */
 .blog-archive-card:hover {
-    border-left: 4px solid var(--gold-aspen);
-    background: rgba(255, 255, 255, 0.08); /* Slightly brightens the glass */
-    transform: translateY(-2px); /* Lifts the card slightly */
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    border-left: 4px solid var(--unicorn-pink);
+    background: rgba(255, 255, 255, 0.8); 
+    transform: translateY(-2px); 
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
 }
 
 .archive-title {
@@ -563,60 +530,62 @@ body {
 .archive-date {
     font-family: 'Commissioner', sans-serif;
     font-size: 0.9rem;
-    color: var(--gold-aspen);
+    color: var(--accent-color);
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 1.5px;
     margin: 0;
 }
-/* --- BLOG DISPATCH VISUAL (GIF WRAPPER) --- */
+
+/* --- BLOG DISPATCH VISUAL --- */
 .dispatch-visual-wrapper {
     width: 100%;
     display: flex;
     justify-content: center;
-    margin-bottom: 25px; /* Spacing before the text card */
-    padding: 0 10px; /* Buffer so it doesn't hit the absolute edge of the screen */
+    margin-bottom: 25px; 
+    padding: 0 10px; 
     box-sizing: border-box;
 }
 
 .dispatch-visual {
     max-width: 100%;
     height: auto;
-    border-radius: 12px; /* Matches the inner card radius */
+    border-radius: 12px; 
     border: 1px solid var(--glass-border);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4); /* Deep shadow to float it above the void */
-    opacity: 0.85; /* Slight fade to match the glass UI */
+    box-shadow: 0 8px 25px rgba(226, 187, 253, 0.3); 
+    opacity: 0.85; 
     transition: opacity 0.3s ease, transform 0.3s ease;
-    object-fit: cover; /* Ensures GIPHY dimensions don't distort */
+    object-fit: cover; 
 }
 
 .dispatch-visual:hover {
-    opacity: 1; /* Pops to full brightness */
-    transform: translateY(-2px); /* Very subtle lift */
+    opacity: 1; 
+    transform: translateY(-2px); 
 }
+
 /* --- YOUTUBE DISPATCH BUTTON --- */
 .youtube-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 10px;
-    background: rgba(255, 0, 0, 0.8); /* YouTube Red with glass transparency */
-    color: #ffffff;
+    background: var(--glass-bg); /* Swapped red for glass to match theme */
+    color: var(--text-primary);
     font-family: 'Commissioner', sans-serif;
     font-weight: bold;
     text-decoration: none;
     padding: 12px 25px;
     border-radius: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3);
+    border: 1px solid var(--unicorn-pink);
+    box-shadow: 0 4px 15px rgba(255, 183, 178, 0.2);
     transition: all 0.3s ease;
 }
 
 .youtube-btn:hover {
-    background: rgba(255, 0, 0, 1); /* Snaps to solid red */
+    background: var(--unicorn-pink); 
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(255, 0, 0, 0.5);
-    color: #ffffff; 
+    box-shadow: 0 6px 20px rgba(255, 183, 178, 0.5);
+    color: #2d2d2d; 
 }
 
 .youtube-btn svg {
@@ -624,26 +593,23 @@ body {
 }
 
 .youtube-btn:hover svg {
-    transform: scale(1.1); /* Subtle heartbeat effect on the icon */
+    transform: scale(1.1); 
 }
+
 /* --- ADVOCACY LOGO WRAPPER --- */
 .advocacy-image-wrapper {
     position: relative;
     width: 100%;
-    max-width: 280px; /* Slightly wider to accommodate the circular text */
-    aspect-ratio: 1 / 1; /* A perfect square for the shield emblem */
+    max-width: 280px; 
+    aspect-ratio: 1 / 1; 
     margin: 0 auto 30px auto; 
     border-radius: 20px; 
     overflow: hidden; 
-    
-    /* Dedicated glass casing */
     background: var(--glass-bg);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     border: 1px solid var(--glass-border);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-    
-    /* Centers the logo and adds a breathing buffer */
+    box-shadow: 0 8px 32px rgba(181, 234, 215, 0.4);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -654,35 +620,33 @@ body {
 .advocacy-image {
     width: 100%;
     height: 100%;
-    object-fit: contain; /* CRUCIAL FIX: Prevents the sides from being cut off */
+    object-fit: contain; 
     opacity: 0.95; 
     display: block;
-    filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5)); /* Adds a slight 3D float to the emblem */
+    filter: drop-shadow(0 4px 10px rgba(0,0,0,0.1)); 
 }
-/* The Animated Glass Shimmer for the Emblem */
+
 .advocacy-image-wrapper::after {
     content: '';
     position: absolute;
     top: 0;
-    left: -100%; /* Starts completely out of frame */
+    left: -100%; 
     width: 50%;
     height: 100%;
-    
-    /* The literal light beam */
     background: linear-gradient(to right, 
         rgba(255, 255, 255, 0) 0%, 
-        rgba(255, 255, 255, 0.15) 50%, 
+        rgba(255, 255, 255, 0.5) 50%, 
         rgba(255, 255, 255, 0) 100%);
-    
-    transform: skewX(-25deg); /* Angles the light beam for a sharp, modern cut */
-    animation: shimmerSweep 7s infinite; /* Reuses your existing 7-second sweep animation */
-    pointer-events: none; /* Ensures the light doesn't block clicks or interactions */
+    transform: skewX(-25deg); 
+    animation: shimmerSweep 7s infinite; 
+    pointer-events: none; 
 }
+
 /* --- THE VAULT BENTO GRID --- */
 .bento-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* Two equal columns */
-    gap: 15px; /* Clean breathing room between boxes */
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 15px; 
     margin-top: 25px;
     padding-bottom: 20px;
 }
@@ -693,26 +657,23 @@ body {
     justify-content: center;
     align-items: center;
     text-align: center;
-    aspect-ratio: 1 / 1; /* Forces perfect squares */
-    text-decoration: none; /* Kills hyperlink underlines */
+    aspect-ratio: 1 / 1; 
+    text-decoration: none; 
     padding: 15px;
-    border-radius: 20px; /* Matches your main app container curves */
+    border-radius: 20px; 
     transition: all 0.3s ease;
-    
-    /* Standard Glass Casing */
     background: var(--glass-bg);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border: 1px solid var(--glass-border);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
 }
 
-/* The Hover State - Pops off the glass */
 .bento-box:hover {
-    background: rgba(255, 255, 255, 0.08);
-    border-color: var(--gold-aspen);
+    background: rgba(255, 255, 255, 0.8);
+    border-color: var(--accent-color);
     transform: translateY(-4px) scale(1.02);
-    box-shadow: 0 8px 25px rgba(181, 148, 16, 0.3); /* Gold shadow bleed */
+    box-shadow: 0 8px 25px rgba(255, 156, 233, 0.3); 
 }
 
 .bento-title {
@@ -726,12 +687,12 @@ body {
 }
 
 .bento-box:hover .bento-title {
-    color: var(--gold-aspen);
+    color: var(--accent-color);
 }
 
 .bento-subtitle {
     font-family: 'Commissioner', sans-serif;
-    color: #ccc;
+    color: #666; /* Darkened for readability */
     font-size: 0.8rem;
     margin-top: 10px;
     font-weight: 700;
