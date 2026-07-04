@@ -1,0 +1,699 @@
+/* --- GOOGLE FONTS --- */
+@import url('https://fonts.googleapis.com/css2?family=Bowlby+One&family=Commissioner:wght@400;700&family=Luckiest+Guy&display=swap');
+
+/* --- PERSONALIZED DESIGN TOKENS --- */
+:root {
+    /* Elemental Colors - Pastel Unicorn Palette */
+    --unicorn-pink: #ffb7b2;
+    --unicorn-lavender: #e2bbfd;
+    --unicorn-mint: #b5ead7;
+    --unicorn-yellow: #fff3b0;
+    --text-primary: #2d2d2d; /* Darkened for readability on pastels */
+    --accent-color: #ff9ce9;
+
+    /* Base Background Layers */
+    --main-bg-gradient: linear-gradient(135deg, var(--unicorn-pink), #ffffff, var(--unicorn-lavender));
+    
+    /* Etched Aspen Texture Element */
+    --etched-glass-leaf: url('assets/images/etched-aspen-leaf.png');
+    
+    /* Glass Panel Settings - Brighter for the pastel theme */
+    --glass-bg: rgba(255, 255, 255, 0.4);
+    --glass-border: rgba(255, 255, 255, 0.6);
+}
+
+/* --- BASE & CENTERING (The Desktop Void) --- */
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #fcfcfc; /* Shifted from black to off-white */
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    height: 100vh; 
+    overflow: hidden; 
+    font-family: 'Commissioner', sans-serif;
+    color: var(--text-primary);
+}
+
+/* --- THE APP CONTAINER (Device-Ready Frame) --- */
+.app-container {
+    width: 100%;
+    max-width: 480px; 
+    height: 100%; 
+    max-height: 90vh; 
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    
+    /* Device-like aesthetics */
+    border: 2px solid var(--unicorn-lavender); /* Softer border */
+    border-radius: 40px; 
+    box-shadow: 0 10px 100px rgba(226, 187, 253, 0.4); /* Pastel glow shadow */
+    background: var(--main-bg-gradient); 
+    z-index: 1;
+    overflow: hidden; 
+}
+
+/* Etched Leaf Layer applied directly to the container */
+.app-container::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    background-image: var(--etched-glass-leaf);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.15; 
+    z-index: -1; 
+    pointer-events: none;
+}
+
+/* --- LANDING PAGE ANIMATIONS & TEXT MASKING --- */
+.landing-body {
+    background-color: #fcfcfc; /* Shifted from black */
+}
+
+/* Override the gradient */
+.landing-container {
+    background: #fcfcfc !important; 
+    justify-content: center; 
+}
+
+.landing-container::after {
+    display: none !important;
+}
+
+.loud-text-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; 
+    width: 100%;
+}
+
+.loud-text {
+    font-family: 'Bowlby One', cursive;
+    font-size: 6rem; 
+    line-height: 1;
+    white-space: nowrap;
+    margin: 0;
+    text-transform: uppercase;
+    
+    /* NOTE: You MUST replace this image file to match the new theme */
+    background-image: url('assets/images/text-mask-gold-green.png'); 
+    background-size: cover;
+    background-position: center;
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+
+.scroll-left { animation: slideLeftStall 8s ease-in-out forwards; }
+.scroll-right { animation: slideRightStall 8s ease-in-out forwards; }
+
+@keyframes slideLeftStall {
+    0%   { transform: translateX(-150%); }
+    25%  { transform: translateX(-5%); }
+    75%  { transform: translateX(5%); } 
+    100% { transform: translateX(-150%); }
+}
+
+@keyframes slideRightStall {
+    0%   { transform: translateX(150%); }
+    25%  { transform: translateX(5%); } 
+    75%  { transform: translateX(-5%); } 
+    100% { transform: translateX(150%); }
+}
+
+/* --- GLASSMORPHISM UI --- */
+.glass-panel {
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px); 
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05); /* Lightened shadow */
+}
+
+.luckiest-header {
+    font-family: 'Luckiest Guy', cursive;
+    letter-spacing: 2px;
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    color: var(--accent-color); /* Shifted from white */
+}
+
+/* --- VISUAL DIVIDER --- */
+.page-divider {
+    display: block;
+    width: 100%;
+    max-width: 120px; 
+    aspect-ratio: 5 / 7; 
+    margin: 10px auto; 
+    background-image: url('assets/images/jack-family-guy-unicorn-harper.png');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.85; 
+}
+
+/* --- HEADER & NAV --- */
+.nav-header {
+    padding: 15px 20px;
+    display: flex;
+    flex-direction: column; 
+    justify-content: center;
+    align-items: center;
+    gap: 12px; 
+    z-index: 10;
+    border-radius: 0 0 20px 20px; 
+}
+
+.nav-icon {
+    width: 44px; 
+    height: 44px;
+    cursor: pointer;
+}
+
+.hidden-menu {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap; 
+    gap: 15px; 
+}
+
+.hidden-menu a {
+    color: var(--text-primary);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.hidden-menu a:hover {
+    color: var(--accent-color);
+}
+
+/* --- CONTENT AREA --- */
+.content-area {
+    flex: 1;
+    padding: 30px 20px;
+    overflow-y: auto; 
+    scrollbar-width: none; 
+    -ms-overflow-style: none; 
+}
+
+.content-area::-webkit-scrollbar {
+    display: none; 
+}
+
+.card {
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 20px;
+    background: rgba(255, 255, 255, 0.5); /* Brightened for pastels */
+}
+
+.card p {
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* --- FOOTER --- */
+.main-footer {
+    padding: 10px 15px; 
+    text-align: center;
+    border-radius: 20px 20px 0 0; 
+    margin-top: auto;
+}
+
+.footer-logo {
+    width: 24px; 
+    height: 24px;
+    margin-bottom: 5px;
+    opacity: 0.8;
+}
+
+.main-footer p {
+    margin: 2px 0; 
+    font-size: 0.8rem;
+}
+
+.footer-subtext {
+    font-size: 0.75rem;
+    color: var(--accent-color);
+    opacity: 0.9;
+    margin-top: 2px; 
+}
+
+/* --- BIO PORTRAIT --- */
+.bio-portrait-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 260px; 
+    aspect-ratio: 4 / 5; 
+    margin: 0 auto 30px auto; 
+    border-radius: 20px; 
+    overflow: hidden; 
+    background: var(--glass-bg);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 8px 32px rgba(255, 183, 178, 0.4);
+}
+
+.bio-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+    opacity: 0.85; 
+    display: block;
+    filter: contrast(1.1) saturate(1.1); 
+}
+
+.bio-portrait-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%; 
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(to right, 
+        rgba(255, 255, 255, 0) 0%, 
+        rgba(255, 255, 255, 0.5) 50%, 
+        rgba(255, 255, 255, 0) 100%);
+    transform: skewX(-25deg); 
+    animation: shimmerSweep 7s infinite; 
+    pointer-events: none; 
+}
+
+@keyframes shimmerSweep {
+    0% { left: -100%; }
+    15% { left: 200%; } 
+    100% { left: 200%; } 
+}
+
+/* --- THE ARCHITECTURE CARD UI --- */
+.architecture-card {
+    padding: 25px; 
+}
+
+.zone-title {
+    font-family: 'Luckiest Guy', cursive;
+    color: var(--accent-color);
+    font-size: 1.6rem;
+    letter-spacing: 1px;
+    margin-top: 0;
+    margin-bottom: 20px;
+    text-align: center;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--glass-border);
+    padding-bottom: 15px;
+}
+
+.zone-subtitle {
+    font-family: 'Bowlby One', cursive;
+    font-size: 1.1rem;
+    color: var(--unicorn-lavender);
+    text-shadow: 1px 1px 0px rgba(255,255,255,0.8); /* Flipped shadow for dark text */
+    margin: 30px 0 15px 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.lead-text {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--accent-color);
+    margin-bottom: 15px;
+}
+
+.highlight-text {
+    font-weight: 700;
+    color: var(--accent-color);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.pillar-list {
+    list-style: none; 
+    padding-left: 0;
+    margin: 0 0 30px 0;
+}
+
+.pillar-list li {
+    position: relative;
+    padding-left: 30px; 
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.pillar-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 6px;
+    width: 12px;
+    height: 12px;
+    background: linear-gradient(135deg, var(--unicorn-pink), var(--unicorn-mint));
+    transform: rotate(45deg); 
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.pillar-name {
+    font-weight: 700;
+    color: var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid var(--unicorn-mint); 
+    margin-right: 5px;
+}
+
+/* --- PAGINATION CONTROLS --- */
+.pagination-glass {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 10px;
+    margin-bottom: 30px;
+}
+
+.page-btn {
+    background: var(--glass-bg);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid var(--glass-border);
+    color: var(--text-primary);
+    font-family: 'Commissioner', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    width: 40px; 
+    height: 40px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.page-btn:hover {
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+}
+
+.page-btn.active {
+    background: linear-gradient(135deg, var(--unicorn-pink), var(--unicorn-lavender));
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    color: var(--text-primary);
+    box-shadow: 0 4px 15px rgba(226, 187, 253, 0.5);
+}
+
+/* --- MS-DOS BOOT SEQUENCE --- */
+.dos-body {
+    background-color: #fcfcfc; /* Killed the black */
+}
+
+.dos-container {
+    background: #fcfcfc !important; 
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.dos-container::after {
+    display: none !important; 
+}
+
+.dos-content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 50px; 
+}
+
+.dos-title {
+    font-family: 'Courier New', Courier, monospace;
+    color: var(--accent-color); /* Soft pastel pink */
+    font-size: 2.2rem; 
+    text-align: center;
+    margin: 0;
+    line-height: 1.4;
+    text-transform: uppercase;
+    text-shadow: 0 0 6px rgba(255, 156, 233, 0.6); 
+}
+
+.dos-cursor {
+    animation: blinkCursor 1s step-end infinite;
+}
+
+@keyframes blinkCursor {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+.dos-loading-area {
+    width: 85%;
+    height: 35px;
+    border: 3px solid var(--accent-color);
+    padding: 4px;
+    box-sizing: border-box;
+    position: relative;
+    box-shadow: 0 0 6px rgba(255, 156, 233, 0.4);
+}
+
+.dos-progress-bar {
+    height: 100%;
+    background-color: var(--accent-color);
+    width: 0%;
+    box-shadow: 0 0 10px rgba(156, 255, 214, 0.8);
+    animation: loadBars 5.5s steps(15, end) forwards;
+    animation-delay: 1s; 
+}
+
+@keyframes loadBars {
+    0% { width: 0%; }
+    100% { width: 100%; }
+}
+
+.dos-subtext {
+    font-family: 'Courier New', Courier, monospace;
+    color: var(--accent-color);
+    font-size: 1.4rem;
+    font-weight: bold;
+    margin: 0;
+    text-align: center;
+    text-shadow: 0 0 6px rgba(255, 156, 233, 0.6);
+    opacity: 0; 
+    animation: fadeInDos 0.1s forwards;
+    animation-delay: 4.2s; 
+}
+
+@keyframes fadeInDos {
+    to { opacity: 1; }
+}
+
+/* --- BLOG ARCHIVE UI --- */
+.blog-archive-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 25px 20px;
+    margin-bottom: 20px;
+    text-decoration: none; 
+    border-left: 4px solid var(--unicorn-mint);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.blog-archive-card:hover {
+    border-left: 4px solid var(--unicorn-pink);
+    background: rgba(255, 255, 255, 0.8); 
+    transform: translateY(-2px); 
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+}
+
+.archive-title {
+    font-family: 'Bowlby One', cursive;
+    font-size: 1.4rem;
+    color: var(--text-primary);
+    margin: 0 0 10px 0;
+    line-height: 1.2;
+}
+
+.archive-date {
+    font-family: 'Commissioner', sans-serif;
+    font-size: 0.9rem;
+    color: var(--accent-color);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin: 0;
+}
+
+/* --- BLOG DISPATCH VISUAL --- */
+.dispatch-visual-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 25px; 
+    padding: 0 10px; 
+    box-sizing: border-box;
+}
+
+.dispatch-visual {
+    max-width: 100%;
+    height: auto;
+    border-radius: 12px; 
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 8px 25px rgba(226, 187, 253, 0.3); 
+    opacity: 0.85; 
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    object-fit: cover; 
+}
+
+.dispatch-visual:hover {
+    opacity: 1; 
+    transform: translateY(-2px); 
+}
+
+/* --- YOUTUBE DISPATCH BUTTON --- */
+.youtube-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: var(--glass-bg); /* Swapped red for glass to match theme */
+    color: var(--text-primary);
+    font-family: 'Commissioner', sans-serif;
+    font-weight: bold;
+    text-decoration: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+    border: 1px solid var(--unicorn-pink);
+    box-shadow: 0 4px 15px rgba(255, 183, 178, 0.2);
+    transition: all 0.3s ease;
+}
+
+.youtube-btn:hover {
+    background: var(--unicorn-pink); 
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 183, 178, 0.5);
+    color: #2d2d2d; 
+}
+
+.youtube-btn svg {
+    transition: transform 0.3s ease;
+}
+
+.youtube-btn:hover svg {
+    transform: scale(1.1); 
+}
+
+/* --- ADVOCACY LOGO WRAPPER --- */
+.advocacy-image-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 280px; 
+    aspect-ratio: 1 / 1; 
+    margin: 0 auto 30px auto; 
+    border-radius: 20px; 
+    overflow: hidden; 
+    background: var(--glass-bg);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 8px 32px rgba(181, 234, 215, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px; 
+    box-sizing: border-box;
+}
+
+.advocacy-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; 
+    opacity: 0.95; 
+    display: block;
+    filter: drop-shadow(0 4px 10px rgba(0,0,0,0.1)); 
+}
+
+.advocacy-image-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%; 
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(to right, 
+        rgba(255, 255, 255, 0) 0%, 
+        rgba(255, 255, 255, 0.5) 50%, 
+        rgba(255, 255, 255, 0) 100%);
+    transform: skewX(-25deg); 
+    animation: shimmerSweep 7s infinite; 
+    pointer-events: none; 
+}
+
+/* --- THE VAULT BENTO GRID --- */
+.bento-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 15px; 
+    margin-top: 25px;
+    padding-bottom: 20px;
+}
+
+.bento-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    aspect-ratio: 1 / 1; 
+    text-decoration: none; 
+    padding: 15px;
+    border-radius: 20px; 
+    transition: all 0.3s ease;
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.bento-box:hover {
+    background: rgba(255, 255, 255, 0.8);
+    border-color: var(--accent-color);
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 8px 25px rgba(255, 156, 233, 0.3); 
+}
+
+.bento-title {
+    font-family: 'Bowlby One', cursive;
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    margin: 0;
+    line-height: 1.2;
+    text-transform: uppercase;
+    transition: color 0.3s ease;
+}
+
+.bento-box:hover .bento-title {
+    color: var(--accent-color);
+}
+
+.bento-subtitle {
+    font-family: 'Commissioner', sans-serif;
+    color: #666; /* Darkened for readability */
+    font-size: 0.8rem;
+    margin-top: 10px;
+    font-weight: 700;
+}
