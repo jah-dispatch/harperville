@@ -275,6 +275,7 @@
         </div>
     </div>
 
+    <!-- Theme Modal -->
     <div class="modal-overlay" id="themeModal">
         <div class="theme-modal">
             <div class="modal-header">
@@ -333,6 +334,22 @@
                 <input type="url" id="link-url-input" placeholder="https://www.example.com">
             </div>
             <button class="btn btn-green" onclick="applyLink()" style="justify-content: center;">Apply Hyperlink</button>
+        </div>
+    </div>
+
+    <!-- Beta Disclaimer Modal -->
+    <div class="modal-overlay" id="betaModal">
+        <div class="theme-modal" style="max-width: 550px;">
+            <div class="modal-header" style="justify-content: center; flex-direction: column; gap: 5px; border-bottom: none; padding-bottom: 0;">
+                <div class="logo" style="font-size: 42px;">INK<span>Z</span></div>
+                <h2 style="font-size: 14px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px;">Beta Build Notice</h2>
+            </div>
+            <div style="font-size: 15px; line-height: 1.6; color: #ccc; display: flex; flex-direction: column; gap: 15px; text-align: justify; padding: 10px 0;">
+                <p>This software build is a <strong>beta-test model</strong> and certain functionalities may not operate as expected. Please be sure to report them to the software administrator at <strong>Unicorn Heart Brand Management</strong>.</p>
+                <p>I understand that by using this software, I am aware the content I provide is <strong>not stored on any server-sided backend, nor a database</strong>. The <code>.inkz</code> file I generate with this software will be saved locally to my machine and I am responsible for the maintenance of said file.</p>
+                <p style="font-size: 13px; color: #888; text-align: center; margin-top: 10px; border-top: 1px dashed var(--border); padding-top: 15px;">Served securely via SSL encrypted server at Harperville.me</p>
+            </div>
+            <button class="btn btn-pink" onclick="toggleModal('betaModal')" style="justify-content: center; font-size: 16px; padding: 12px; margin-top: 5px;">I Understand & Agree</button>
         </div>
     </div>
 
@@ -961,6 +978,13 @@
                 btn.disabled = false;
             }
         }
+
+        // Show beta modal on load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                toggleModal('betaModal');
+            }, 500);
+        });
 
         // Init
         renderSidebar();
