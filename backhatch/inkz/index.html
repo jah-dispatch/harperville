@@ -856,23 +856,23 @@
 
             let insertedHTML = "";
             
-            // Generate immersive blocks right into the WYSIWYG editor
+            // Add contenteditable="false" to wrappers to prevent cursor trapping, and append a hard space paragraph to click into
             if (type === 'sent') {
-                insertedHTML = `<div class="text-msg-container">
+                insertedHTML = `<div class="text-msg-container" contenteditable="false">
                                     <div class="msg-time" contenteditable="true"></div>
                                     <div class="msg-sender" contenteditable="true"></div>
                                     <div class="msg-bubble msg-sent" contenteditable="true">${selectedText}</div>
-                                </div><p><br></p>`;
+                                </div><p>&nbsp;</p>`;
             }
             if (type === 'received') {
-                insertedHTML = `<div class="text-msg-container">
+                insertedHTML = `<div class="text-msg-container" contenteditable="false">
                                     <div class="msg-time" contenteditable="true"></div>
                                     <div class="msg-sender" contenteditable="true"></div>
                                     <div class="msg-bubble msg-received" contenteditable="true">${selectedText}</div>
-                                </div><p><br></p>`;
+                                </div><p>&nbsp;</p>`;
             }
-            if (type === 'date') insertedHTML = `<div class="date-header" contenteditable="true">${selectedText}</div><p><br></p>`;
-            if (type === 'handwriting') insertedHTML = `<span class="handwriting-text">${selectedText}</span>`;
+            if (type === 'date') insertedHTML = `<div class="date-header" contenteditable="true">${selectedText}</div><p>&nbsp;</p>`;
+            if (type === 'handwriting') insertedHTML = `<span class="handwriting-text" contenteditable="true">${selectedText}</span>&nbsp;`;
             
             document.execCommand('insertHTML', false, insertedHTML);
             parseEditorToPreview(); 
@@ -906,7 +906,8 @@
         function applySceneBreak(symbol) {
             toggleModal('sceneBreakModal');
             restoreSelection();
-            const html = `<div class="scene-break" contenteditable="false">${symbol}</div><p><br></p>`;
+            // Force an empty paragraph after the break to escape the block
+            const html = `<div class="scene-break" contenteditable="false">${symbol}</div><p>&nbsp;</p>`;
             document.execCommand('insertHTML', false, html);
             parseEditorToPreview();
         }
@@ -922,7 +923,8 @@
             const reader = new FileReader();
             reader.onload = function(e) {
                 restoreSelection();
-                const html = `<p style="text-align:center;"><img src="${e.target.result}" class="inline-image"/></p>`;
+                // Force an empty paragraph after the image
+                const html = `<p style="text-align:center;" contenteditable="false"><img src="${e.target.result}" class="inline-image"/></p><p>&nbsp;</p>`;
                 document.execCommand('insertHTML', false, html);
                 parseEditorToPreview();
                 document.getElementById('inline-image-upload').value = '';
@@ -960,7 +962,8 @@
                         }
                     } else if (node.nodeName === 'P' || node.nodeName === 'DIV') {
                         let innerHtml = node.innerHTML;
-                        if (innerHtml.trim() === '' && node.querySelectorAll('img').length === 0) return; 
+                        // Safely skip empty paragraphs that were just used to escape blocks
+                        if (innerHtml.replace(/&nbsp;/g, '').trim() === '' && node.querySelectorAll('img').length === 0) return; 
 
                         let classNames = 'epub-text';
                         
