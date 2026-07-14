@@ -52,6 +52,13 @@
         .btn-install { background-color: #007AFF; color: #FFF; border: none; display: none; }
         .btn-install:hover { background-color: #0056b3; }
 
+        .sub-toolbar { height: 45px; background-color: var(--bg-dark); border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 24px; gap: 8px; flex-shrink: 0; overflow-x: auto; }
+        .sub-toolbar::-webkit-scrollbar { display: none; }
+        .sub-btn { background-color: transparent; color: var(--text-main); border: 1px solid var(--border); padding: 6px 10px; border-radius: 6px; font-size: 13px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+        .sub-btn:hover { background-color: var(--bg-accent); border-color: var(--text-muted); }
+        .sub-btn.icon-only { font-weight: bold; font-family: serif; font-size: 14px; padding: 6px 12px; }
+        .sub-divider { width: 1px; height: 20px; background-color: var(--border); margin: 0 5px; }
+
         .workspace { display: flex; flex: 1; overflow: hidden; min-height: 0; }
         .sidebar { width: 260px; background-color: var(--bg-panel); border-right: 1px solid var(--border); display: flex; flex-direction: column; flex-shrink: 0; overflow: hidden; }
         .sidebar-section { padding: 15px 20px; border-bottom: 1px solid var(--border); }
@@ -78,7 +85,6 @@
         .editor-content { width: 100%; height: 100%; display: none; flex-direction: column; }
         .editor-content.active { display: flex; }
         
-        /* The New WYSIWYG Sticky Toolbar */
         .wysiwyg-toolbar { background-color: var(--bg-panel); border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 10px 20px; gap: 8px; flex-shrink: 0; flex-wrap: wrap; z-index: 10; }
         .wysiwyg-btn { background-color: transparent; color: var(--text-main); border: 1px solid var(--border); padding: 6px 10px; border-radius: 6px; font-size: 13px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px; white-space: nowrap; }
         .wysiwyg-btn:hover { background-color: var(--bg-accent); border-color: var(--brand-pink); }
@@ -112,7 +118,7 @@
         .editor-body .date-header { font-family: var(--book-font-header); font-size: 18px; font-weight: bold; text-align: left; margin-left: -15px; margin-top: 30px; margin-bottom: 15px; color: var(--brand-pink); border-bottom: 1px dashed #444; padding-bottom: 5px; outline: none;}
         .editor-body .scene-break { text-align: center; margin: 30px 0; font-size: 24px; color: #888; clear: both;}
         
-        .editor-body .handwriting-text { font-family: var(--book-font-handwriting); font-size: 20px; color: #aaa; margin: 15px 0; display: block; line-height: 1.4; padding: 10px 20px; text-indent: 0; }
+        .editor-body .handwriting-text { font-family: var(--book-font-handwriting); font-size: 18px; color: #aaa; margin: 15px 0; display: block; line-height: 1.4; padding: 10px 20px; text-indent: 0; }
         .editor-body .inline-image { max-width: 100%; height: auto; display: block; margin: 20px auto; border-radius: 4px; }
 
         .form-group { margin-bottom: 25px; }
@@ -138,8 +144,11 @@
         .epub-chapter-subtitle { text-align: center; font-size: 14px; color: #666; margin-bottom: 30px; letter-spacing: 2px; text-transform: uppercase; font-family: var(--book-font-subtitle); transition: all 0.3s ease; }
         .epub-text { font-size: 16px; line-height: 1.6; text-align: justify; margin-bottom: 0; text-indent: 0.25in; }
         .epub-text.first-paragraph { text-indent: 0; margin-top: 10px; }
-        .epub-text.chapter-first-paragraph::first-letter { float: left; font-size: 3.8em; line-height: 0.8; margin-right: 0.1em; margin-top: 0.05em; font-family: var(--book-font-header); color: #000; font-style: normal !important; }
-        .epub-text.hook-accent::first-line { font-style: italic; font-weight: 600; letter-spacing: 0.5px; color: #333; }
+        
+        /* Physical Dropcap and Hook styling replacing CSS pseudo elements */
+        .dropcap { float: left; font-size: 3.8em; line-height: 0.8; margin-right: 0.1em; margin-top: 0.05em; font-family: var(--book-font-header); color: #000; font-weight: bold; }
+        .hook-accent { font-style: italic; font-weight: 600; letter-spacing: 0.5px; color: #333; }
+        
         .epub-text.handwriting-wrapper { text-indent: 0 !important; }
         
         .scene-break { text-align: center; margin: 30px 0; font-size: 24px; color: #555; clear: both;}
@@ -153,7 +162,7 @@
         
         .date-header { font-family: var(--book-font-header); font-size: 18px; font-weight: bold; text-align: left; margin-left: -15px; margin-top: 30px; margin-bottom: 15px; color: #111; border-bottom: 1px solid #ccc; padding-bottom: 5px; }
         
-        .handwriting-text { font-family: var(--book-font-handwriting); font-size: 20px; color: #444; margin: 15px 0; display: block; line-height: 1.4; padding: 10px 20px; text-indent: 0; }
+        .handwriting-text { font-family: var(--book-font-handwriting); font-size: 18px; color: #444; margin: 15px 0; display: block; line-height: 1.4; padding: 10px 20px; text-indent: 0; }
         .inline-image { max-width: 100%; height: auto; display: block; margin: 20px auto; border-radius: 4px; }
         .epub-text a { color: #007AFF; text-decoration: underline; }
 
@@ -211,7 +220,6 @@
     </div>
 
     <div class="workspace">
-        
         <!-- Sidebar / Binder -->
         <div class="sidebar">
             <div class="sidebar-section">
@@ -236,7 +244,7 @@
             <!-- VIEW 1: MANUSCRIPT EDITOR (Rich Text WYSIWYG) -->
             <div class="editor-content active" id="view-manuscript">
                 
-                <!-- The New Embedded WYSIWYG Toolbar -->
+                <!-- The Embedded WYSIWYG Toolbar -->
                 <div class="wysiwyg-toolbar">
                     <button class="wysiwyg-btn icon-only" onclick="document.execCommand('bold', false, null)" title="Bold">B</button>
                     <button class="wysiwyg-btn icon-only" onclick="document.execCommand('italic', false, null)" title="Italic" style="font-style: italic;">I</button>
@@ -471,7 +479,6 @@
             modal.classList.toggle('active');
         }
         
-        // FIX: Tablet preview toggle dynamic sizing
         function togglePreviewDevice(device) {
             document.getElementById('btn-phone').classList.remove('active');
             document.getElementById('btn-tablet').classList.remove('active');
@@ -479,7 +486,6 @@
             
             if(device === 'tablet') {
                 document.getElementById('btn-tablet').classList.add('active');
-                // Standard iPad Miniish dimensions fitting gracefully on a laptop screen
                 frame.style.width = '600px';
                 frame.style.height = '800px';
                 frame.style.borderRadius = '16px';
@@ -536,6 +542,7 @@
         let currentActiveChapterIndex = 0;
         let draggedChapterIndex = -1;
 
+        // FIXED: Explicitly sync editor contents before building the save file
         function saveProject() {
             if (currentView === 'chapter') saveCurrentChapterEdits();
             updateMetadata();
@@ -842,7 +849,6 @@
             }
         });
 
-        // WYSIWYG Formatting Builder
         function formatSelection(type) {
             if (currentView !== 'chapter') return;
             const editor = document.getElementById('main-editor');
@@ -856,13 +862,13 @@
 
             let insertedHTML = "";
             
-            // Add contenteditable="false" to wrappers to prevent cursor trapping, and append a hard space paragraph to click into
             if (type === 'sent') {
                 insertedHTML = `<div class="text-msg-container" contenteditable="false">
                                     <div class="msg-time" contenteditable="true"></div>
                                     <div class="msg-sender" contenteditable="true"></div>
                                     <div class="msg-bubble msg-sent" contenteditable="true">${selectedText}</div>
                                 </div><p>&nbsp;</p>`;
+                document.execCommand('insertHTML', false, insertedHTML);
             }
             if (type === 'received') {
                 insertedHTML = `<div class="text-msg-container" contenteditable="false">
@@ -870,11 +876,23 @@
                                     <div class="msg-sender" contenteditable="true"></div>
                                     <div class="msg-bubble msg-received" contenteditable="true">${selectedText}</div>
                                 </div><p>&nbsp;</p>`;
+                document.execCommand('insertHTML', false, insertedHTML);
             }
-            if (type === 'date') insertedHTML = `<div class="date-header" contenteditable="true">${selectedText}</div><p>&nbsp;</p>`;
-            if (type === 'handwriting') insertedHTML = `<span class="handwriting-text" contenteditable="true">${selectedText}</span>&nbsp;`;
+            if (type === 'date') {
+                insertedHTML = `<div class="date-header" contenteditable="true">${selectedText}</div><p>&nbsp;</p>`;
+                document.execCommand('insertHTML', false, insertedHTML);
+            }
+            if (type === 'handwriting') {
+                // FIXED: Extracts multi-paragraph highlighted selections safely without wrapping them all into one massive paragraph.
+                const frag = selection.getRangeAt(0).cloneContents();
+                const tempDiv = document.createElement('div');
+                tempDiv.appendChild(frag);
+                
+                let contentHTML = tempDiv.innerHTML || selectedText || "Type handwriting here...";
+                insertedHTML = `<div class="handwriting-text" contenteditable="true">${contentHTML}</div><p>&nbsp;</p>`;
+                document.execCommand('insertHTML', false, insertedHTML);
+            }
             
-            document.execCommand('insertHTML', false, insertedHTML);
             parseEditorToPreview(); 
         }
 
@@ -932,6 +950,41 @@
             reader.readAsDataURL(file);
         }
 
+        // FIXED: Physically injects Drop Cap and Hook span tags to bypass Apple/Kindle CSS restrictions
+        function applyPhysicalDropCapAndHook(htmlString) {
+            const temp = document.createElement('div');
+            temp.innerHTML = htmlString;
+            
+            const walker = document.createTreeWalker(temp, NodeFilter.SHOW_TEXT, null, false);
+            const firstTextNode = walker.nextNode();
+            
+            if (firstTextNode && firstTextNode.nodeValue.trim().length > 0) {
+                let text = firstTextNode.nodeValue.replace(/^\s+/, ''); 
+                let firstLetter = text.charAt(0);
+                let restOfText = text.substring(1);
+                
+                let words = restOfText.split(/\s+/);
+                let hookWords = words.slice(0, 4).join(' ');
+                let remainingWords = words.slice(4).join(' ');
+                
+                let dropCapSpan = document.createElement('span');
+                dropCapSpan.className = 'dropcap';
+                dropCapSpan.innerText = firstLetter;
+                
+                let hookSpan = document.createElement('span');
+                hookSpan.className = 'hook-accent';
+                hookSpan.innerText = hookWords + (words.length > 4 ? ' ' : '');
+                
+                const parent = firstTextNode.parentNode;
+                parent.insertBefore(dropCapSpan, firstTextNode);
+                parent.insertBefore(hookSpan, firstTextNode);
+                
+                firstTextNode.nodeValue = remainingWords;
+            }
+            return temp.innerHTML;
+        }
+
+        // WYSIWYG Parsing Engine (Editor -> Preview & Compile)
         function generateHTMLForChapter(titleText, subtitleText, editorNodes) {
             let htmlOutput = '';
 
@@ -963,22 +1016,24 @@
                     } else if (node.nodeName === 'P' || node.nodeName === 'DIV') {
                         let innerHtml = node.innerHTML;
                         // Safely skip empty paragraphs that were just used to escape blocks
-                        if (innerHtml.replace(/&nbsp;/g, '').trim() === '' && node.querySelectorAll('img').length === 0) return; 
+                        if (innerHtml.replace(/&nbsp;/g, '').replace(/<br>/g, '').trim() === '' && node.querySelectorAll('img').length === 0) return; 
 
                         let classNames = 'epub-text';
                         
-                        // Fix handwriting indent logic
-                        let isHandwriting = node.querySelector('.handwriting-text') !== null && node.textContent.trim() === node.querySelector('.handwriting-text').textContent.trim();
+                        let isHandwriting = node.classList.contains('handwriting-text') || (node.querySelector('.handwriting-text') !== null && node.textContent.trim() === node.querySelector('.handwriting-text').textContent.trim());
+                        
                         if (isHandwriting) {
                             classNames += ' handwriting-wrapper';
                             isFirstParagraph = false;
                             afterSceneBreak = false;
                         } else if (isFirstParagraph) {
-                            classNames += ' first-paragraph chapter-first-paragraph hook-accent';
+                            classNames += ' first-paragraph chapter-first-paragraph';
+                            innerHtml = applyPhysicalDropCapAndHook(innerHtml);
                             isFirstParagraph = false;
                             afterSceneBreak = false;
                         } else if (afterSceneBreak) {
                             classNames += ' first-paragraph';
+                            innerHtml = applyPhysicalDropCapAndHook(innerHtml);
                             afterSceneBreak = false;
                         }
                         htmlOutput += `<div class="${classNames}">${innerHtml}</div>`;
@@ -987,13 +1042,16 @@
                 else if (node.nodeType === 3 && node.textContent.trim() !== '') {
                      let classNames = 'epub-text';
                      if (isFirstParagraph) {
-                        classNames += ' first-paragraph chapter-first-paragraph hook-accent';
+                        classNames += ' first-paragraph chapter-first-paragraph';
+                        htmlOutput += `<div class="${classNames}">${applyPhysicalDropCapAndHook(node.textContent)}</div>`;
                         isFirstParagraph = false;
                      } else if (afterSceneBreak) {
                         classNames += ' first-paragraph';
+                        htmlOutput += `<div class="${classNames}">${applyPhysicalDropCapAndHook(node.textContent)}</div>`;
                         afterSceneBreak = false;
+                     } else {
+                         htmlOutput += `<div class="${classNames}">${node.textContent}</div>`;
                      }
-                     htmlOutput += `<div class="${classNames}">${node.textContent}</div>`;
                 }
             });
             
@@ -1004,8 +1062,15 @@
             if (currentView !== 'chapter') return;
             
             const titleElement = document.getElementById('main-editor-title');
+            const subtitleElement = document.getElementById('main-editor-subtitle');
+            const editorElement = document.getElementById('main-editor');
+            
+            // FIXED: Synchronize instantly on every keystroke so saving is perfect
             if(bookChapters[currentActiveChapterIndex]) {
                  bookChapters[currentActiveChapterIndex].title = titleElement.innerText;
+                 bookChapters[currentActiveChapterIndex].subtitle = subtitleElement.innerText;
+                 bookChapters[currentActiveChapterIndex].content = editorElement.innerHTML;
+                 
                  const activeTab = document.querySelector('.chapter-item.active .chapter-title-text');
                  if(activeTab) {
                      let displayTitle = titleElement.innerText || "Untitled Chapter";
@@ -1014,8 +1079,8 @@
             }
 
             const titleText = titleElement.innerText;
-            const subtitleText = document.getElementById('main-editor-subtitle').innerText;
-            const editorNodes = document.getElementById('main-editor').childNodes;
+            const subtitleText = subtitleElement.innerText;
+            const editorNodes = editorElement.childNodes;
             
             const htmlOutput = generateHTMLForChapter(titleText, subtitleText, editorNodes);
             document.getElementById('live-preview-frame').innerHTML = htmlOutput;
@@ -1040,28 +1105,33 @@
 
             const oebps = zip.folder("OEBPS");
             
-            // Expanded CSS with new font vars and message styling
+            // FIXED: Master Stylesheet. Injecting Google Fonts API for eReaders and enforcing !important rules for dark mode colors
             const cssContent = `
+                @import url('https://fonts.googleapis.com/css2?family=Aldrich&family=Bubblegum+Sans&family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=Ephesis&family=JetBrains+Mono:wght@400;700&family=Patrick+Hand&family=Cinzel:wght@400;700&family=Lora:ital,wght@0,400;0,600;1,400&family=Merriweather:ital,wght@0,400;0,700;1,400&family=Montserrat:ital,wght@0,400;0,600;1,400&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Oswald:wght@400;600&display=swap');
+                
                 body { font-family: ${currentThemeFonts.body}; color: #000; background: #fff; margin: 0; padding: 5%; }
                 .epub-chapter-title { text-align: center; font-size: 2.2em; margin-bottom: 0.2em; margin-top: 1.5em; font-family: ${currentThemeFonts.header}; font-weight: normal; }
                 .epub-chapter-subtitle { text-align: center; font-size: 0.9em; color: #666; margin-bottom: 2em; letter-spacing: 2px; text-transform: uppercase; font-family: ${currentThemeFonts.subtitle}; }
                 .epub-text { font-size: 1em; line-height: 1.6; text-align: justify; margin: 0; text-indent: 1.5em; }
                 .epub-text.first-paragraph { text-indent: 0; margin-top: 0.5em; }
-                .epub-text.chapter-first-paragraph::first-letter { float: left; font-size: 3.5em; line-height: 0.8; margin-right: 0.1em; margin-top: 0.05em; font-family: ${currentThemeFonts.header}; font-style: normal; }
-                .epub-text.hook-accent::first-line { font-style: italic; font-weight: bold; }
-                .epub-text.handwriting-wrapper { text-indent: 0 !important; }
+                
+                .dropcap { float: left; font-size: 3.5em; line-height: 0.8; margin-right: 0.1em; margin-top: 0.05em; font-family: ${currentThemeFonts.header}; font-weight: bold; color: #000; }
+                .hook-accent { font-style: italic; font-weight: bold; color: #333; }
+                
+                .handwriting-text, .epub-text.handwriting-wrapper { text-indent: 0 !important; font-family: 'Patrick Hand', cursive !important; font-size: 1.1em !important; color: #333 !important; line-height: 1.4 !important; margin: 1em 0 !important; display: block !important;}
+                
                 .scene-break { text-align: center; margin: 2em 0; font-size: 1.5em; color: #555; clear: both;}
                 .date-header { font-family: ${currentThemeFonts.header}; font-size: 1.2em; font-weight: bold; margin-bottom: 1em; margin-top: 1.5em; border-bottom: 1px solid #ccc; padding-bottom: 0.2em; }
                 
-                .text-msg-container { margin: 1em 0; padding: 0 5%; display: block; overflow: hidden;}
+                .text-msg-container { margin: 1em 0; padding: 0 5%; display: block; overflow: hidden; clear: both; width: 100%;}
                 .msg-time { text-align: center; font-size: 0.8em; color: #888; margin: 1.5em 0 0.2em 0; font-family: sans-serif; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; clear: both;}
                 .msg-sender { text-align: center; font-size: 0.8em; color: #666; margin-bottom: 0.5em; font-weight: bold; font-family: sans-serif; }
-                .msg-bubble { max-width: 75%; padding: 0.8em 1em; border-radius: 20px; font-size: 0.95em; line-height: 1.4; font-family: sans-serif;}
-                .msg-received { background-color: #E5E5EA; color: #000; float: left; border-bottom-left-radius: 5px; }
-                .msg-sent { background-color: #007AFF; color: #FFF; float: right; border-bottom-right-radius: 5px; }
+                
+                .msg-bubble { max-width: 75%; padding: 0.8em 1em; border-radius: 20px; font-size: 0.95em; line-height: 1.4; font-family: sans-serif; border: 1px solid rgba(0,0,0,0.1); }
+                .msg-received { background-color: #E5E5EA !important; color: #000 !important; float: left; border-bottom-left-radius: 5px; }
+                .msg-sent { background-color: #007AFF !important; color: #FFF !important; float: right; border-bottom-right-radius: 5px; }
                 .clear { clear: both; }
                 
-                .handwriting-text { font-family: 'Patrick Hand', cursive; font-size: 1.4em; color: #333; margin: 1em 0; display: block; line-height: 1.4; text-indent: 0; }
                 .inline-image { max-width: 100%; height: auto; display: block; margin: 1.5em auto; border-radius: 4px; }
                 a { color: #007AFF; text-decoration: underline; }
             `;
