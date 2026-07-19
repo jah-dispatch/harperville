@@ -238,3 +238,15 @@
     color: var(--text-primary) !important; 
     box-shadow: 0 4px 10px rgba(255, 243, 176, 0.6) !important;
 }
+
+/* =========================================================================
+   --- RESPONSIVE LAYOUT (DESKTOP MODE) ---
+   ========================================================================= */
+@media (min-width: 1024px) {
+    /* Auto-formats single column lists into double column arrays for large screens */
+    .single-col-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        align-items: stretch; /* Forces equal height cards */
+    }
+}

@@ -31,47 +31,51 @@
             </nav>
         </header>
 
-        <!-- Main Content -->
-        <main class="content-area">
-            <h1 class="luckiest-header" style="text-align: center; font-size: 2.2rem; margin-bottom: 5px;">The Soundtrack</h1>
-            
-            <div class="glass-panel card" style="text-align: center; padding: 15px; border-left: 3px solid var(--emerald-green); margin-bottom: 25px;">
-                <p style="margin: 0; font-family: 'Bowlby One', cursive; font-size: 0.9rem; color: var(--emerald-green); letter-spacing: 0.5px;">The Life of Jack Aspen Harper</p>
-                <p style="margin: 5px 0 0 0; font-size: 0.85rem; color: #1b0101;">A sonic breakdown of the journey, the grind, and the unyielding willpower.</p>
-            </div>
+        <!-- Right Panel Wrapper for Responsive Layout -->
+        <div class="right-panel">
 
-            <!-- THE APPLE MUSIC CONTAINER -->
-            <div class="glass-panel card" style="padding: 12px; border: 1px solid rgba(255, 0, 255, 0.3); box-shadow: 0 8px 32px rgba(255, 0, 255, 0.15); border-radius: 16px; background: rgba(0,0,0,0.4);">
+            <!-- Main Content -->
+            <main class="content-area">
+                <h1 class="luckiest-header" style="text-align: center; font-size: 2.2rem; margin-bottom: 5px;">The Soundtrack</h1>
                 
-                <!-- Explicitly wrapping the iframe to guarantee clean mobile scaling inside the phone frame -->
-                <div style="border-radius: 10px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.6); line-height: 0;">
-                    <iframe allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write" 
-                            frameborder="0" 
-                            height="450" 
-                            style="width:100%; max-width:660px; overflow:hidden; border-radius:10px; opacity: 0.9; transition: opacity 0.3s ease;" 
-                            sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation" 
-                            src="https://embed.music.apple.com/us/playlist/the-life-of-jack-aspen-harper/pl.u-JPAZbdZFLrLrJb2"
-                            onmouseover="this.style.opacity='1'" 
-                            onmouseout="this.style.opacity='0.9'">
-                    </iframe>
+                <div class="glass-panel card" style="text-align: center; padding: 15px; border-left: 3px solid var(--emerald-green); margin-bottom: 25px;">
+                    <p style="margin: 0; font-family: 'Bowlby One', cursive; font-size: 0.9rem; color: var(--emerald-green); letter-spacing: 0.5px;">The Life of Jack Aspen Harper</p>
+                    <p style="margin: 5px 0 0 0; font-size: 0.85rem; color: #1b0101;">A sonic breakdown of the journey, the grind, and the unyielding willpower.</p>
                 </div>
+
+                <!-- THE APPLE MUSIC CONTAINER -->
+                <div class="glass-panel card" style="padding: 12px; border: 1px solid rgba(255, 0, 255, 0.3); box-shadow: 0 8px 32px rgba(255, 0, 255, 0.15); border-radius: 16px; background: rgba(0,0,0,0.4);">
+                    
+                    <!-- Explicitly wrapping the iframe to guarantee clean mobile scaling inside the phone frame -->
+                    <div style="border-radius: 10px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.6); line-height: 0;">
+                        <iframe allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write" 
+                                frameborder="0" 
+                                height="450" 
+                                style="width:100%; max-width:660px; overflow:hidden; border-radius:10px; opacity: 0.9; transition: opacity 0.3s ease;" 
+                                sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation" 
+                                src="https://embed.music.apple.com/us/playlist/the-life-of-jack-aspen-harper/pl.u-JPAZbdZFLrLrJb2"
+                                onmouseover="this.style.opacity='1'" 
+                                onmouseout="this.style.opacity='0.9'">
+                        </iframe>
+                    </div>
+                    
+                </div>
+
+                <p style="text-align: center; font-size: 0.8rem; color: #888; font-style: italic; margin-top: 15px;">
+                    *Queue up the tracklist, filter out the background noise, and lock into the zone.*
+                </p>
                 
-            </div>
+                <div style="height: 30px;"></div>
+            </main>
 
-            <p style="text-align: center; font-size: 0.8rem; color: #888; font-style: italic; margin-top: 15px;">
-                *Queue up the tracklist, filter out the background noise, and lock into the zone.*
-            </p>
-            
-            <div style="height: 30px;"></div>
-        </main>
+            <!-- Footer -->
+            <footer class="glass-panel main-footer">
+                <img src="../jack-aspen-harper-icon.png" alt="Jack Aspen Harper" class="footer-logo">
+                <p>&copy; 2026 Harperville Sandbox</p>
+                <p class="footer-subtext">Jack Aspen Harper</p>
+            </footer>
 
-        <!-- Footer -->
-        <footer class="glass-panel main-footer">
-            <img src="../jack-aspen-harper-icon.png" alt="Jack Aspen Harper" class="footer-logo">
-            <p>&copy; 2026 Harperville Sandbox</p>
-            <p class="footer-subtext">Jack Aspen Harper</p>
-        </footer>
-
+        </div>
     </div>
 </body>
 </html>
