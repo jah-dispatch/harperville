@@ -23,68 +23,72 @@
             </nav>
         </header>
 
-        <!-- Main Content -->
-        <main class="content-area">
-            <h1 class="luckiest-header" style="text-align: center;">Welcome to Harperville</h1>
+        <!-- Right Panel Wrapper for Responsive Layout -->
+        <div class="right-panel">
 
-            <!-- NEW: Dynamic Date & Commentary Banner -->
-            <div class="glass-panel card" style="text-align: center; padding: 15px; margin-bottom: 20px; border-left: 3px solid var(--emerald-green);">
-                <p id="dynamic-date" style="font-weight: 700; color: var(--text-primary); margin: 0 0 5px 0; letter-spacing: 0.5px;"></p>
-                <p style="margin: 0; font-size: 0.85rem; color: var(--gold-aspen); font-style: italic;">...and this space is provided to you by pure, unadulterated personal commentary.</p>
-            </div>
+            <!-- Main Content -->
+            <main class="content-area">
+                <h1 class="luckiest-header" style="text-align: center;">Welcome to Harperville</h1>
 
-            <!-- JavaScript for the Date Banner -->
-            <script>
-                const dateElement = document.getElementById('dynamic-date');
-                const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-                const currentDate = new Date().toLocaleDateString('en-US', options);
-                dateElement.textContent = `Today is: ${currentDate}`;
-            </script>
+                <!-- NEW: Dynamic Date & Commentary Banner -->
+                <div class="glass-panel card" style="text-align: center; padding: 15px; margin-bottom: 20px; border-left: 3px solid var(--emerald-green);">
+                    <p id="dynamic-date" style="font-weight: 700; color: var(--text-primary); margin: 0 0 5px 0; letter-spacing: 0.5px;"></p>
+                    <p style="margin: 0; font-size: 0.85rem; color: var(--gold-aspen); font-style: italic;">...and this space is provided to you by pure, unadulterated personal commentary.</p>
+                </div>
 
-<!-- JACK FM RADIO PORTAL -->
-            <div class="glass-panel card" style="padding: 15px; margin-bottom: 25px; border-left: 3px solid var(--gold-aspen); text-align: center;">
-                <h3 style="font-family: 'Bowlby One', cursive; margin: 0; font-size: 1rem; color: var(--text-primary); letter-spacing: 1px;">JACK FM RADIO</h3>
-                <p style="font-size: 0.9rem; margin: 8px 0 15px 0; color: #0f0101;">Music is a huge part of my life! Why not Tune-In?</p>
-                <p style="font-size: 0.9rem; margin: 8px 0 15px 0; color: #860375;">*Jack Aspen Harper is not affiliated with any radio station.*</p>
+                <!-- JavaScript for the Date Banner -->
+                <script>
+                    const dateElement = document.getElementById('dynamic-date');
+                    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                    const currentDate = new Date().toLocaleDateString('en-US', options);
+                    dateElement.textContent = `Today is: ${currentDate}`;
+                </script>
+
+    <!-- JACK FM RADIO PORTAL -->
+                <div class="glass-panel card" style="padding: 15px; margin-bottom: 25px; border-left: 3px solid var(--gold-aspen); text-align: center;">
+                    <h3 style="font-family: 'Bowlby One', cursive; margin: 0; font-size: 1rem; color: var(--text-primary); letter-spacing: 1px;">JACK FM RADIO</h3>
+                    <p style="font-size: 0.9rem; margin: 8px 0 15px 0; color: #0f0101;">Music is a huge part of my life! Why not Tune-In?</p>
+                    <p style="font-size: 0.9rem; margin: 8px 0 15px 0; color: #860375;">*Jack Aspen Harper is not affiliated with any radio station.*</p>
+                    
+                    <!-- The TuneIn Wrapper -->
+                    <div style="border-radius: 12px; overflow: hidden; border: 1px solid var(--glass-border); box-shadow: 0 4px 15px rgba(0,0,0,0.5); background: rgba(0,0,0,0.5);">
+                        <iframe src="https://tunein.com/embed/player/s320825/" style="width: 100%; height: 100px; display: block; opacity: 0.85; transition: opacity 0.3s ease;" scrolling="no" frameborder="no" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.85'"></iframe>
+                    </div>
+                </div>
+
+    <!-- FEATURED FACEBOOK BROADCAST -->
+                <div class="glass-panel card" style="padding: 15px; margin-bottom: 25px; border-left: 3px solid var(--emerald-green); text-align: center;">
+                    <h3 style="font-family: 'Bowlby One', cursive; margin: 0 0 5px 0; font-size: 1rem; color: var(--text-primary); letter-spacing: 1px;">FRESH NEWS</h3>
+                    <p style="font-size: 0.9rem; margin: 0 0 15px 0; color: #030000;">Just synced from the timeline.</p>
+                    
+                    <!-- Responsive Embed Containment Unit -->
+                    <div style="border-radius: 12px; overflow: hidden; border: 1px solid var(--glass-border); box-shadow: 0 4px 15px rgba(0,0,0,0.5); background: rgba(0,0,0,0.1); padding: 10px; display: flex; justify-content: center;">
+                        <iframe src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fjackaspenharper%2Fposts%2Fpfbid0zLUpC72vQcfFobjzSXW6AyPP8vKvArx2xB9JbCMJyDmTeBhvCavUURxiJEBjjHTtl&show_text=true&width=500" width="500" height="750" style="border:none; overflow:hidden; max-width:100%; display:block; border-radius:8px;" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+                    </div>
+                </div>
+
+                <h2>Just some quick thoughts...</h2>            
                 
-                <!-- The TuneIn Wrapper -->
-                <div style="border-radius: 12px; overflow: hidden; border: 1px solid var(--glass-border); box-shadow: 0 4px 15px rgba(0,0,0,0.5); background: rgba(0,0,0,0.5);">
-                    <iframe src="https://tunein.com/embed/player/s320825/" style="width: 100%; height: 100px; display: block; opacity: 0.85; transition: opacity 0.3s ease;" scrolling="no" frameborder="no" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.85'"></iframe>
-                </div>
-            </div>
+                <!-- JavaScript will completely build this container automatically -->
+                <div id="thought-container">
+                    <div class="glass-panel card" id="loading-state">
+                        <p style="text-align:center; color:var(--gold-aspen);">Syncing with Firestore Database...</p>
+                    </div>
+                </div> 
 
-<!-- FEATURED FACEBOOK BROADCAST -->
-            <div class="glass-panel card" style="padding: 15px; margin-bottom: 25px; border-left: 3px solid var(--emerald-green); text-align: center;">
-                <h3 style="font-family: 'Bowlby One', cursive; margin: 0 0 5px 0; font-size: 1rem; color: var(--text-primary); letter-spacing: 1px;">FRESH NEWS</h3>
-                <p style="font-size: 0.9rem; margin: 0 0 15px 0; color: #030000;">Just synced from the timeline.</p>
-                
-                <!-- Responsive Embed Containment Unit -->
-                <div style="border-radius: 12px; overflow: hidden; border: 1px solid var(--glass-border); box-shadow: 0 4px 15px rgba(0,0,0,0.5); background: rgba(0,0,0,0.1); padding: 10px; display: flex; justify-content: center;">
-                    <iframe src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fjackaspenharper%2Fposts%2Fpfbid0zLUpC72vQcfFobjzSXW6AyPP8vKvArx2xB9JbCMJyDmTeBhvCavUURxiJEBjjHTtl&show_text=true&width=500" width="500" height="750" style="border:none; overflow:hidden; max-width:100%; display:block; border-radius:8px;" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
-                </div>
-            </div>
+                <!-- Pagination buttons automatically injected here -->
+                <div id="pagination-controls" class="pagination-glass"></div>
 
-            <h2>Just some quick thoughts...</h2>            
-            
-            <!-- JavaScript will completely build this container automatically -->
-            <div id="thought-container">
-                <div class="glass-panel card" id="loading-state">
-                    <p style="text-align:center; color:var(--gold-aspen);">Syncing with Firestore Database...</p>
-                </div>
-            </div> 
+            </main>
 
-            <!-- Pagination buttons automatically injected here -->
-            <div id="pagination-controls" class="pagination-glass"></div>
+            <!-- Footer -->
+            <footer class="glass-panel main-footer">
+                <img src="jack-aspen-harper-icon.png" alt="Jack Aspen Harper" class="footer-logo">
+                <p>&copy; 2026 Harperville Sandbox</p>
+                <p class="footer-subtext">Jack Aspen Harper</p>
+            </footer>
 
-        </main>
-
-        <!-- Footer -->
-        <footer class="glass-panel main-footer">
-            <img src="jack-aspen-harper-icon.png" alt="Jack Aspen Harper" class="footer-logo">
-            <p>&copy; 2026 Harperville Sandbox</p>
-            <p class="footer-subtext">Jack Aspen Harper</p>
-        </footer>
-
+        </div>
     </div>
 
     <!-- DYNAMIC FIREBASE STREAMING ENGINE -->

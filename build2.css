@@ -74,6 +74,15 @@ body {
     pointer-events: none;
 }
 
+/* --- RIGHT PANEL WRAPPER (For Flexbox Layouts) --- */
+.right-panel {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    width: 100%;
+    overflow: hidden; /* Contains the scrolling content area */
+}
+
 /* --- LANDING PAGE ANIMATIONS & TEXT MASKING --- */
 .landing-body {
     background-color: #fcfcfc; /* Shifted from black */
@@ -289,12 +298,6 @@ body {
     transform: skewX(-25deg); 
     animation: shimmerSweep 7s infinite; 
     pointer-events: none; 
-}
-
-@keyframes shimmerSweep {
-    0% { left: -100%; }
-    15% { left: 200%; } 
-    100% { left: 200%; } 
 }
 
 /* --- THE ARCHITECTURE CARD UI --- */
@@ -697,6 +700,7 @@ body {
     margin-top: 10px;
     font-weight: 700;
 }
+
 /* --- BLOG BODY STATIC IMAGES --- */
 .blog-body-image-wrapper {
     display: flex;
@@ -713,4 +717,63 @@ body {
     border: 1px solid var(--glass-border); /* Matches your glassmorphism theme */
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05); /* Soft shadow for depth */
     object-fit: contain;
+}
+
+
+/* =========================================================================
+   --- RESPONSIVE LAYOUT (DESKTOP MODE) ---
+   ========================================================================= */
+
+@media (min-width: 1024px) {
+    .app-container {
+        max-width: 1200px; /* Expands to a beautiful ultra-wide display */
+        max-height: 90vh; 
+        flex-direction: row; /* Triggers the left/right split */
+        border-radius: 40px; 
+    }
+
+    /* Convert MS-DOS specifically to keep it centered on Desktop */
+    .dos-container {
+        flex-direction: column; 
+    }
+
+    /* Transform Top Header into Left Sidebar */
+    .nav-header {
+        width: 250px;
+        height: 100%;
+        border-radius: 40px 0 0 40px; /* Only round outer corners */
+        border-right: 1px solid var(--glass-border);
+        border-bottom: none;
+        justify-content: flex-start; /* Push links to top */
+        padding-top: 60px;
+        box-sizing: border-box;
+    }
+
+    /* Stack links vertically */
+    .hidden-menu {
+        flex-direction: column; 
+        margin-top: 40px;
+        gap: 25px;
+    }
+
+    .hidden-menu a {
+        font-size: 1.1rem; /* Slightly larger text on big screens */
+    }
+
+    /* Content area styling */
+    .content-area {
+        padding: 50px 70px; /* Extra breathing room */
+    }
+
+    /* Align the footer at the bottom right */
+    .main-footer {
+        border-radius: 0 0 40px 0; 
+        border-top: 1px solid var(--glass-border);
+    }
+
+    /* Expand Bento Grid to utilize space */
+    .bento-grid {
+        grid-template-columns: repeat(3, 1fr); 
+        gap: 25px;
+    }
 }
