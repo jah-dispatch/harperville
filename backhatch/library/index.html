@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harperville | The Backlist Library</title>
+    <!-- Core Structural Physics (Stepping up two levels to root) -->
+    <link rel="stylesheet" href="../../build2.css">
+    <!-- Local Library & Reader Overrides -->
+    <link rel="stylesheet" href="library.css">
+    
+    <!-- ePub.js and JSZip Dependencies -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.5/jszip.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/epubjs/dist/epub.min.js"></script>
+</head>
+<body class="main-body">
+    <div class="app-container">
+        
+        <!-- Navigation Header -->
+        <header class="glass-panel nav-header">
+            <a href="../../splash.html">
+                <img src="../../jack-aspen-harper-icon.png" alt="Jack Aspen Harper" class="nav-icon">
+            </a>
+            <nav class="hidden-menu">
+                <a href="../../about.html">Jack Harper</a>
+                <a href="../../blog.html">Blog</a>
+                <a href="../../public-relations.html">PR</a>
+                <a href="../../vault/index.html">The Vault</a>
+            </nav>
+        </header>
+
+        <!-- Right Panel Wrapper for Responsive Desktop Mode -->
+        <div class="right-panel">
+
+            <main class="content-area">
+                <h1 class="luckiest-header" style="text-align: center; font-size: 2.5rem; margin-bottom: 5px;">The Library</h1>
+                
+                <div class="glass-panel card" style="text-align: center; padding: 15px; border-top: 3px solid var(--accent-color); margin-bottom: 10px;">
+                    <p style="margin: 0; font-weight: bold; color: var(--text-primary);">The Backlist Archives</p>
+                    <p style="margin: 5px 0 0 0; font-size: 0.85rem; color: #555;">Heavy, textured, and delightfully aggressive narratives. Tap a cover to begin reading.</p>
+                </div>
+
+                <!-- THE CAROUSEL -->
+                <div class="carousel-wrapper">
+                    <button class="scroll-btn scroll-left" id="scroll-left">&lt;</button>
+                    
+                    <div class="carousel-track" id="carousel-track">
+                        <!-- Book 1 -->
+                        <!-- The data-epub attribute tells the JS exactly which file to load -->
+                        <div class="book-tile" data-epub="epubs/distance-between-him.epub">
+                            <img src="covers/distance-between-him.jpg" alt="Distance Between Him">
+                        </div>
+                        
+                        <!-- Book 2 -->
+                        <div class="book-tile" data-epub="epubs/sands-of-time.epub">
+                            <img src="covers/sands-of-time.jpg" alt="Sands of Time">
+                        </div>
+
+                        <!-- Book 3 -->
+                        <div class="book-tile" data-epub="epubs/harts-inferno.epub">
+                            <img src="covers/harts-inferno.jpg" alt="Hart's Inferno">
+                        </div>
+
+                        <!-- Book 4 -->
+                        <div class="book-tile" data-epub="epubs/island-daddy.epub">
+                            <img src="covers/island-daddy.jpg" alt="Island Daddy">
+                        </div>
+
+                        <!-- Book 5 -->
+                        <div class="book-tile" data-epub="epubs/safe-keeping.epub">
+                            <img src="covers/safe-keeping.jpg" alt="Safe Keeping">
+                        </div>
+
+                        <!-- Book 6 -->
+                        <div class="book-tile" data-epub="epubs/and-a-bag-of-chips.epub">
+                            <img src="covers/and-a-bag-of-chips.jpg" alt="...and a Bag of Chips">
+                        </div>
+                    </div>
+                    
+                    <button class="scroll-btn scroll-right" id="scroll-right">&gt;</button>
+                </div>
+                
+            </main>
+
+            <!-- Footer -->
+            <footer class="glass-panel main-footer">
+                <img src="../../jack-aspen-harper-icon.png" alt="Jack Aspen Harper" class="footer-logo">
+                <p>&copy; 2026 Harperville Sandbox</p>
+                <p class="footer-subtext">Jack Aspen Harper</p>
+            </footer>
+
+        </div>
+    </div>
+
+    <!-- THE E-READER MODAL -->
+    <div class="ereader-modal" id="ereader-modal">
+        <div class="kindle-frame">
+            <button class="close-reader" id="close-reader">X</button>
+            
+            <!-- This empty div is where the ePub engine injects the book -->
+            <div id="viewer"></div>
+            
+            <div class="reader-controls">
+                <button class="reader-btn" id="prev-page">&lt; PREV</button>
+                <button class="reader-btn" id="next-page">NEXT &gt;</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- THE LOGIC ENGINE -->
+    <script>
+        // --- 1. Carousel Scroll Logic ---
+        const track = document.getElementById('carousel-track');
+        const scrollLeftBtn = document.getElementById('scroll-left');
+        const scrollRightBtn = document.getElementById('scroll-right');
+
+        // Scroll the track 200px at a time
+        scrollLeftBtn.addEventListener('click', () => {
+            track.scrollBy({ left: -200, behavior: 'smooth' });
+        });
+        scrollRightBtn.addEventListener('click', () => {
+            track.scrollBy({ left: 200, behavior: 'smooth' });
+        });
+
+        // --- 2. ePub Reader Logic ---
+        const modal = document.getElementById('ereader-modal');
+        const closeBtn = document.getElementById('close-reader');
+        const nextBtn = document.getElementById('next-page');
+        const prevBtn = document.getElementById('prev-page');
+        
+        let currentBook = null;
+        let rendition = null;
+
+        // Listen for clicks on any book tile
+        document.querySelectorAll('.book-tile').forEach(tile => {
+            tile.addEventListener('click', function() {
+                // Get the file path from the data-epub attribute
+                const epubFile = this.getAttribute('data-epub');
+                openReader(epubFile);
+            });
+        });
+
+        function openReader(fileUrl) {
+            // Show the modal
+            modal.style.display = 'flex';
+            
+            // Clear any previously opened book
+            document.getElementById("viewer").innerHTML = "";
+            
+            // Initialize the book using ePub.js
+            currentBook = ePub(fileUrl);
+            
+            // Render it to the screen. 
+            // "manager: continuous" allows smooth transitions.
+            rendition = currentBook.renderTo("viewer", {
+                width: "100%",
+                height: "100%",
+                spread: "none", // Forces single page view for mobile optimization
+                manager: "continuous",
+                flow: "paginated"
+            });
+            
+            // Apply a nice font and sizing to the injected ePub
+            rendition.themes.default({
+                "body": { 
+                    "font-family": "Georgia, serif", 
+                    "color": "#333333",
+                    "padding": "0 10px"
+                }
+            });
+
+            // Display the book
+            rendition.display();
+        }
+
+        // --- Page Turning ---
+        nextBtn.addEventListener('click', () => {
+            if(rendition) rendition.next();
+        });
+
+        prevBtn.addEventListener('click', () => {
+            if(rendition) rendition.prev();
+        });
+
+        // --- Allow Keyboard Arrows for Desktop Readers ---
+        document.addEventListener('keyup', (e) => {
+            if (modal.style.display === 'flex') {
+                if (e.key === 'ArrowRight') rendition.next();
+                if (e.key === 'ArrowLeft') rendition.prev();
+                if (e.key === 'Escape') closeReader();
+            }
+        });
+
+        // --- Close Reader ---
+        function closeReader() {
+            modal.style.display = 'none';
+            if (currentBook) {
+                currentBook.destroy(); // Free up the browser memory
+                currentBook = null;
+            }
+        }
+        
+        closeBtn.addEventListener('click', closeReader);
+    </script>
+</body>
+</html>

@@ -1,0 +1,154 @@
+/* --- CAROUSEL ARCHITECTURE --- */
+.carousel-wrapper {
+    position: relative;
+    width: 100%;
+    margin-top: 30px;
+    display: flex;
+    align-items: center;
+}
+
+.carousel-track {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding: 20px 10px;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.carousel-track::-webkit-scrollbar {
+    display: none;
+}
+
+.book-tile {
+    flex: 0 0 auto;
+    width: 160px;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    border: 2px solid var(--glass-border);
+}
+
+.book-tile:hover {
+    transform: translateY(-10px) scale(1.05);
+    box-shadow: 0 15px 30px rgba(255, 156, 233, 0.4);
+    border-color: var(--accent-color);
+}
+
+.book-tile img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.scroll-btn {
+    background: var(--glass-bg);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid var(--glass-border);
+    color: var(--text-primary);
+    font-family: 'Bowlby One', cursive;
+    font-size: 1.5rem;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    position: absolute;
+    z-index: 10;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.scroll-btn:hover {
+    color: var(--accent-color);
+    border-color: var(--accent-color);
+    background: rgba(255, 255, 255, 0.8);
+}
+
+.scroll-left { left: -15px; }
+.scroll-right { right: -15px; }
+
+/* --- E-READER MODAL (KINDLE AESTHETIC) --- */
+.ereader-modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85); /* Dark overlay */
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.kindle-frame {
+    background: #e2dfd8; /* Soft e-ink paper color */
+    width: 100%;
+    max-width: 800px;
+    height: 90vh;
+    border-radius: 20px;
+    border: 12px solid #2c2c2c; /* The Kindle bezel */
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.1), 0 20px 50px rgba(0,0,0,0.5);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* The actual reading zone */
+#viewer {
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    padding: 20px 40px;
+    box-sizing: border-box;
+}
+
+/* Reader Controls */
+.reader-controls {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background: #2c2c2c;
+    border-top: 1px solid #1a1a1a;
+}
+
+.reader-btn {
+    background: transparent;
+    border: none;
+    color: #888;
+    font-family: 'Bowlby One', cursive;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.reader-btn:hover {
+    color: #fff;
+}
+
+.close-reader {
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    background: var(--accent-color);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-family: 'Bowlby One', cursive;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    z-index: 100;
+}
