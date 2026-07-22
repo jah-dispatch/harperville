@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Harperville | The Backlist Library</title>
-    <!-- Core Structural Physics (Stepping up two levels to root) -->
+    <!-- Core Structural Physics -->
     <link rel="stylesheet" href="../../build2.css">
     <!-- Local Library & Reader Overrides -->
     <link rel="stylesheet" href="library.css">
@@ -14,6 +14,28 @@
     <script src="https://cdn.jsdelivr.net/npm/epubjs/dist/epub.min.js"></script>
 </head>
 <body class="main-body">
+
+    <!-- 18+ MATURE CONTENT WARNING MODAL -->
+    <div class="age-gate-modal" id="age-gate-modal">
+        <div class="glass-panel card age-gate-card">
+            <h2 class="luckiest-header" style="text-align: center; font-size: 2.2rem; margin-bottom: 5px; color: var(--accent-color);">WARNING</h2>
+            <p style="text-align: center; font-family: 'Bowlby One', cursive; color: var(--text-primary); margin-top: 0; margin-bottom: 15px; font-size: 1.1rem;">18+ MATURE AUDIENCES ONLY</p>
+            
+            <p style="text-align: center; font-size: 0.95rem; line-height: 1.6; margin-bottom: 10px;">
+                The backlist titles housed in this library contain explicit sexual scenes, depictions of intense lust, and mature romance. 
+            </p>
+            <p style="text-align: center; font-size: 0.95rem; line-height: 1.6; font-weight: bold; color: var(--text-primary);">
+                By proceeding, you confirm that you are at least 18 years of age and consent to viewing mature content.
+            </p>
+
+            <div class="age-btn-wrapper">
+                <button class="page-btn age-btn-accept" id="btn-accept-age">I AM 18+ (ENTER)</button>
+                <!-- Kicks them safely back out to the Vault -->
+                <a href="../../vault/index.html" class="page-btn age-btn-decline" style="text-decoration: none;">UNDER 18 (LEAVE)</a>
+            </div>
+        </div>
+    </div>
+
     <div class="app-container">
         
         <!-- Navigation Header -->
@@ -46,7 +68,6 @@
                     
                     <div class="carousel-track" id="carousel-track">
                         <!-- Book 1 -->
-                        <!-- The data-epub attribute tells the JS exactly which file to load -->
                         <div class="book-tile" data-epub="epubs/distance-between-him.epub">
                             <img src="covers/distance-between-him.jpg" alt="Distance Between Him">
                         </div>
@@ -109,12 +130,20 @@
 
     <!-- THE LOGIC ENGINE -->
     <script>
-        // --- 1. Carousel Scroll Logic ---
+        // --- 1. AGE GATE LOGIC ---
+        const ageModal = document.getElementById('age-gate-modal');
+        const acceptBtn = document.getElementById('btn-accept-age');
+
+        acceptBtn.addEventListener('click', () => {
+            // Dismisses the modal upon clicking accept
+            ageModal.style.display = 'none';
+        });
+
+        // --- 2. Carousel Scroll Logic ---
         const track = document.getElementById('carousel-track');
         const scrollLeftBtn = document.getElementById('scroll-left');
         const scrollRightBtn = document.getElementById('scroll-right');
 
-        // Scroll the track 200px at a time
         scrollLeftBtn.addEventListener('click', () => {
             track.scrollBy({ left: -200, behavior: 'smooth' });
         });
@@ -122,7 +151,7 @@
             track.scrollBy({ left: 200, behavior: 'smooth' });
         });
 
-        // --- 2. ePub Reader Logic ---
+        // --- 3. ePub Reader Logic ---
         const modal = document.getElementById('ereader-modal');
         const closeBtn = document.getElementById('close-reader');
         const nextBtn = document.getElementById('next-page');
@@ -134,33 +163,24 @@
         // Listen for clicks on any book tile
         document.querySelectorAll('.book-tile').forEach(tile => {
             tile.addEventListener('click', function() {
-                // Get the file path from the data-epub attribute
                 const epubFile = this.getAttribute('data-epub');
                 openReader(epubFile);
             });
         });
 
         function openReader(fileUrl) {
-            // Show the modal
             modal.style.display = 'flex';
-            
-            // Clear any previously opened book
             document.getElementById("viewer").innerHTML = "";
-            
-            // Initialize the book using ePub.js
             currentBook = ePub(fileUrl);
             
-            // Render it to the screen. 
-            // "manager: continuous" allows smooth transitions.
             rendition = currentBook.renderTo("viewer", {
                 width: "100%",
                 height: "100%",
-                spread: "none", // Forces single page view for mobile optimization
+                spread: "none", 
                 manager: "continuous",
                 flow: "paginated"
             });
             
-            // Apply a nice font and sizing to the injected ePub
             rendition.themes.default({
                 "body": { 
                     "font-family": "Georgia, serif", 
@@ -169,7 +189,6 @@
                 }
             });
 
-            // Display the book
             rendition.display();
         }
 
@@ -195,7 +214,7 @@
         function closeReader() {
             modal.style.display = 'none';
             if (currentBook) {
-                currentBook.destroy(); // Free up the browser memory
+                currentBook.destroy(); 
                 currentBook = null;
             }
         }

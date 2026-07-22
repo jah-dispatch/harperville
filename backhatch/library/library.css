@@ -152,3 +152,77 @@
     box-shadow: 0 4px 10px rgba(0,0,0,0.5);
     z-index: 100;
 }
+/* --- 18+ AGE GATE MODAL --- */
+.age-gate-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85); /* Deep dark overlay to hide the library behind it */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 10000; /* Absolute highest layer, above the navigation */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.age-gate-card {
+    max-width: 450px;
+    width: 100%;
+    box-shadow: 0 15px 50px rgba(255, 183, 178, 0.3);
+    animation: fadeInAgeGate 0.4s ease-out forwards;
+    border-top: 4px solid var(--unicorn-pink);
+    border-bottom: 4px solid var(--unicorn-pink);
+}
+
+@keyframes fadeInAgeGate {
+    from { opacity: 0; transform: translateY(20px) scale(0.95); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.age-btn-wrapper {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 25px;
+}
+
+.age-btn-accept {
+    background: linear-gradient(135deg, var(--unicorn-mint), var(--unicorn-lavender));
+    color: var(--text-primary);
+    border: 1px solid var(--glass-border);
+    width: 100%;
+    max-width: 180px;
+    padding: 12px 10px;
+}
+
+.age-btn-accept:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(181, 234, 215, 0.6);
+    border-color: #fff;
+}
+
+.age-btn-decline {
+    background: rgba(255, 255, 255, 0.2);
+    color: #ff4444 !important; /* High contrast red for leaving */
+    border: 1px solid rgba(255, 68, 68, 0.4);
+    width: 100%;
+    max-width: 180px;
+    padding: 12px 10px;
+    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.age-btn-decline:hover {
+    background: rgba(255, 68, 68, 0.1);
+    border-color: #ff4444;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 68, 68, 0.2);
+}
