@@ -299,13 +299,13 @@
         };
 
         // REPLACE THIS URL WITH YOUR DEPLOYED GOOGLE APPS SCRIPT WEB APP URL
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbx_Me7gq1029AxCvExUSjWMBnDQyeDwnZjvoyr4DozDJQFrApsnyiWSzEtpUVG1U4nWGQ/exec';
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbx11EIvHyQijDOY94fUs0wRVL1HkIYmqIkV5Sho3wEsxI9n3s_VH9V9Usi3xwP-ea9C/exec';
 
         fetch(scriptURL, {
             method: 'POST',
-            mode: 'no-cors', // Added to bypass strict CORS if needed on simple setups
+            mode: 'no-cors',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'text/plain;charset=utf-8'
             },
             body: JSON.stringify(payload)
         })
