@@ -388,10 +388,10 @@
     </div>
 
     <script type="module">
-        // getDoc has been moved here to completely eliminate the iPhone freezing bug
+        // Injecting arrayUnion to bypass the read-request entirely
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, onSnapshot, updateDoc, deleteDoc, doc, query, getDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, onSnapshot, updateDoc, deleteDoc, doc, query, arrayUnion } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBGkqfs3nDZ2Stczs_qzpwEwQfB5zeeX1U",
@@ -593,7 +593,7 @@
             }
         };
 
-        // Standardized sync function with proper error handling
+        // Highly optimized atomic array push - iOS Safari will no longer choke on this!
         window.addComment = async (taskId) => {
             const input = document.getElementById(`comment-input-${taskId}`);
             const text = input.value.trim();
@@ -602,14 +602,13 @@
             const taskRef = doc(db, "directives", taskId);
             
             try {
-                const snap = await getDoc(taskRef);
-                const currentComments = snap.data().comments || [];
-                currentComments.push({
-                    author: currentUser.displayName || currentUser.email.split('@')[0],
-                    text: text,
-                    timestamp: new Date().toISOString()
+                await updateDoc(taskRef, {
+                    comments: arrayUnion({
+                        author: currentUser.displayName || currentUser.email.split('@')[0],
+                        text: text,
+                        timestamp: new Date().toISOString()
+                    })
                 });
-                await updateDoc(taskRef, { comments: currentComments });
                 input.value = '';
             } catch (error) {
                 console.error("Transmission Failed: ", error);
