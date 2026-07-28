@@ -7,7 +7,7 @@
     <title>Harperville - Grace | Comm-Link</title>
     <style>
         :root {
-            /* The New Emerald & Diva Pink Aesthetic */
+            /* The Emerald & Diva Pink Aesthetic */
             --emerald-green: #00df64;
             --emerald-glow: rgba(0, 223, 100, 0.3);
             --diva-pink: #ff1694;
@@ -43,7 +43,7 @@
         }
 
         header {
-            padding: 25px 20px 15px 20px;
+            padding: 20px;
             text-align: center;
             background: rgba(10, 10, 10, 0.8);
             backdrop-filter: blur(12px);
@@ -51,10 +51,24 @@
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.7);
             flex-shrink: 0;
             z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Auto-scaling Header Logo */
+        .header-logo {
+            width: 100%;
+            max-width: 220px; /* Prevents it from getting too large on desktop */
+            height: auto;
+            max-height: 80px; /* Keeps the header from blowing out */
+            object-fit: contain;
+            margin-bottom: 12px;
+            filter: drop-shadow(0 0 8px var(--diva-glow));
         }
 
         h1 {
-            font-size: 1.6rem;
+            font-size: 1.4rem;
             text-transform: uppercase;
             letter-spacing: 3px;
             background: linear-gradient(45deg, var(--emerald-green), var(--diva-pink));
@@ -64,7 +78,6 @@
             margin-bottom: 8px;
         }
 
-        /* Live Clock */
         #live-clock {
             font-size: 0.95rem;
             color: var(--text-muted);
@@ -72,7 +85,6 @@
             letter-spacing: 1px;
         }
 
-        /* Authentication Screen */
         #auth-view {
             flex: 1;
             display: flex;
@@ -94,7 +106,6 @@
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
         }
 
-        /* Main App Screen */
         #app-view {
             display: none;
             flex-direction: column;
@@ -147,7 +158,6 @@
 
         .view.active { display: flex; }
 
-        /* Modern Form Inputs */
         .input-label {
             color: var(--diva-pink);
             font-size: 0.85rem;
@@ -209,7 +219,6 @@
             width: 100%;
         }
 
-        /* Shift Date Grouping */
         .date-group {
             background: var(--panel-bg);
             border: 1px solid var(--border);
@@ -233,7 +242,6 @@
             letter-spacing: 1px;
         }
 
-        /* Task Items */
         .task-item {
             background: rgba(0, 0, 0, 0.5);
             padding: 16px;
@@ -288,7 +296,6 @@
             margin-top: 2px;
         }
 
-        /* Comments */
         .comment-section {
             background: rgba(255, 255, 255, 0.05);
             padding: 12px;
@@ -296,13 +303,14 @@
         }
 
         .comment-display {
-            font-size: 0.9rem;
-            color: #ddd;
+            font-size: 0.95rem;
             margin-bottom: 8px;
             line-height: 1.4;
         }
 
-        .comment-author { color: var(--diva-pink); font-weight: 700; margin-right: 5px; }
+        /* High contrast split styling */
+        .comment-author { color: var(--diva-pink); font-weight: 800; margin-right: 6px; }
+        .comment-text { color: var(--emerald-green); font-weight: 500; }
 
         .comment-input-row {
             display: flex;
@@ -342,7 +350,8 @@
 <body>
 
     <header>
-        <h1>✨ Harperville Comm-Link 🐅</h1>
+        <img src="harperville-logo.png" alt="Harperville Logo" class="header-logo">
+        <h1>✨ Comm-Link 🐅</h1>
         <div id="live-clock">Syncing Temporal Data...</div>
     </header>
 
@@ -388,7 +397,6 @@
     </div>
 
     <script type="module">
-        // Injecting arrayUnion to bypass the read-request entirely
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
         import { getFirestore, collection, addDoc, onSnapshot, updateDoc, deleteDoc, doc, query, arrayUnion } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
@@ -549,12 +557,23 @@
                     header.innerHTML = `📅 ${displayDate}`;
                     dateGroup.appendChild(header);
 
+                    // Sort logic: Forces 'grocery' items to render first
+                    tasksByDate[date].sort((a, b) => {
+                        if (a.type === 'grocery' && b.type !== 'grocery') return -1;
+                        if (a.type !== 'grocery' && b.type === 'grocery') return 1;
+                        return 0;
+                    });
+
                     tasksByDate[date].forEach(task => {
                         const div = document.createElement('div');
                         div.className = `task-item ${task.type} ${task.completed ? 'completed' : ''}`;
                         
+                        // Updated Comment HTML structure for split color styling
                         let commentsHTML = task.comments.map(c => 
-                            `<div class="comment-display"><span class="comment-author">${c.author}:</span> ${c.text}</div>`
+                            `<div class="comment-display">
+                                <span class="comment-author">${c.author}:</span> 
+                                <span class="comment-text">${c.text}</span>
+                            </div>`
                         ).join('');
 
                         div.innerHTML = `
@@ -593,7 +612,6 @@
             }
         };
 
-        // Highly optimized atomic array push - iOS Safari will no longer choke on this!
         window.addComment = async (taskId) => {
             const input = document.getElementById(`comment-input-${taskId}`);
             const text = input.value.trim();
