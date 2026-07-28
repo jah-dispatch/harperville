@@ -7,16 +7,17 @@
     <title>Harperville - Grace | Comm-Link</title>
     <style>
         :root {
-            --tiger-orange: #ff7b00;
-            --tiger-glow: rgba(255, 123, 0, 0.4);
-            --unicorn-pink: #ff9eee;
-            --unicorn-purple: #b28dff;
-            --unicorn-glow: rgba(178, 141, 255, 0.4);
-            --bg-dark: #0f0f13;
-            --panel-bg: rgba(25, 25, 30, 0.6);
+            /* The New Emerald & Diva Pink Aesthetic */
+            --emerald-green: #00df64;
+            --emerald-glow: rgba(0, 223, 100, 0.3);
+            --diva-pink: #ff1694;
+            --diva-glow: rgba(255, 22, 148, 0.3);
+            
+            --bg-dark: #000000;
+            --panel-bg: rgba(18, 18, 18, 0.85);
             --text-main: #f8f8f8;
             --text-muted: #a0a0a5;
-            --border: rgba(255, 255, 255, 0.1);
+            --border: rgba(255, 255, 255, 0.15);
         }
 
         * {
@@ -35,20 +36,19 @@
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            /* Modern sleek background gradients */
             background-image: 
-                radial-gradient(circle at 80% -20%, var(--unicorn-glow), transparent 40%),
-                radial-gradient(circle at 20% 120%, var(--tiger-glow), transparent 40%);
+                radial-gradient(circle at 80% -20%, var(--diva-glow), transparent 45%),
+                radial-gradient(circle at 20% 120%, var(--emerald-glow), transparent 45%);
             background-attachment: fixed;
         }
 
         header {
             padding: 25px 20px 15px 20px;
             text-align: center;
-            background: rgba(15, 15, 19, 0.8);
+            background: rgba(10, 10, 10, 0.8);
             backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--border);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.7);
             flex-shrink: 0;
             z-index: 10;
         }
@@ -57,7 +57,7 @@
             font-size: 1.6rem;
             text-transform: uppercase;
             letter-spacing: 3px;
-            background: linear-gradient(45deg, var(--tiger-orange), var(--unicorn-pink));
+            background: linear-gradient(45deg, var(--emerald-green), var(--diva-pink));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             font-weight: 900;
@@ -91,7 +91,7 @@
             text-align: center;
             max-width: 400px;
             width: 100%;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
         }
 
         /* Main App Screen */
@@ -111,7 +111,7 @@
         }
 
         .tab-btn {
-            background: rgba(0,0,0,0.3);
+            background: rgba(255,255,255,0.05);
             border: 1px solid var(--border);
             color: var(--text-muted);
             padding: 12px 24px;
@@ -123,10 +123,10 @@
         }
 
         .tab-btn.active {
-            background: rgba(178, 141, 255, 0.1);
-            border-color: var(--unicorn-purple);
+            background: rgba(0, 223, 100, 0.1);
+            border-color: var(--emerald-green);
             color: var(--text-main);
-            box-shadow: 0 0 15px rgba(178, 141, 255, 0.2);
+            box-shadow: 0 0 15px var(--emerald-glow);
         }
 
         .view-container {
@@ -149,7 +149,7 @@
 
         /* Modern Form Inputs */
         .input-label {
-            color: var(--unicorn-pink);
+            color: var(--diva-pink);
             font-size: 0.85rem;
             font-weight: 700;
             text-transform: uppercase;
@@ -161,7 +161,7 @@
 
         input[type="text"], input[type="date"], select {
             width: 100%;
-            background: rgba(0, 0, 0, 0.4);
+            background: rgba(0, 0, 0, 0.6);
             border: 1px solid var(--border);
             color: var(--text-main);
             padding: 15px;
@@ -173,12 +173,12 @@
 
         input:focus, select:focus {
             outline: none;
-            border-color: var(--tiger-orange);
-            background: rgba(0, 0, 0, 0.6);
+            border-color: var(--emerald-green);
+            background: rgba(0, 0, 0, 0.8);
         }
 
         .action-btn {
-            background: linear-gradient(135deg, var(--tiger-orange), var(--unicorn-pink));
+            background: linear-gradient(135deg, var(--emerald-green), var(--diva-pink));
             color: #000;
             border: none;
             padding: 16px;
@@ -188,7 +188,7 @@
             cursor: pointer;
             text-transform: uppercase;
             letter-spacing: 1.5px;
-            box-shadow: 0 8px 20px var(--tiger-glow);
+            box-shadow: 0 8px 20px var(--emerald-glow);
             width: 100%;
             margin-top: 30px;
             transition: transform 0.2s;
@@ -209,20 +209,20 @@
             width: 100%;
         }
 
-        /* Shift Date Grouping (The Breathing Room) */
+        /* Shift Date Grouping */
         .date-group {
             background: var(--panel-bg);
             border: 1px solid var(--border);
             border-radius: 20px;
             padding: 20px;
-            margin-bottom: 30px; /* Massive breathing room between shifts */
+            margin-bottom: 30px; 
             backdrop-filter: blur(10px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
         }
 
         .date-header {
             font-size: 1.3rem;
-            color: var(--tiger-orange);
+            color: var(--emerald-green);
             font-weight: 800;
             margin-bottom: 20px;
             padding-bottom: 15px;
@@ -235,18 +235,18 @@
 
         /* Task Items */
         .task-item {
-            background: rgba(0, 0, 0, 0.3);
+            background: rgba(0, 0, 0, 0.5);
             padding: 16px;
             border-radius: 12px;
             margin-bottom: 12px;
-            border-left: 4px solid var(--tiger-orange);
+            border-left: 4px solid var(--emerald-green);
             display: flex;
             flex-direction: column;
             gap: 12px;
         }
 
-        .task-item.grocery { border-left-color: var(--unicorn-purple); }
-        .task-item.completed { opacity: 0.4; border-left-color: #333; }
+        .task-item.grocery { border-left-color: var(--diva-pink); }
+        .task-item.completed { opacity: 0.4; border-left-color: #444; }
         .task-item.completed .task-title { text-decoration: line-through; color: var(--text-muted); }
 
         .task-header {
@@ -283,14 +283,14 @@
         input[type="checkbox"] {
             width: 22px;
             height: 22px;
-            accent-color: var(--tiger-orange);
+            accent-color: var(--emerald-green);
             cursor: pointer;
             margin-top: 2px;
         }
 
         /* Comments */
         .comment-section {
-            background: rgba(255, 255, 255, 0.03);
+            background: rgba(255, 255, 255, 0.05);
             padding: 12px;
             border-radius: 10px;
         }
@@ -302,7 +302,7 @@
             line-height: 1.4;
         }
 
-        .comment-author { color: var(--unicorn-pink); font-weight: 700; margin-right: 5px; }
+        .comment-author { color: var(--diva-pink); font-weight: 700; margin-right: 5px; }
 
         .comment-input-row {
             display: flex;
@@ -346,7 +346,6 @@
         <div id="live-clock">Syncing Temporal Data...</div>
     </header>
 
-    <!-- AUTHENTICATION VIEW -->
     <div id="auth-view">
         <div class="auth-box">
             <h2 style="margin-bottom: 15px;">Secure Access</h2>
@@ -356,7 +355,6 @@
         </div>
     </div>
 
-    <!-- MAIN APP VIEW -->
     <div id="app-view">
         <div class="nav-tabs">
             <button class="tab-btn active" id="tab-agenda">Active Agenda</button>
@@ -365,15 +363,12 @@
         </div>
 
         <div class="view-container">
-            
-            <!-- AGENDA VIEW -->
             <div id="view-agenda" class="view active">
                 <div id="tasks-container">
                     <div style="text-align:center; color: var(--text-muted); margin-top: 40px; font-size: 1.1rem;">Scanning for upcoming shifts...</div>
                 </div>
             </div>
 
-            <!-- ADD NEW VIEW -->
             <div id="view-add" class="view">
                 <label class="input-label">Shift Date</label>
                 <input type="date" id="task-date" required>
@@ -392,16 +387,12 @@
         </div>
     </div>
 
-    <!-- FIREBASE MODULAR SDK -->
     <script type="module">
-        // Stripped Storage imports - Text only system.
+        // getDoc has been moved here to completely eliminate the iPhone freezing bug
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, onSnapshot, updateDoc, deleteDoc, doc, query } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, onSnapshot, updateDoc, deleteDoc, doc, query, getDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
-        // ==========================================
-        // 1. PASTE YOUR FIREBASE KEYS HERE
-        // ==========================================
         const firebaseConfig = {
             apiKey: "AIzaSyBGkqfs3nDZ2Stczs_qzpwEwQfB5zeeX1U",
             authDomain: "harperville-comm-link.firebaseapp.com",
@@ -411,28 +402,22 @@
             appId: "1:775465053610:web:4d62259c5e0162dca28fd3"
         };
 
-        // ==========================================
-        // 2. AUTHORIZED EMAILS (Lowercase Only)
-        // ==========================================
         const AUTHORIZED_EMAILS = [
             "jackaspenharper@gmail.com", 
             "graciellagalan19@gmail.com" 
         ];
 
-        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
         
         let currentUser = null;
 
-        // UI Elements
         const authView = document.getElementById('auth-view');
         const appView = document.getElementById('app-view');
         const errorMsg = document.getElementById('error-msg');
         const tasksContainer = document.getElementById('tasks-container');
 
-        // --- LIVE CLOCK LOGIC ---
         function updateClock() {
             const now = new Date();
             const options = { weekday: 'short', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
@@ -441,10 +426,8 @@
         setInterval(updateClock, 1000);
         updateClock();
 
-        // Default date picker to today
         document.getElementById('task-date').value = new Date().toISOString().split('T')[0];
 
-        // Tab Switching
         document.getElementById('tab-agenda').onclick = () => switchTab('agenda');
         document.getElementById('tab-add').onclick = () => switchTab('add');
 
@@ -460,7 +443,6 @@
             }
         }
 
-        // --- AUTHENTICATION FLOW ---
         const provider = new GoogleAuthProvider();
 
         document.getElementById('login-btn').onclick = async () => {
@@ -493,9 +475,6 @@
             }
         });
 
-        // --- DATABASE OPERATIONS ---
-
-        // Add a new directive (Text Only)
         document.getElementById('submit-task-btn').onclick = async () => {
             const btn = document.getElementById('submit-task-btn');
             const shiftDate = document.getElementById('task-date').value;
@@ -530,7 +509,6 @@
             }
         };
 
-        // Real-time listener & Card Grouping
         function loadAgenda() {
             const q = query(collection(db, "directives"));
             
@@ -559,22 +537,18 @@
                 }
 
                 sortedDates.forEach(date => {
-                    // Create the floating card container for the date
                     const dateGroup = document.createElement('div');
                     dateGroup.className = 'date-group';
                     
-                    // Format the Header
                     const header = document.createElement('div');
                     header.className = 'date-header';
                     
-                    // Quick date format conversion for readability
                     const dateObj = new Date(date + 'T12:00:00'); 
                     const displayDate = dateObj.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
                     
                     header.innerHTML = `📅 ${displayDate}`;
                     dateGroup.appendChild(header);
 
-                    // Append tasks into this specific card
                     tasksByDate[date].forEach(task => {
                         const div = document.createElement('div');
                         div.className = `task-item ${task.type} ${task.completed ? 'completed' : ''}`;
@@ -603,13 +577,11 @@
                         dateGroup.appendChild(div);
                     });
 
-                    // Push the entire finished card into the main container
                     tasksContainer.appendChild(dateGroup);
                 });
             });
         }
 
-        // Global functions
         window.toggleComplete = async (taskId, isChecked) => {
             const taskRef = doc(db, "directives", taskId);
             await updateDoc(taskRef, { completed: isChecked });
@@ -621,6 +593,7 @@
             }
         };
 
+        // Standardized sync function with proper error handling
         window.addComment = async (taskId) => {
             const input = document.getElementById(`comment-input-${taskId}`);
             const text = input.value.trim();
@@ -628,7 +601,7 @@
 
             const taskRef = doc(db, "directives", taskId);
             
-            import("https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js").then(async ({ getDoc }) => {
+            try {
                 const snap = await getDoc(taskRef);
                 const currentComments = snap.data().comments || [];
                 currentComments.push({
@@ -638,7 +611,10 @@
                 });
                 await updateDoc(taskRef, { comments: currentComments });
                 input.value = '';
-            });
+            } catch (error) {
+                console.error("Transmission Failed: ", error);
+                alert("Failed to post comment. Check your connection.");
+            }
         };
     </script>
 </body>
