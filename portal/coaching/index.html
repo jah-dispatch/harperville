@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Jack Harper Protocol</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-clinical: #F4F4F6;
+            --text-main: #1A1A1A;
+            --teal-header: #205E61;
+            --orange-action: #D95D39;
+            --orange-hover: #BF4D2A;
+            --mustard-accent: #E0A96D;
+            --border-color: #D1D1D5;
+        }
+
+        body {
+            background-color: var(--bg-clinical);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .protocol-container {
+            width: 100%;
+            max-width: 600px;
+            background: #FFFFFF;
+            padding: 40px;
+            border: 2px solid var(--border-color);
+            box-shadow: 8px 8px 0px var(--teal-header);
+            position: relative;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Fraunces', serif;
+            color: var(--teal-header);
+            margin-top: 0;
+        }
+
+        .header-section {
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 8px;
+            background-color: var(--border-color);
+            margin-bottom: 30px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: var(--mustard-accent);
+            width: 0%;
+            transition: width 0.4s ease;
+        }
+
+        .question-text {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 30px;
+            min-height: 80px;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        button.option-btn {
+            background-color: #FFFFFF;
+            border: 2px solid var(--border-color);
+            padding: 15px;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.2s ease;
+        }
+
+        button.option-btn:hover {
+            border-color: var(--teal-header);
+            background-color: var(--bg-clinical);
+        }
+
+        button.primary-btn {
+            background-color: var(--orange-action);
+            color: #FFFFFF;
+            border: none;
+            padding: 15px 30px;
+            font-family: 'Inter', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+            width: 100%;
+            transition: background 0.2s ease;
+        }
+
+        button.primary-btn:hover {
+            background-color: var(--orange-hover);
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid var(--border-color);
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            box-sizing: border-box;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: var(--teal-header);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.4s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="protocol-container">
+    <div class="header-section">
+        <h1>JH Protocol</h1>
+        <p style="font-size: 0.9rem; color: #666; text-transform: uppercase; letter-spacing: 1px;">Diagnostic Engine // Client Intake</p>
+    </div>
+
+    <!-- Start Screen -->
+    <div id="startScreen" class="fade-in">
+        <h2>Intake Authentication</h2>
+        <p>Please enter your name to begin the assessment. Answer honestly based on your experience over the last 14 days.</p>
+        <input type="text" id="clientName" placeholder="Enter your full name">
+        <button class="primary-btn" onclick="startProtocol()">Initialize</button>
+    </div>
+
+    <!-- Quiz Screen -->
+    <div id="quizScreen" class="hidden">
+        <div class="progress-bar-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+        <p style="font-size: 0.8rem; font-weight: bold; color: var(--teal-header);" id="questionCounter">Q: 1/30</p>
+        <div class="question-text fade-in" id="questionText">Loading...</div>
+        <div class="options-grid fade-in">
+            <button class="option-btn" onclick="recordAnswer(0)">Not at all</button>
+            <button class="option-btn" onclick="recordAnswer(1)">Several days</button>
+            <button class="option-btn" onclick="recordAnswer(2)">More than half the days</button>
+            <button class="option-btn" onclick="recordAnswer(3)">Nearly every day</button>
+        </div>
+    </div>
+
+    <!-- Completion Screen -->
+    <div id="endScreen" class="hidden fade-in">
+        <h2>Protocol Complete</h2>
+        <p>Your diagnostic data has been successfully transmitted and encrypted.</p>
+        <p>Your coach will review the baseline metrics before your next session.</p>
+    </div>
+</div>
+
+<script>
+    const questions = [
+        // Boundary Integrity (High score = poor boundaries. Reverse scored = good boundaries)
+        { q: "Felt a physical sensation of exhaustion or dread when a specific person's name appeared on your phone?", cat: "boundary", rev: false },
+        { q: "Ignored a basic physical need (hunger, rest, stretching) in order to finish something for someone else?", cat: "boundary", rev: false },
+        { q: "Taken an action that specifically protected your peace, even if it meant disappointing someone else?", cat: "boundary", rev: true },
+        { q: "Resisted the urge to fix a minor inconvenience for someone else, letting them handle it themselves?", cat: "boundary", rev: true },
+        { q: "Felt a rush of relief when plans were canceled so you could just be by yourself?", cat: "boundary", rev: true },
+
+        // Appeasement (High score = high people pleasing)
+        { q: "Agreed to a favor or task that you immediately resented upon saying yes?", cat: "appeasement", rev: false },
+        { q: "Silenced your own opinion or preference because you anticipated the other person wouldn't understand it anyway?", cat: "appeasement", rev: false },
+        { q: "Adjusted your behavior or tone to make someone else's incompetence or rudeness feel less glaring?", cat: "appeasement", rev: false },
+        { q: "Caught yourself planning your day around someone else's unpredictable mood?", cat: "appeasement", rev: false },
+        { q: "Caught yourself nodding along to a conversation you entirely disagreed with just to keep the peace?", cat: "appeasement", rev: false },
+        { q: "Found yourself waiting for external validation before feeling proud of something you made or did?", cat: "appeasement", rev: false },
+
+        // Reality Distortion (High score = disconnected from true self)
+        { q: "Caught yourself rehearsing an apology for a situation that was not your fault?", cat: "reality", rev: false },
+        { q: "Felt completely unanchored, as if you are living in someone else's timeline or waiting for permission to act?", cat: "reality", rev: false },
+        { q: "Agreed with a narrative about your life that you knew internally wasn't true?", cat: "reality", rev: false },
+        { q: "Felt a disconnect between the person you see in the mirror and the person others expect you to be?", cat: "reality", rev: false },
+        { q: "Felt a moment of absolute clarity about what you actually want, separate from anyone else's needs?", cat: "reality", rev: true },
+        { q: "Felt like you had to perform the 'perfect parent' role even when you were exhausted?", cat: "reality", rev: false },
+
+        // Relationship Security (Children) (High score = insecure/anxious. Reverse = secure)
+        { q: "Felt anxious that a decision you made for your own well-being would negatively impact your children?", cat: "relationship", rev: false },
+        { q: "Felt a sudden wave of guilt when your children didn't need your immediate help or attention?", cat: "relationship", rev: false },
+        { q: "Over-explained a simple boundary to your kids because you feared they would feel rejected?", cat: "relationship", rev: false },
+        { q: "Felt deeply secure that your connection with your children is strong enough to withstand a disagreement?", cat: "relationship", rev: true },
+        { q: "Second-guessed an intuitive parenting decision because it didn't match conventional advice?", cat: "relationship", rev: false },
+        { q: "Felt secure in the knowledge that your children love you for who you are, not just what you do for them?", cat: "relationship", rev: true },
+
+        // Inner Child - Creative (High score = high creative engagement)
+        { q: "Done something purely for the sake of play, with zero productive or financial value?", cat: "creative", rev: false },
+        { q: "Created something physical or digital just to see if you could do it?", cat: "creative", rev: false },
+        { q: "Engaged in a hobby or interest that nobody else in your life understands or participates in?", cat: "creative", rev: false },
+        { q: "Allowed yourself to be bad at something new without immediately quitting?", cat: "creative", rev: false },
+
+        // Inner Child - Entertainment Seeker (High score = passive seeking)
+        { q: "Laughed at something out loud, completely unprompted by another human being?", cat: "entertainment", rev: false },
+        { q: "Consumed entertainment (scrolling, watching TV) specifically to numb out rather than for genuine enjoyment?", cat: "entertainment", rev: true },
+        { q: "Let yourself get completely absorbed in a movie, book, or song without checking the time?", cat: "entertainment", rev: false }
+    ];
+
+    // Shuffle array function to randomize the 30 questions so categories aren't obvious
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+
+    shuffleArray(questions);
+
+    let currentQ = 0;
+    let clientName = "";
+    
+    let scores = {
+        boundary: 0,
+        appeasement: 0,
+        reality: 0,
+        relationship: 0,
+        creative: 0,
+        entertainment: 0
+    };
+
+    function startProtocol() {
+        const nameInput = document.getElementById("clientName").value.trim();
+        if (nameInput === "") {
+            alert("Please enter your name to proceed.");
+            return;
+        }
+        clientName = nameInput;
+        document.getElementById("startScreen").style.display = "none";
+        document.getElementById("quizScreen").style.display = "block";
+        loadQuestion();
+    }
+
+    function loadQuestion() {
+        if (currentQ >= questions.length) {
+            submitData();
+            return;
+        }
+        
+        // Update UI
+        document.getElementById("questionCounter").innerText = `Q: ${currentQ + 1} / ${questions.length}`;
+        document.getElementById("progressBar").style.width = `${((currentQ) / questions.length) * 100}%`;
+        
+        const qText = document.getElementById("questionText");
+        qText.classList.remove("fade-in");
+        void qText.offsetWidth; // Trigger reflow
+        qText.innerText = questions[currentQ].q;
+        qText.classList.add("fade-in");
+    }
+
+    function recordAnswer(val) {
+        const qData = questions[currentQ];
+        
+        // Apply reverse scoring (0->3, 1->2, 2->1, 3->0) if flagged
+        let finalVal = qData.rev ? (3 - val) : val;
+        
+        scores[qData.cat] += finalVal;
+        
+        currentQ++;
+        loadQuestion();
+    }
+
+    function submitData() {
+        document.getElementById("quizScreen").style.display = "none";
+        document.getElementById("endScreen").style.display = "block";
+
+        const totalScore = scores.boundary + scores.appeasement + scores.reality + scores.relationship + scores.creative + scores.entertainment;
+
+        const payload = {
+            clientName: clientName,
+            totalScore: totalScore,
+            scores: scores
+        };
+
+        // REPLACE THIS URL WITH YOUR DEPLOYED GOOGLE APPS SCRIPT WEB APP URL
+        const scriptURL = 'YOUR_WEB_APP_URL_HERE';
+
+        fetch(scriptURL, {
+            method: 'POST',
+            mode: 'no-cors', // Added to bypass strict CORS if needed on simple setups
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        })
+        .then(() => console.log("Data transmitted."))
+        .catch(error => console.error('Error!', error.message));
+    }
+</script>
+
+</body>
+</html>
