@@ -7,48 +7,59 @@
     <title>Harperville - Grace | Comm-Link</title>
     <style>
         :root {
-            /* The Emerald & Diva Pink Aesthetic */
-            --emerald-green: #00df64;
-            --emerald-glow: rgba(0, 223, 100, 0.3);
-            --diva-pink: #ff1694;
-            --diva-glow: rgba(255, 22, 148, 0.3);
+            /* 2026 Spatial Palette */
+            --emerald-green: #00fa75;
+            --emerald-glow: rgba(0, 250, 117, 0.25);
+            --diva-pink: #ff2a9d;
+            --diva-glow: rgba(255, 42, 157, 0.25);
             
-            --bg-dark: #000000;
-            --panel-bg: rgba(18, 18, 18, 0.85);
-            --text-main: #f8f8f8;
-            --text-muted: #a0a0a5;
-            --border: rgba(255, 255, 255, 0.15);
+            --bg-deep: #050507;
+            --surface-glass: rgba(255, 255, 255, 0.03);
+            --surface-glass-heavy: rgba(30, 30, 35, 0.6);
+            --surface-border: rgba(255, 255, 255, 0.08);
+            
+            --text-main: #ffffff;
+            --text-muted: #8e8e93;
+            
+            --radius-sm: 12px;
+            --radius-md: 20px;
+            --radius-lg: 32px;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Roboto, Helvetica, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, Helvetica, sans-serif;
             -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            background-color: var(--bg-dark);
+            background-color: var(--bg-deep);
             color: var(--text-main);
             height: 100vh;
             width: 100vw;
             overflow: hidden;
             display: flex;
             flex-direction: column;
+            /* Ultra-soft ambient orbs */
             background-image: 
-                radial-gradient(circle at 80% -20%, var(--diva-glow), transparent 45%),
-                radial-gradient(circle at 20% 120%, var(--emerald-glow), transparent 45%);
+                radial-gradient(circle at 85% 0%, var(--diva-glow), transparent 50%),
+                radial-gradient(circle at 15% 100%, var(--emerald-glow), transparent 50%);
             background-attachment: fixed;
         }
 
+        /* Floating Island Header */
         header {
+            margin: 20px;
             padding: 20px;
             text-align: center;
-            background: rgba(10, 10, 10, 0.8);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--border);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.7);
+            background: var(--surface-glass-heavy);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
             flex-shrink: 0;
             z-index: 10;
             display: flex;
@@ -56,35 +67,36 @@
             align-items: center;
         }
 
-        /* Auto-scaling Header Logo */
         .header-logo {
             width: 100%;
-            max-width: 220px; /* Prevents it from getting too large on desktop */
+            max-width: 180px;
             height: auto;
-            max-height: 80px; /* Keeps the header from blowing out */
+            max-height: 60px;
             object-fit: contain;
-            margin-bottom: 12px;
-            filter: drop-shadow(0 0 8px var(--diva-glow));
+            margin-bottom: 15px;
+            filter: drop-shadow(0 4px 12px rgba(255, 42, 157, 0.3));
         }
 
         h1 {
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             text-transform: uppercase;
-            letter-spacing: 3px;
-            background: linear-gradient(45deg, var(--emerald-green), var(--diva-pink));
+            letter-spacing: 4px;
+            background: linear-gradient(135deg, var(--emerald-green), var(--diva-pink));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             font-weight: 900;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         #live-clock {
-            font-size: 0.95rem;
+            font-size: 0.85rem;
             color: var(--text-muted);
-            font-weight: 500;
-            letter-spacing: 1px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
         }
 
+        /* Authentication View */
         #auth-view {
             flex: 1;
             display: flex;
@@ -95,17 +107,19 @@
         }
 
         .auth-box {
-            background: var(--panel-bg);
-            backdrop-filter: blur(16px);
+            background: var(--surface-glass-heavy);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
             padding: 40px 30px;
-            border-radius: 20px;
-            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--surface-border);
             text-align: center;
             max-width: 400px;
             width: 100%;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
         }
 
+        /* Main View Architecture */
         #app-view {
             display: none;
             flex-direction: column;
@@ -113,31 +127,33 @@
             overflow: hidden;
         }
 
+        /* Segmented Control Navigation */
         .nav-tabs {
             display: flex;
             justify-content: center;
-            gap: 15px;
-            padding: 20px;
+            gap: 10px;
+            padding: 0 20px 20px 20px;
             flex-shrink: 0;
         }
 
         .tab-btn {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid var(--border);
+            background: var(--surface-glass);
+            border: 1px solid transparent;
             color: var(--text-muted);
-            padding: 12px 24px;
-            border-radius: 30px;
+            padding: 14px 24px;
+            border-radius: 100px;
             cursor: pointer;
-            font-weight: 600;
+            font-weight: 700;
+            font-size: 0.9rem;
             letter-spacing: 0.5px;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .tab-btn.active {
-            background: rgba(0, 223, 100, 0.1);
-            border-color: var(--emerald-green);
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--surface-border);
             color: var(--text-main);
-            box-shadow: 0 0 15px var(--emerald-glow);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
         }
 
         .view-container {
@@ -153,196 +169,255 @@
             flex-direction: column;
             height: 100%;
             overflow-y: auto;
-            padding-bottom: 40px;
+            padding-bottom: 60px;
+            /* Custom scrollbar for webkit */
+            scrollbar-width: none;
         }
-
+        .view::-webkit-scrollbar { display: none; }
         .view.active { display: flex; }
 
+        /* Modern Form Architecture */
         .input-label {
-            color: var(--diva-pink);
-            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-size: 0.75rem;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
-            margin-top: 20px;
-            margin-bottom: 8px;
+            letter-spacing: 2px;
+            margin-top: 24px;
+            margin-bottom: 10px;
             display: block;
         }
 
         input[type="text"], input[type="date"], select {
             width: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            border: 1px solid var(--border);
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--surface-border);
             color: var(--text-main);
-            padding: 15px;
-            border-radius: 12px;
-            font-size: 1rem;
+            padding: 18px 20px;
+            border-radius: var(--radius-md);
+            font-size: 1.05rem;
             color-scheme: dark;
-            transition: border-color 0.3s;
+            transition: all 0.3s ease;
         }
 
         input:focus, select:focus {
             outline: none;
             border-color: var(--emerald-green);
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.6);
+            box-shadow: 0 0 0 4px var(--emerald-glow);
         }
 
         .action-btn {
             background: linear-gradient(135deg, var(--emerald-green), var(--diva-pink));
             color: #000;
             border: none;
-            padding: 16px;
-            border-radius: 12px;
+            padding: 18px;
+            border-radius: var(--radius-md);
             font-size: 1.1rem;
             font-weight: 800;
             cursor: pointer;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
-            box-shadow: 0 8px 20px var(--emerald-glow);
+            letter-spacing: 2px;
+            box-shadow: 0 10px 30px var(--emerald-glow);
             width: 100%;
-            margin-top: 30px;
-            transition: transform 0.2s;
+            margin-top: 40px;
+            transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .action-btn:active { transform: scale(0.97); }
+        .action-btn:active { transform: scale(0.96); }
 
         .google-btn {
-            background: #fff;
-            color: #000;
+            background: #ffffff;
+            color: #000000;
             border: none;
-            padding: 14px 24px;
-            border-radius: 30px;
-            font-size: 1.05rem;
+            padding: 16px 24px;
+            border-radius: 100px;
+            font-size: 1rem;
             font-weight: 800;
             cursor: pointer;
-            margin-top: 20px;
+            margin-top: 24px;
             width: 100%;
+            transition: transform 0.2s;
+        }
+        .google-btn:active { transform: scale(0.96); }
+
+        /* Spatial Date Group Cards */
+        .date-group {
+            background: var(--surface-glass);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin-bottom: 32px; 
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            opacity: 0;
+            transform: translateY(20px);
         }
 
-        .date-group {
-            background: var(--panel-bg);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 20px;
-            margin-bottom: 30px; 
-            backdrop-filter: blur(10px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+        @keyframes slideUp {
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .date-header {
-            font-size: 1.3rem;
-            color: var(--emerald-green);
+            font-size: 1.2rem;
+            color: var(--text-main);
             font-weight: 800;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid var(--border);
+            margin-bottom: 24px;
             display: flex;
             align-items: center;
-            gap: 10px;
-            letter-spacing: 1px;
+            gap: 12px;
+            letter-spacing: 0.5px;
         }
 
+        .date-header::before {
+            content: '';
+            display: block;
+            width: 8px;
+            height: 24px;
+            background: linear-gradient(to bottom, var(--emerald-green), var(--diva-pink));
+            border-radius: 4px;
+        }
+
+        /* Task Items - Fluid Minimal */
         .task-item {
-            background: rgba(0, 0, 0, 0.5);
-            padding: 16px;
-            border-radius: 12px;
-            margin-bottom: 12px;
-            border-left: 4px solid var(--emerald-green);
+            background: rgba(0, 0, 0, 0.4);
+            padding: 20px;
+            border-radius: var(--radius-md);
+            margin-bottom: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 16px;
+            position: relative;
+            overflow: hidden;
+            transition: opacity 0.3s;
         }
 
-        .task-item.grocery { border-left-color: var(--diva-pink); }
-        .task-item.completed { opacity: 0.4; border-left-color: #444; }
+        /* Neon edge accent */
+        .task-item::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--emerald-green);
+            box-shadow: 2px 0 10px var(--emerald-glow);
+        }
+        
+        .task-item.grocery::after {
+            background: var(--diva-pink);
+            box-shadow: 2px 0 10px var(--diva-glow);
+        }
+
+        .task-item.completed { opacity: 0.35; }
+        .task-item.completed::after { background: #444; box-shadow: none; }
         .task-item.completed .task-title { text-decoration: line-through; color: var(--text-muted); }
 
         .task-header {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
+            padding-left: 8px; /* Room for the neon accent */
         }
 
-        .task-title { font-weight: 600; font-size: 1.1rem; line-height: 1.4; }
+        .task-title { font-weight: 600; font-size: 1.15rem; line-height: 1.5; letter-spacing: -0.2px; }
         
         .delete-btn {
-            background: rgba(255, 50, 50, 0.1);
-            border: 1px solid rgba(255, 50, 50, 0.2);
-            color: #ff8888;
-            border-radius: 8px;
-            padding: 6px 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-muted);
+            border-radius: 100px;
+            padding: 6px 14px;
             cursor: pointer;
-            font-size: 0.85rem;
-            font-weight: bold;
-            transition: background 0.2s;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.2s;
         }
 
-        .delete-btn:active { background: rgba(255, 50, 50, 0.3); }
+        .delete-btn:active { background: rgba(255, 50, 50, 0.2); color: #ff6b6b; border-color: rgba(255, 50, 50, 0.3); }
 
         .checkbox-wrapper {
             display: flex;
             align-items: flex-start;
-            gap: 12px;
+            gap: 14px;
             cursor: pointer;
             flex: 1;
             padding-right: 15px;
         }
 
         input[type="checkbox"] {
-            width: 22px;
-            height: 22px;
+            width: 24px;
+            height: 24px;
             accent-color: var(--emerald-green);
             cursor: pointer;
             margin-top: 2px;
+            border-radius: 6px;
         }
 
+        /* 2026 Chat-Style Comments */
         .comment-section {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 12px;
-            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 16px;
+            border-radius: var(--radius-sm);
+            margin-left: 8px; /* Align with text */
         }
 
         .comment-display {
             font-size: 0.95rem;
-            margin-bottom: 8px;
-            line-height: 1.4;
+            margin-bottom: 12px;
+            line-height: 1.5;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 10px 14px;
+            border-radius: 12px;
+            border-bottom-left-radius: 2px; /* Chat bubble effect */
         }
 
-        /* High contrast split styling */
-        .comment-author { color: var(--diva-pink); font-weight: 800; margin-right: 6px; }
+        .comment-display:last-of-type { margin-bottom: 0; }
+
+        .comment-author { color: var(--diva-pink); font-weight: 800; display: block; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
         .comment-text { color: var(--emerald-green); font-weight: 500; }
 
         .comment-input-row {
             display: flex;
-            gap: 10px;
-            margin-top: 10px;
+            gap: 12px;
+            margin-top: 16px;
         }
 
         .comment-input-row input {
             margin-bottom: 0;
-            padding: 10px 15px;
+            padding: 12px 16px;
             font-size: 0.95rem;
-            border-radius: 8px;
+            border-radius: 100px; /* Pill shape for inputs inside cards */
+            border-color: rgba(255, 255, 255, 0.1);
         }
 
         .btn-small {
-            background: rgba(255, 255, 255, 0.1);
-            color: var(--text-main);
-            border: 1px solid var(--border);
-            padding: 0 16px;
-            border-radius: 8px;
+            background: var(--text-main);
+            color: var(--bg-deep);
+            border: none;
+            padding: 0 20px;
+            border-radius: 100px;
             cursor: pointer;
-            font-weight: bold;
+            font-weight: 800;
+            font-size: 0.9rem;
+            transition: transform 0.2s;
         }
+        .btn-small:active { transform: scale(0.92); }
 
         #error-msg {
-            color: #ff6b6b;
-            margin-top: 20px;
-            font-weight: bold;
+            color: #ff4757;
+            margin-top: 24px;
+            font-weight: 700;
+            font-size: 0.9rem;
             display: none;
-            padding: 10px;
-            background: rgba(255, 0, 0, 0.1);
-            border-radius: 8px;
+            padding: 12px;
+            background: rgba(255, 71, 87, 0.1);
+            border: 1px solid rgba(255, 71, 87, 0.2);
+            border-radius: var(--radius-sm);
         }
 
     </style>
@@ -351,47 +426,47 @@
 
     <header>
         <img src="harperville-logo.png" alt="Harperville Logo" class="header-logo">
-        <h1>✨ Comm-Link 🐅</h1>
-        <div id="live-clock">Syncing Temporal Data...</div>
+        <h1>Comm-Link</h1>
+        <div id="live-clock">Syncing...</div>
     </header>
 
     <div id="auth-view">
         <div class="auth-box">
-            <h2 style="margin-bottom: 15px;">Secure Access</h2>
-            <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.5;">End-to-end encrypted portal restricted to authorized Unit of One care personnel.</p>
+            <h2 style="margin-bottom: 12px; font-weight: 800;">Secure Portal</h2>
+            <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;">End-to-end encrypted infrastructure restricted to authorized care personnel.</p>
             <button id="login-btn" class="google-btn">Sign in with Google</button>
-            <div id="error-msg">Access Denied. Unauthorized Email.</div>
+            <div id="error-msg">Access Denied. Unauthorized Identity.</div>
         </div>
     </div>
 
     <div id="app-view">
         <div class="nav-tabs">
-            <button class="tab-btn active" id="tab-agenda">Active Agenda</button>
+            <button class="tab-btn active" id="tab-agenda">Agenda</button>
             <button class="tab-btn" id="tab-add">Assign Task</button>
-            <button class="tab-btn" id="logout-btn" style="border-color: rgba(255, 100, 100, 0.4); color: #ff8888;">Lock</button>
+            <button class="tab-btn" id="logout-btn">Lock</button>
         </div>
 
         <div class="view-container">
             <div id="view-agenda" class="view active">
                 <div id="tasks-container">
-                    <div style="text-align:center; color: var(--text-muted); margin-top: 40px; font-size: 1.1rem;">Scanning for upcoming shifts...</div>
+                    <div style="text-align:center; color: var(--text-muted); margin-top: 60px; font-size: 1.1rem; font-weight: 600;">Scanning temporal coordinates...</div>
                 </div>
             </div>
 
             <div id="view-add" class="view">
-                <label class="input-label">Shift Date</label>
+                <label class="input-label">Shift Coordinate</label>
                 <input type="date" id="task-date" required>
 
-                <label class="input-label">Classification</label>
+                <label class="input-label">Directive Classification</label>
                 <select id="task-type">
-                    <option value="agenda">Shift Agenda / General Task</option>
-                    <option value="grocery">Procurement / Shopping List</option>
+                    <option value="agenda">General Agenda / Task</option>
+                    <option value="grocery">Procurement / Acquisition</option>
                 </select>
 
-                <label class="input-label">Directive Details</label>
-                <input type="text" id="task-title" placeholder="e.g., Pick up oat milk, Check mail..." required autocomplete="off">
+                <label class="input-label">Directive Parameters</label>
+                <input type="text" id="task-title" placeholder="e.g., Acquire supplies, audit systems..." required autocomplete="off">
 
-                <button class="action-btn" id="submit-task-btn">Post to Agenda</button>
+                <button class="action-btn" id="submit-task-btn">Initialize Directive</button>
             </div>
         </div>
     </div>
@@ -428,7 +503,7 @@
 
         function updateClock() {
             const now = new Date();
-            const options = { weekday: 'short', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+            const options = { weekday: 'short', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
             document.getElementById('live-clock').innerText = now.toLocaleDateString('en-US', options);
         }
         setInterval(updateClock, 1000);
@@ -510,9 +585,9 @@
 
             } catch (error) {
                 console.error("Error posting directive: ", error);
-                alert("Database rejection. Ensure your email is fully whitelisted in the Firestore rules.");
+                alert("Database rejection. Ensure your email is fully whitelisted.");
             } finally {
-                btn.innerText = "Post to Agenda";
+                btn.innerText = "Initialize Directive";
                 btn.disabled = false;
             }
         };
@@ -540,13 +615,18 @@
                 const sortedDates = Object.keys(tasksByDate).sort();
 
                 if(sortedDates.length === 0) {
-                    tasksContainer.innerHTML = '<div style="text-align:center; color: var(--text-muted); margin-top: 40px; font-size: 1.1rem;">Agenda Clear. No upcoming directives.</div>';
+                    tasksContainer.innerHTML = '<div style="text-align:center; color: var(--text-muted); margin-top: 60px; font-size: 1.1rem; font-weight: 600;">Agenda Clear. No upcoming directives.</div>';
                     return;
                 }
+
+                // Staggered animation delay for cards
+                let animationDelay = 0;
 
                 sortedDates.forEach(date => {
                     const dateGroup = document.createElement('div');
                     dateGroup.className = 'date-group';
+                    dateGroup.style.animationDelay = `${animationDelay}s`;
+                    animationDelay += 0.1;
                     
                     const header = document.createElement('div');
                     header.className = 'date-header';
@@ -554,10 +634,9 @@
                     const dateObj = new Date(date + 'T12:00:00'); 
                     const displayDate = dateObj.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
                     
-                    header.innerHTML = `📅 ${displayDate}`;
+                    header.innerHTML = displayDate;
                     dateGroup.appendChild(header);
 
-                    // Sort logic: Forces 'grocery' items to render first
                     tasksByDate[date].sort((a, b) => {
                         if (a.type === 'grocery' && b.type !== 'grocery') return -1;
                         if (a.type !== 'grocery' && b.type === 'grocery') return 1;
@@ -568,10 +647,9 @@
                         const div = document.createElement('div');
                         div.className = `task-item ${task.type} ${task.completed ? 'completed' : ''}`;
                         
-                        // Updated Comment HTML structure for split color styling
                         let commentsHTML = task.comments.map(c => 
                             `<div class="comment-display">
-                                <span class="comment-author">${c.author}:</span> 
+                                <span class="comment-author">${c.author}</span> 
                                 <span class="comment-text">${c.text}</span>
                             </div>`
                         ).join('');
@@ -585,10 +663,10 @@
                                 <button class="delete-btn" onclick="deleteDirective('${task.id}')">Drop</button>
                             </div>
                             
-                            <div class="comment-section">
+                            <div class="comment-section" style="display: ${commentsHTML || !task.completed ? 'block' : 'none'}">
                                 ${commentsHTML}
                                 <div class="comment-input-row">
-                                    <input type="text" id="comment-input-${task.id}" placeholder="Add intel or reply..." style="flex:1;">
+                                    <input type="text" id="comment-input-${task.id}" placeholder="Transmit intel..." style="flex:1;">
                                     <button class="btn-small" onclick="addComment('${task.id}')">Send</button>
                                 </div>
                             </div>
