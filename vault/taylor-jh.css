@@ -104,3 +104,68 @@
     border: 0;
     border-radius: 14px;
 }
+/* Customizing the Video Grid */
+.video-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+    margin-top: 20px;
+    padding: 10px;
+}
+
+/* The new master card that holds both the video and the text */
+.video-card {
+    background: rgba(255, 255, 255, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.6);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.video-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px rgba(255, 105, 180, 0.4); /* Pink hover glow */
+    border-color: #fff;
+}
+
+/* The wrapper that forces the 16:9 aspect ratio for the iframe */
+.video-wrapper {
+    position: relative;
+    padding-bottom: 56.25%; 
+    height: 0;
+    width: 100%;
+    background: #000; /* Hides white flashes while YouTube loads */
+}
+
+.video-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+/* The new text container below the video */
+.video-description {
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.2);
+    flex-grow: 1; /* Forces the box to fill remaining vertical space so all cards in a row match height */
+    border-top: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.video-description h3 {
+    margin: 0 0 8px 0;
+    font-size: 1.1rem;
+    color: #222;
+}
+
+.video-description p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #333;
+    line-height: 1.4;
+}
