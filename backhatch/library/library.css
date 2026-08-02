@@ -254,3 +254,35 @@
     padding: 0 5px;
     margin: 0;
 }
+/* --- MOBILE RESPONSIVE FIX FOR E-READER --- */
+@media (max-width: 650px) {
+    .reader-controls {
+        flex-direction: column;
+        gap: 15px;
+        padding: 15px;
+    }
+    
+    .tts-controls {
+        flex-wrap: wrap;
+        justify-content: center;
+        width: 100%;
+    }
+    
+    .tts-select {
+        max-width: 100%;
+        width: 100%;
+        text-align: center;
+        margin-bottom: 5px;
+    }
+    
+    /* Reposition the PREV and NEXT buttons to sit below the audio controls */
+    .reader-controls #prev-page {
+        order: 2; 
+    }
+    .reader-controls .tts-controls {
+        order: 1;
+    }
+    .reader-controls #next-page {
+        order: 3;
+    }
+}
