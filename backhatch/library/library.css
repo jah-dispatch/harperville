@@ -226,3 +226,31 @@
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(255, 68, 68, 0.2);
 }
+/* --- TTS AUDIO CONTROLS --- */
+.tts-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.tts-select {
+    background: #1a1a1a;
+    color: #888;
+    border: 1px solid #1a1a1a;
+    padding: 4px 8px;
+    font-family: sans-serif;
+    border-radius: 4px;
+    max-width: 140px;
+    outline: none;
+    cursor: pointer;
+}
+
+.tts-select:hover {
+    color: #fff;
+}
+
+.tts-btn {
+    font-size: 1.1rem;
+    padding: 0 5px;
+    margin: 0;
+}

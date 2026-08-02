@@ -123,6 +123,15 @@
             
             <div class="reader-controls">
                 <button class="reader-btn" id="prev-page">&lt; PREV</button>
+                
+                <!-- NEW: Audio TTS Controls -->
+                <div class="tts-controls">
+                    <select id="voice-select" class="tts-select"></select>
+                    <button class="reader-btn tts-btn" id="tts-play">▶ READ</button>
+                    <button class="reader-btn tts-btn" id="tts-pause">⏸</button>
+                    <button class="reader-btn tts-btn" id="tts-stop">⏹</button>
+                </div>
+
                 <button class="reader-btn" id="next-page">NEXT &gt;</button>
             </div>
         </div>
@@ -220,6 +229,114 @@
         }
         
         closeBtn.addEventListener('click', closeReader);
+
+        // --- 4. TEXT-TO-SPEECH (TTS) ENGINE ---
+        const synth = window.speechSynthesis;
+        const voiceSelect = document.getElementById('voice-select');
+        const playBtn = document.getElementById('tts-play');
+        const pauseBtn = document.getElementById('tts-pause');
+        const stopBtn = document.getElementById('tts-stop');
+
+        let voices = [];
+
+        // Populate browser voices
+        function populateVoiceList() {
+            voices = synth.getVoices();
+            voiceSelect.innerHTML = '';
+            
+            // Filter for English voices to keep the list clean
+            const engVoices = voices.filter(voice => voice.lang.includes('en'));
+            
+            engVoices.forEach((voice) => {
+                const option = document.createElement('option');
+                option.textContent = `${voice.name} (${voice.lang})`;
+                option.setAttribute('data-lang', voice.lang);
+                option.setAttribute('data-name', voice.name);
+                voiceSelect.appendChild(option);
+            });
+        }
+
+        populateVoiceList();
+        if (speechSynthesis.onvoiceschanged !== undefined) {
+            speechSynthesis.onvoiceschanged = populateVoiceList;
+        }
+
+        // Extract text strictly from the active, visible page
+        function extractAndRead() {
+            if (synth.speaking) {
+                synth.cancel(); // Stop if already reading
+            }
+
+            // Get the exact start and end coordinates (CFIs) of the visible screen
+            const loc = rendition.currentLocation();
+            if (!loc) return;
+
+            // Ask ePub.js to fetch the DOM ranges for those exact coordinates
+            Promise.all([
+                currentBook.getRange(loc.start.cfi),
+                currentBook.getRange(loc.end.cfi)
+            ]).then(ranges => {
+                const iframe = document.querySelector("#viewer iframe");
+                if (!iframe) return;
+
+                // Create an invisible boundary strictly around the current page
+                const activeRange = iframe.contentDocument.createRange();
+                activeRange.setStart(ranges[0].startContainer, ranges[0].startOffset);
+                activeRange.setEnd(ranges[1].endContainer, ranges[1].endOffset);
+                
+                // Extract ONLY the text inside that boundary
+                const textToRead = activeRange.toString();
+                
+                if (textToRead.trim() !== '') {
+                    const utterThis = new SpeechSynthesisUtterance(textToRead);
+                    
+                    // Apply the selected voice
+                    const selectedOption = voiceSelect.selectedOptions[0].getAttribute('data-name');
+                    for (let i = 0; i < voices.length; i++) {
+                        if (voices[i].name === selectedOption) {
+                            utterThis.voice = voices[i];
+                            break;
+                        }
+                    }
+                    
+                    // Auto-turn the page and keep reading when it finishes
+                    utterThis.onend = function (event) {
+                        if (rendition) {
+                            // Wait for the visual page turn to complete, then read again
+                            rendition.next().then(() => {
+                                setTimeout(extractAndRead, 400); 
+                            });
+                        }
+                    };
+
+                    synth.speak(utterThis);
+                }
+            }).catch(err => {
+                console.error("Error extracting page text:", err);
+            });
+        }
+
+        // Audio Button Listeners
+        playBtn.addEventListener('click', () => {
+            if (synth.paused) {
+                synth.resume();
+            } else {
+                extractAndRead();
+            }
+        });
+
+        pauseBtn.addEventListener('click', () => {
+            if (synth.speaking) synth.pause();
+        });
+
+        stopBtn.addEventListener('click', () => {
+            synth.cancel();
+        });
+
+        // Auto-stop audio if the user manually turns the page or closes the book
+        nextBtn.addEventListener('click', () => { synth.cancel(); });
+        prevBtn.addEventListener('click', () => { synth.cancel(); });
+        closeBtn.addEventListener('click', () => { synth.cancel(); });
     </script>
 </body>
 </html>
