@@ -30,14 +30,12 @@
 
             <div class="age-btn-wrapper">
                 <button class="page-btn age-btn-accept" id="btn-accept-age">I AM 18+ (ENTER)</button>
-                <!-- Kicks them safely back out to the Vault -->
                 <a href="../../vault/index.html" class="page-btn age-btn-decline" style="text-decoration: none;">UNDER 18 (LEAVE)</a>
             </div>
         </div>
     </div>
 
     <div class="app-container">
-        
         <!-- Navigation Header -->
         <header class="glass-panel nav-header">
             <a href="../../splash.html">
@@ -53,7 +51,6 @@
 
         <!-- Right Panel Wrapper for Responsive Desktop Mode -->
         <div class="right-panel">
-
             <main class="content-area">
                 <h1 class="luckiest-header" style="text-align: center; font-size: 2.5rem; margin-bottom: 5px;">The Library</h1>
                 
@@ -67,40 +64,16 @@
                     <button class="scroll-btn scroll-left" id="scroll-left">&lt;</button>
                     
                     <div class="carousel-track" id="carousel-track">
-                        <!-- Book 1 -->
-                        <div class="book-tile" data-epub="epubs/distance-between-him.epub">
-                            <img src="covers/distance-between-him.jpg" alt="Distance Between Him">
-                        </div>
-                        
-                        <!-- Book 2 -->
-                        <div class="book-tile" data-epub="epubs/sands-of-time.epub">
-                            <img src="covers/sands-of-time.jpg" alt="Sands of Time">
-                        </div>
-
-                        <!-- Book 3 -->
-                        <div class="book-tile" data-epub="epubs/harts-inferno.epub">
-                            <img src="covers/harts-inferno.jpg" alt="Hart's Inferno">
-                        </div>
-
-                        <!-- Book 4 -->
-                        <div class="book-tile" data-epub="epubs/island-daddy.epub">
-                            <img src="covers/island-daddy.jpg" alt="Island Daddy">
-                        </div>
-
-                        <!-- Book 5 -->
-                        <div class="book-tile" data-epub="epubs/safe-keeping.epub">
-                            <img src="covers/safe-keeping.jpg" alt="Safe Keeping">
-                        </div>
-
-                        <!-- Book 6 -->
-                        <div class="book-tile" data-epub="epubs/and-a-bag-of-chips.epub">
-                            <img src="covers/and-a-bag-of-chips.jpg" alt="...and a Bag of Chips">
-                        </div>
+                        <div class="book-tile" data-epub="epubs/distance-between-him.epub"><img src="covers/distance-between-him.jpg" alt="Distance Between Him"></div>
+                        <div class="book-tile" data-epub="epubs/sands-of-time.epub"><img src="covers/sands-of-time.jpg" alt="Sands of Time"></div>
+                        <div class="book-tile" data-epub="epubs/harts-inferno.epub"><img src="covers/harts-inferno.jpg" alt="Hart's Inferno"></div>
+                        <div class="book-tile" data-epub="epubs/island-daddy.epub"><img src="covers/island-daddy.jpg" alt="Island Daddy"></div>
+                        <div class="book-tile" data-epub="epubs/safe-keeping.epub"><img src="covers/safe-keeping.jpg" alt="Safe Keeping"></div>
+                        <div class="book-tile" data-epub="epubs/and-a-bag-of-chips.epub"><img src="covers/and-a-bag-of-chips.jpg" alt="...and a Bag of Chips"></div>
                     </div>
                     
                     <button class="scroll-btn scroll-right" id="scroll-right">&gt;</button>
                 </div>
-                
             </main>
 
             <!-- Footer -->
@@ -109,7 +82,6 @@
                 <p>&copy; 2026 Harperville Sandbox</p>
                 <p class="footer-subtext">Jack Aspen Harper</p>
             </footer>
-
         </div>
     </div>
 
@@ -117,14 +89,11 @@
     <div class="ereader-modal" id="ereader-modal">
         <div class="kindle-frame">
             <button class="close-reader" id="close-reader">X</button>
-            
-            <!-- This empty div is where the ePub engine injects the book -->
             <div id="viewer"></div>
             
             <div class="reader-controls">
                 <button class="reader-btn" id="prev-page">&lt; PREV</button>
                 
-                <!-- NEW: Audio TTS Controls -->
                 <div class="tts-controls">
                     <select id="voice-select" class="tts-select"></select>
                     <button class="reader-btn tts-btn" id="tts-play">▶ READ</button>
@@ -144,19 +113,15 @@
         const acceptBtn = document.getElementById('btn-accept-age');
 
         acceptBtn.addEventListener('click', () => {
-            // Dismisses the modal upon clicking accept
             ageModal.style.display = 'none';
         });
 
         // --- 2. Carousel Scroll Logic ---
         const track = document.getElementById('carousel-track');
-        const scrollLeftBtn = document.getElementById('scroll-left');
-        const scrollRightBtn = document.getElementById('scroll-right');
-
-        scrollLeftBtn.addEventListener('click', () => {
+        document.getElementById('scroll-left').addEventListener('click', () => {
             track.scrollBy({ left: -200, behavior: 'smooth' });
         });
-        scrollRightBtn.addEventListener('click', () => {
+        document.getElementById('scroll-right').addEventListener('click', () => {
             track.scrollBy({ left: 200, behavior: 'smooth' });
         });
 
@@ -169,11 +134,9 @@
         let currentBook = null;
         let rendition = null;
 
-        // Listen for clicks on any book tile
         document.querySelectorAll('.book-tile').forEach(tile => {
             tile.addEventListener('click', function() {
-                const epubFile = this.getAttribute('data-epub');
-                openReader(epubFile);
+                openReader(this.getAttribute('data-epub'));
             });
         });
 
@@ -183,43 +146,15 @@
             currentBook = ePub(fileUrl);
             
             rendition = currentBook.renderTo("viewer", {
-                width: "100%",
-                height: "100%",
-                spread: "none", 
-                manager: "continuous",
-                flow: "paginated"
+                width: "100%", height: "100%", spread: "none", manager: "continuous", flow: "paginated"
             });
             
             rendition.themes.default({
-                "body": { 
-                    "font-family": "Georgia, serif", 
-                    "color": "#333333",
-                    "padding": "0 10px"
-                }
+                "body": { "font-family": "Georgia, serif", "color": "#333333", "padding": "0 10px" }
             });
-
             rendition.display();
         }
 
-        // --- Page Turning ---
-        nextBtn.addEventListener('click', () => {
-            if(rendition) rendition.next();
-        });
-
-        prevBtn.addEventListener('click', () => {
-            if(rendition) rendition.prev();
-        });
-
-        // --- Allow Keyboard Arrows for Desktop Readers ---
-        document.addEventListener('keyup', (e) => {
-            if (modal.style.display === 'flex') {
-                if (e.key === 'ArrowRight') rendition.next();
-                if (e.key === 'ArrowLeft') rendition.prev();
-                if (e.key === 'Escape') closeReader();
-            }
-        });
-
-        // --- Close Reader ---
         function closeReader() {
             modal.style.display = 'none';
             if (currentBook) {
@@ -227,8 +162,6 @@
                 currentBook = null;
             }
         }
-        
-        closeBtn.addEventListener('click', closeReader);
 
         // --- 4. TEXT-TO-SPEECH (TTS) ENGINE ---
         const synth = window.speechSynthesis;
@@ -238,19 +171,16 @@
         const stopBtn = document.getElementById('tts-stop');
 
         let voices = [];
+        let isAutoReading = false;
+        let currentUtterance = null; 
 
-        // Populate browser voices
         function populateVoiceList() {
             voices = synth.getVoices();
             voiceSelect.innerHTML = '';
-            
-            // Filter for English voices to keep the list clean
             const engVoices = voices.filter(voice => voice.lang.includes('en'));
-            
             engVoices.forEach((voice) => {
                 const option = document.createElement('option');
                 option.textContent = `${voice.name} (${voice.lang})`;
-                option.setAttribute('data-lang', voice.lang);
                 option.setAttribute('data-name', voice.name);
                 voiceSelect.appendChild(option);
             });
@@ -261,17 +191,23 @@
             speechSynthesis.onvoiceschanged = populateVoiceList;
         }
 
-        // Extract text strictly from the active, visible page
-        function extractAndRead() {
-            if (synth.speaking) {
-                synth.cancel(); // Stop if already reading
+        // HARD KILL: Strips out events so iOS Safari can't fire ghost page turns
+        function killAudio() {
+            if (currentUtterance) {
+                currentUtterance.onend = null; 
+                currentUtterance.onerror = null;
             }
+            if (synth.speaking || synth.paused) {
+                synth.cancel();
+            }
+        }
 
-            // Get the exact start and end coordinates (CFIs) of the visible screen
+        function extractAndRead() {
+            killAudio(); // Start with a completely clean slate
+
             const loc = rendition.currentLocation();
             if (!loc) return;
 
-            // Ask ePub.js to fetch the DOM ranges for those exact coordinates
             Promise.all([
                 currentBook.getRange(loc.start.cfi),
                 currentBook.getRange(loc.end.cfi)
@@ -279,48 +215,73 @@
                 const iframe = document.querySelector("#viewer iframe");
                 if (!iframe) return;
 
-                // Create an invisible boundary strictly around the current page
                 const activeRange = iframe.contentDocument.createRange();
                 activeRange.setStart(ranges[0].startContainer, ranges[0].startOffset);
                 activeRange.setEnd(ranges[1].endContainer, ranges[1].endOffset);
                 
-                // Extract ONLY the text inside that boundary
                 const textToRead = activeRange.toString();
                 
                 if (textToRead.trim() !== '') {
-                    const utterThis = new SpeechSynthesisUtterance(textToRead);
+                    currentUtterance = new SpeechSynthesisUtterance(textToRead);
                     
-                    // Apply the selected voice
                     const selectedOption = voiceSelect.selectedOptions[0].getAttribute('data-name');
                     for (let i = 0; i < voices.length; i++) {
                         if (voices[i].name === selectedOption) {
-                            utterThis.voice = voices[i];
+                            currentUtterance.voice = voices[i];
                             break;
                         }
                     }
                     
-                    // Auto-turn the page and keep reading when it finishes
-                    utterThis.onend = function (event) {
-                        if (rendition) {
-                            // Wait for the visual page turn to complete, then read again
+                    currentUtterance.onend = function () {
+                        if (isAutoReading && rendition) {
                             rendition.next().then(() => {
                                 setTimeout(extractAndRead, 400); 
                             });
                         }
                     };
 
-                    synth.speak(utterThis);
+                    currentUtterance.onerror = function (e) {
+                        console.warn("Safari interrupted the voice:", e);
+                    };
+
+                    synth.speak(currentUtterance);
                 }
-            }).catch(err => {
-                console.error("Error extracting page text:", err);
-            });
+            }).catch(err => console.error("Error extracting text:", err));
         }
 
-        // Audio Button Listeners
+        // --- Safe Manual Navigation ---
+        function safeManualTurn(direction) {
+            isAutoReading = false; 
+            killAudio(); 
+            
+            if (rendition) {
+                if (direction === 'next') rendition.next();
+                if (direction === 'prev') rendition.prev();
+            }
+        }
+
+        nextBtn.addEventListener('click', () => { safeManualTurn('next'); });
+        prevBtn.addEventListener('click', () => { safeManualTurn('prev'); });
+
+        // --- Keyboard Controls ---
+        document.addEventListener('keyup', (e) => {
+            if (modal.style.display === 'flex') {
+                if (e.key === 'ArrowRight') safeManualTurn('next');
+                if (e.key === 'ArrowLeft') safeManualTurn('prev');
+                if (e.key === 'Escape') {
+                    isAutoReading = false;
+                    killAudio();
+                    closeReader();
+                }
+            }
+        });
+
+        // --- Audio Button Controls ---
         playBtn.addEventListener('click', () => {
-            if (synth.paused) {
+            if (synth.paused && isAutoReading) {
                 synth.resume();
             } else {
+                isAutoReading = true;
                 extractAndRead();
             }
         });
@@ -330,13 +291,15 @@
         });
 
         stopBtn.addEventListener('click', () => {
-            synth.cancel();
+            isAutoReading = false;
+            killAudio();
         });
 
-        // Auto-stop audio if the user manually turns the page or closes the book
-        nextBtn.addEventListener('click', () => { synth.cancel(); });
-        prevBtn.addEventListener('click', () => { synth.cancel(); });
-        closeBtn.addEventListener('click', () => { synth.cancel(); });
+        closeBtn.addEventListener('click', () => { 
+            isAutoReading = false;
+            killAudio(); 
+            closeReader();
+        });
     </script>
 </body>
 </html>
