@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harperville Vault | Harpertoons</title>
+    <!-- 1. Load the core structural physics -->
+    <link rel="stylesheet" href="../build2.css">
+    <!-- 2. Load the local Unicorn overrides & Product Grid -->
+    <link rel="stylesheet" href="j-faves2.css">
+</head>
+<body class="main-body">
+    <div class="app-container">
+        
+        <!-- THE SPARKLE ENGINE -->
+        <div class="sparkle-layer">
+            <div class="sparkles-1"></div>
+            <div class="sparkles-2"></div>
+        </div>
+
+        <!-- Navigation Header (VAULT PAGES) -->
+        <header class="glass-panel nav-header">
+            <a href="../splash.html">
+                <img src="../jack-aspen-harper-icon.png" alt="Jack Aspen Harper" class="nav-icon">
+            </a>
+            <nav class="hidden-menu">
+                <a href="../about.html">Jack Harper</a>
+                <a href="../blog.html">Blog</a>
+                <a href="../public-relations.html">PR-Kit</a>
+                <a href="index.html">The Vault</a>
+            </nav>
+        </header>
+
+        <!-- Right Panel Wrapper for Responsive Layout -->
+        <div class="right-panel">
+
+            <!-- Main Content -->
+            <main class="content-area">
+                <h1 class="luckiest-header" style="text-align: center; font-size: 2.5rem; margin-bottom: 5px;">Harpertoons</h1>
+                
+                <p style="text-align: center; color: #1b0101; font-size: 0.9rem; margin-bottom: 35px;">Daily struggles, feline overlords, and indie-web survival.</p>
+
+                <!-- DYNAMIC COMIC CONTAINER -->
+                <div id="comic-container">
+                    <div class="glass-panel card" id="loading-state">
+                        <p style="text-align:center; color:var(--text-primary);">Booting up the drawing board...</p>
+                    </div>
+                </div> 
+
+                <!-- PAGINATION CONTROLS -->
+                <div id="pagination-controls" class="pagination-glass"></div>
+
+                <div style="height: 30px;"></div>
+            </main>
+
+            <!-- Footer -->
+            <footer class="glass-panel main-footer">
+                <img src="../jack-aspen-harper-icon.png" alt="Jack Aspen Harper" class="footer-logo">
+                <p>&copy; 2026 Harperville Sandbox</p>
+                <p class="footer-subtext">Jack Aspen Harper</p>
+            </footer>
+
+        </div> <!-- Closing right-panel -->
+
+    </div> <!-- Closing app-container -->
+
+    <!-- LIGHTBOX MODAL (Hidden by default) -->
+    <div id="image-modal" class="modal-overlay">
+        <img id="full-size-img" src="" alt="Full Size Comic">
+    </div>
+
+    <!-- DYNAMIC FIREBASE STREAMING ENGINE -->
+    <script type="module">
+        import { db } from "/assets/js/firebase-config.js";
+        import { collection, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const container = document.getElementById("comic-container");
+        const paginationControls = document.getElementById("pagination-controls");
+        
+        // STRICTLY 1 COMIC PER PAGE
+        const cardsPerPage = 1; 
+        let currentPage = 1;
+        let allCards = [];
+
+        // Stream from the new "harpertoons" database collection
+        const q = query(collection(db, "harpertoons"), orderBy("timestamp", "desc"));
+        
+        onSnapshot(q, (snapshot) => {
+            container.innerHTML = ""; 
+            allCards = [];
+
+            if (snapshot.empty) {
+                container.innerHTML = `<div class="glass-panel card"><p style="text-align:center;">No comics uploaded yet. Check back soon!</p></div>`;
+                paginationControls.innerHTML = "";
+                return;
+            }
+
+            snapshot.forEach((doc) => {
+                const data = doc.data();
+                const card = document.createElement("div");
+                card.className = "glass-panel card product-card"; // Inheriting nice padding from j-faves2.css
+                
+                let timeString = "Signal lost";
+                if (data.timestamp) {
+                    const date = data.timestamp.toDate();
+                    timeString = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+                }
+
+                const title = data.title || "Untitled";
+                const imageUrl = data.imageUrl || "";
+                
+                // Assemble the comic card layout
+                card.innerHTML = `
+                    <div class="category-tag tv-tag" style="margin-bottom: 20px;">${timeString}</div>
+                    <h2 style="font-family: 'Bowlby One', cursive; font-size: 1.4rem; color: var(--text-primary); text-align: center; margin-top: 0; margin-bottom: 20px;">${title}</h2>
+                    <img src="${imageUrl}" alt="${title}" class="comic-image" onclick="openModal('${imageUrl}')">
+                    <p style="text-align: center; font-size: 0.8rem; margin-top: 15px; color: #666; font-style: italic;">*Click or tap the comic to view full size*</p>
+                `;
+                
+                allCards.push(card);
+                container.appendChild(card);
+            });
+
+            displayPage(currentPage);
+        });
+
+        function displayPage(page) {
+            allCards.forEach(card => {
+                card.style.display = "none";
+                card.style.animation = "none";
+            });
+            
+            const startIndex = (page - 1) * cardsPerPage;
+            const endIndex = startIndex + cardsPerPage;
+            
+            const activeCards = allCards.slice(startIndex, endIndex);
+            activeCards.forEach(card => {
+                card.style.display = "block";
+                void card.offsetWidth; 
+                card.style.animation = "fadeInCard 0.4s ease forwards";
+            });
+            
+            updateButtons(page);
+        }
+
+        function updateButtons(activePage) {
+            paginationControls.innerHTML = "";
+            const totalPages = Math.ceil(allCards.length / cardsPerPage);
+            
+            if (totalPages > 1) {
+                const prevBtn = document.createElement("button");
+                prevBtn.innerHTML = "&laquo;"; 
+                prevBtn.className = "page-btn";
+                if (activePage === 1) prevBtn.disabled = true;
+                prevBtn.addEventListener("click", () => {
+                    if (currentPage > 1) {
+                        currentPage--;
+                        displayPage(currentPage);
+                        document.querySelector("h1").scrollIntoView({ behavior: "smooth" });
+                    }
+                });
+                paginationControls.appendChild(prevBtn);
+
+                let startPage = Math.max(1, activePage - 1);
+                let endPage = Math.min(totalPages, activePage + 1);
+
+                if (activePage === 1) endPage = Math.min(totalPages, 3);
+                if (activePage === totalPages) startPage = Math.max(1, totalPages - 2);
+
+                for (let i = startPage; i <= endPage; i++) {
+                    const btn = document.createElement("button");
+                    btn.textContent = i;
+                    btn.className = "page-btn";
+                    if (i === activePage) btn.classList.add("active");
+                    
+                    btn.addEventListener("click", () => {
+                        currentPage = i;
+                        displayPage(currentPage);
+                        document.querySelector("h1").scrollIntoView({ behavior: "smooth" });
+                    });
+                    
+                    paginationControls.appendChild(btn);
+                }
+
+                const nextBtn = document.createElement("button");
+                nextBtn.innerHTML = "&raquo;"; 
+                nextBtn.className = "page-btn";
+                if (activePage === totalPages) nextBtn.disabled = true;
+                nextBtn.addEventListener("click", () => {
+                    if (currentPage < totalPages) {
+                        currentPage++;
+                        displayPage(currentPage);
+                        document.querySelector("h1").scrollIntoView({ behavior: "smooth" });
+                    }
+                });
+                paginationControls.appendChild(nextBtn);
+            }
+        }
+
+        // --- LIGHTBOX MODAL LOGIC ---
+        const modal = document.getElementById('image-modal');
+        const fullImg = document.getElementById('full-size-img');
+
+        // Make openModal available globally so the inline onclick can trigger it
+        window.openModal = function(src) {
+            fullImg.src = src;
+            modal.classList.add('active');
+        };
+
+        // Close when clicking anywhere on the dark overlay
+        modal.addEventListener('click', () => {
+            modal.classList.remove('active');
+            setTimeout(() => { fullImg.src = ""; }, 300); // clear image after fade out
+        });
+    </script>
+</body>
+</html>
