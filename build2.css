@@ -777,3 +777,20 @@ body {
         gap: 25px;
     }
 }
+
+#gj-fall-countdown {
+  background-color: #e60550b2;
+  color: #000000;
+  padding: 20px;
+  text-align: center;
+  border-radius: 8px;
+  font-family: sans-serif;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+#timer-display {
+  font-size: 2em;
+  font-weight: bold;
+  margin-top: 10px;
+}

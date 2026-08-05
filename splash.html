@@ -56,7 +56,43 @@
                     </div>
                 </div>
 
-   
+   <!-- FALL COUNTDOWN PORTAL -->
+<div class="glass-panel card" id="gj-fall-countdown" style="padding: 15px; margin-bottom: 25px; border-left: 3px solid var(--unicorn-pink); text-align: center;">
+    <h3 style="font-family: 'Bowlby One', cursive; margin: 0; font-size: 1rem; color: var(--text-primary); letter-spacing: 1px;">COUNTDOWN TO FALL</h3>
+    <p style="font-size: 0.85rem; margin: 5px 0 15px 0; color: #FFFFFF; font-weight: bold; text-transform: uppercase;">Grand Junction, Colorado</p>
+    
+    <div id="timer-display" style="font-family: 'Luckiest Guy', cursive; font-size: 2.5rem; color: #FFFFFF; letter-spacing: 2px; text-shadow: 0 0 6px rgba(255, 156, 233, 0.4); margin-top: 10px;">
+        Calculating...
+    </div>
+</div>
+
+<script>
+    // Set the target date for the start of Fall
+const fallDate = new Date("September 22, 2026 00:00:00").getTime();
+
+function updateCountdown() {
+  const now = new Date().getTime();
+  const distance = fallDate - now;
+
+  // Calculate days, hours, and minutes
+  const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+
+  // Output the result to the div
+  document.getElementById("timer-display").innerHTML = 
+    days + "d " + hours + "h " + minutes + "m ";
+
+  // What to display when Fall finally arrives
+  if (distance < 0) {
+    document.getElementById("timer-display").innerHTML = "Break out the hoodies, Fall is here!";
+  }
+}
+
+// Run immediately on page load, then set to update every minute
+updateCountdown();
+setInterval(updateCountdown, 60000);
+</script>
 
                 <h2>Just some quick thoughts...</h2>            
                 
