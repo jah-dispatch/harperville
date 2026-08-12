@@ -3,23 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Harperville | Digital Flagship | U01 Authority</title>
-    <link rel="stylesheet" href="build2.css">
+    <title>Harperville Resorts | Digital Flagship</title>
+    <!-- Linked to the new master casino stylesheet -->
+    <link rel="stylesheet" href="harperville-casino.css">
 </head>
 <body class="main-body">
     <div class="app-container">
         
-       <!-- Navigation Header -->
+     <!-- Navigation Header -->
        <header class="glass-panel nav-header">
             <!-- Icon linked back to splash.html -->
             <a href="splash.html">
                 <img src="jack-aspen-harper-icon.png" alt="Jack Aspen Harper" class="nav-icon">
             </a>
             <nav class="hidden-menu">
-                <a href="about.html">Jack Harper</a>
-                <a href="blog.html">Blog</a>
-                <a href="public-relations.html">PR</a>
-                <a href="vault/index.html">The Vault</a>
+                <a href="about.html" class="nav-tab">Jack Harper</a>
+                <a href="vault/index.html" class="nav-tab">The Vault</a>
             </nav>
         </header>
 
@@ -30,10 +29,10 @@
             <main class="content-area">
                 <h1 class="luckiest-header" style="text-align: center;">Welcome to Harperville</h1>
 
-                <!-- NEW: Dynamic Date & Commentary Banner -->
-                <div class="glass-panel card" style="text-align: center; padding: 15px; margin-bottom: 20px; border-left: 3px solid var(--emerald-green);">
+                <!-- Dynamic Date & Commentary Banner -->
+                <div class="glass-panel card" style="text-align: center; padding: 15px; margin-bottom: 20px; border-left: 3px solid var(--vegas-red);">
                     <p id="dynamic-date" style="font-weight: 700; color: var(--text-primary); margin: 0 0 5px 0; letter-spacing: 0.5px;"></p>
-                    <p style="margin: 0; font-size: 0.85rem; color: var(--gold-aspen); font-style: italic;">...and this space is provided to you by pure, unadulterated personal commentary.</p>
+                    <p style="margin: 0; font-size: 0.85rem; color: var(--gold-trim); font-style: italic;">...and this space is provided to you by pure, unadulterated personal commentary.</p>
                 </div>
 
                 <!-- JavaScript for the Date Banner -->
@@ -44,11 +43,11 @@
                     dateElement.textContent = `Today is: ${currentDate}`;
                 </script>
 
-    <!-- JACK FM RADIO PORTAL -->
-                <div class="glass-panel card" style="padding: 15px; margin-bottom: 25px; border-left: 3px solid var(--gold-aspen); text-align: center;">
-                    <h3 style="font-family: 'Bowlby One', cursive; margin: 0; font-size: 1rem; color: var(--text-primary); letter-spacing: 1px;">JACK FM RADIO</h3>
-                    <p style="font-size: 0.9rem; margin: 8px 0 15px 0; color: #0f0101;">Music is a huge part of my life! Why not Tune-In?</p>
-                    <p style="font-size: 0.9rem; margin: 8px 0 15px 0; color: #860375;">*Jack Aspen Harper is not affiliated with any radio station.*</p>
+                <!-- JACK FM RADIO PORTAL -->
+                <div class="glass-panel card" style="padding: 15px; margin-bottom: 25px; border-left: 3px solid var(--gold-trim); text-align: center;">
+                    <h3 style="font-family: var(--font-heading); margin: 0; font-size: 1.2rem; color: var(--text-primary); letter-spacing: 1px;">JACK FM RADIO</h3>
+                    <p style="font-size: 0.9rem; margin: 8px 0 15px 0; color: var(--text-muted);">Music is a huge part of my life! Why not Tune-In?</p>
+                    <p style="font-size: 0.9rem; margin: 8px 0 15px 0; color: var(--tiger-orange);">*Jack Aspen Harper is not affiliated with any radio station.*</p>
                     
                     <!-- The TuneIn Wrapper -->
                     <div style="border-radius: 12px; overflow: hidden; border: 1px solid var(--glass-border); box-shadow: 0 4px 15px rgba(0,0,0,0.5); background: rgba(0,0,0,0.5);">
@@ -56,50 +55,50 @@
                     </div>
                 </div>
 
-   <!-- FALL COUNTDOWN PORTAL -->
-<div class="glass-panel card" id="gj-fall-countdown" style="padding: 15px; margin-bottom: 25px; border-left: 3px solid var(--unicorn-pink); text-align: center;">
-    <h3 style="font-family: 'Bowlby One', cursive; margin: 0; font-size: 1rem; color: var(--text-primary); letter-spacing: 1px;">COUNTDOWN TO FALL</h3>
-    <p style="font-size: 0.85rem; margin: 5px 0 15px 0; color: #FFFFFF; font-weight: bold; text-transform: uppercase;">Grand Junction, Colorado</p>
-    
-    <div id="timer-display" style="font-family: 'Luckiest Guy', cursive; font-size: 2.5rem; color: #FFFFFF; letter-spacing: 2px; text-shadow: 0 0 6px rgba(255, 156, 233, 0.4); margin-top: 10px;">
-        Calculating...
-    </div>
-</div>
+                <!-- FALL COUNTDOWN PORTAL -->
+                <div class="glass-panel card" id="gj-fall-countdown" style="padding: 15px; margin-bottom: 25px; border-left: 3px solid var(--tiger-orange); text-align: center;">
+                    <h3 style="font-family: var(--font-heading); margin: 0; font-size: 1.2rem; color: var(--text-primary); letter-spacing: 1px;">COUNTDOWN TO FALL</h3>
+                    <p style="font-size: 0.85rem; margin: 5px 0 15px 0; color: var(--text-muted); font-weight: bold; text-transform: uppercase;">Grand Junction, Colorado</p>
+                    
+                    <div id="timer-display" style="font-family: var(--font-heading); font-size: 2.5rem; color: var(--text-primary); letter-spacing: 2px; text-shadow: 0 0 10px rgba(221, 125, 22, 0.6); margin-top: 10px;">
+                        Calculating...
+                    </div>
+                </div>
 
-<script>
-    // Set the target date for the start of Fall
-const fallDate = new Date("September 22, 2026 00:00:00").getTime();
+                <script>
+                    // Set the target date for the start of Fall
+                    const fallDate = new Date("September 22, 2026 00:00:00").getTime();
 
-function updateCountdown() {
-  const now = new Date().getTime();
-  const distance = fallDate - now;
+                    function updateCountdown() {
+                      const now = new Date().getTime();
+                      const distance = fallDate - now;
 
-  // Calculate days, hours, and minutes
-  const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-  const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                      // Calculate days, hours, and minutes
+                      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
 
-  // Output the result to the div
-  document.getElementById("timer-display").innerHTML = 
-    days + "d " + hours + "h " + minutes + "m ";
+                      // Output the result to the div
+                      document.getElementById("timer-display").innerHTML = 
+                        days + "d " + hours + "h " + minutes + "m ";
 
-  // What to display when Fall finally arrives
-  if (distance < 0) {
-    document.getElementById("timer-display").innerHTML = "Break out the hoodies, Fall is here!";
-  }
-}
+                      // What to display when Fall finally arrives
+                      if (distance < 0) {
+                        document.getElementById("timer-display").innerHTML = "Break out the hoodies, Fall is here!";
+                      }
+                    }
 
-// Run immediately on page load, then set to update every minute
-updateCountdown();
-setInterval(updateCountdown, 60000);
-</script>
+                    // Run immediately on page load, then set to update every minute
+                    updateCountdown();
+                    setInterval(updateCountdown, 60000);
+                </script>
 
-                <h2>Just some quick thoughts...</h2>            
+                <h2 style="font-family: var(--font-heading); font-size: 1.8rem; color: var(--text-primary); text-align: center; margin: 40px 0 20px 0; text-transform: uppercase; letter-spacing: 2px;">Just some quick thoughts...</h2>            
                 
                 <!-- JavaScript will completely build this container automatically -->
                 <div id="thought-container">
                     <div class="glass-panel card" id="loading-state">
-                        <p style="text-align:center; color:var(--gold-aspen);">Syncing with Firestore Database...</p>
+                        <p style="text-align:center; color: var(--tiger-orange);">Syncing with Firestore Database...</p>
                     </div>
                 </div> 
 
@@ -111,7 +110,7 @@ setInterval(updateCountdown, 60000);
             <!-- Footer -->
             <footer class="glass-panel main-footer">
                 <img src="jack-aspen-harper-icon.png" alt="Jack Aspen Harper" class="footer-logo">
-                <p>&copy; 2026 Harperville Sandbox</p>
+                <p>&copy; 2026 Harperville Resorts</p>
                 <p class="footer-subtext">Jack Aspen Harper</p>
             </footer>
 
@@ -137,7 +136,7 @@ setInterval(updateCountdown, 60000);
             allCards = [];
 
             if (snapshot.empty) {
-                container.innerHTML = `<div class="glass-panel card"><p style="text-align:center;">The database is currently silent.</p></div>`;
+                container.innerHTML = `<div class="glass-panel card"><p style="text-align:center; color: var(--text-muted);">The database is currently silent.</p></div>`;
                 paginationControls.innerHTML = "";
                 return;
             }
@@ -166,10 +165,10 @@ setInterval(updateCountdown, 60000);
                 
                 // 5. Inject the Timestamp UI directly above the thought
                 card.innerHTML = `
-                    <p style="margin: 0 0 10px 0; font-size: 0.75rem; color: var(--gold-aspen); border-bottom: 1px solid var(--glass-border); padding-bottom: 5px; text-transform: uppercase; letter-spacing: 1px;">
+                    <p style="margin: 0 0 10px 0; font-size: 0.75rem; color: var(--tiger-orange); border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 5px; text-transform: uppercase; letter-spacing: 1px;">
                         <strong>LOGGED:</strong> ${timeString}
                     </p>
-                    <p style="margin: 0;">${formattedText}</p>
+                    <p style="margin: 0; color: var(--text-primary);">${formattedText}</p>
                 `;
                 
                 allCards.push(card);

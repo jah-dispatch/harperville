@@ -3,120 +3,111 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Harperville | System Boot</title>
-    <link rel="stylesheet" href="build2.css">
+    <title>Harperville Resorts | Welcome</title>
     
-    <!-- SESSION LOGIC: Only show once per visit -->
-    <script>
-        // Check if the browser remembers seeing the intro this session
-        if (sessionStorage.getItem('hasSeenIntro')) {
-            // Immediately redirect without loading the animation
-            window.location.replace("splash.html"); 
-        } else {
-            // Mark that they are seeing it now
-            sessionStorage.setItem('hasSeenIntro', 'true');
-            // Run the 8-second immersive timer, then redirect
-            setTimeout(function() {
-                window.location.href = "splash.html";
-            }, 8000);
-        }
-    </script>
+    <!-- Link to the Unified Casino Master Stylesheet -->
+    <link rel="stylesheet" href="harperville-casino.css">
 
-  <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@graph": [
+    <!-- Schema.org Data (Preserved from v2.0) -->
+    <script type="application/ld+json">
     {
-      "@type": "Person",
-      "@id": "https://www.harperville.me/#jackharper",
-      "name": "Jack Aspen Harper",
-      "alternateName": ["Jack A. Harper", "Jack Harper"],
-      "jobTitle": ["Author", "Systemic Advocate", "Thought Leader", "Founder"],
-      "description": "Author, systemic advocate, and thought leader based in Colorado. Founder of the Unit of One movement, focusing on radical autonomy, structural independence, and systemic navigation.",
-      "image": {
-        "@type": "ImageObject",
-        "url": "https://www.harperville.me/assets/images/Jack-Aspen-Harper-Biography.jpg",
-        "caption": "Jack A. Harper, Author and Founder of the Unit of One Movement"
-      },
-      "url": "https://www.harperville.me",
-      "sameAs": [
-        "https://www.youtube.com/channel/UCoSpNSr_ZvZlOvLmpi-WZ-w"
-      ],
-      "homeLocation": {
-        "@type": "Place",
-        "name": "Grand Junction, Colorado"
-      },
-      "knowsAbout": [
-        "Brand Management",
-        "Business Identity Development",
-        "Customer Retention Strategies",
-        "Marketing Strategy",
-        "Digital Content Creation",
-        "Narrative Architecture",
-        "Systemic Advocacy",
-        "Structural Independence",
-        "Healthcare System Navigation",
-        "Radical Autonomy",
-        "Philosophical Frameworks",
-        "Digital Brand Management",
-        "Pharmacy Administration",
-        "Pharmacy Law",
-        "Pharmacology",
-        "Taylor Swift"
-      ],
-      "founder": {
-        "@id": "https://www.harperville.me/#unitofone"
-      },
-      "worksFor": [
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Person",
+          "@id": "https://www.harperville.me/#jackharper",
+          "name": "Jack Aspen Harper",
+          "alternateName": ["Jack A. Harper", "Jack Harper"],
+          "jobTitle": ["Author", "Systemic Advocate", "Thought Leader", "Founder"],
+          "description": "Author, systemic advocate, and thought leader based in Colorado. Founder of the Unit of One movement, focusing on radical autonomy, structural independence, and systemic navigation.",
+          "image": {
+            "@type": "ImageObject",
+            "url": "https://www.harperville.me/assets/images/Jack-Aspen-Harper-Biography.jpg",
+            "caption": "Jack A. Harper, Author and Founder of the Unit of One Movement"
+          },
+          "url": "https://www.harperville.me",
+          "sameAs": [
+            "https://www.youtube.com/channel/UCoSpNSr_ZvZlOvLmpi-WZ-w"
+          ],
+          "homeLocation": {
+            "@type": "Place",
+            "name": "Grand Junction, Colorado"
+          },
+          "knowsAbout": [
+            "Brand Management",
+            "Business Identity Development",
+            "Customer Retention Strategies",
+            "Marketing Strategy",
+            "Digital Content Creation",
+            "Narrative Architecture",
+            "Systemic Advocacy",
+            "Structural Independence",
+            "Healthcare System Navigation",
+            "Radical Autonomy",
+            "Philosophical Frameworks",
+            "Digital Brand Management",
+            "Pharmacy Administration",
+            "Pharmacy Law",
+            "Pharmacology",
+            "Taylor Swift"
+          ],
+          "founder": {
+            "@id": "https://www.harperville.me/#unitofone"
+          },
+          "worksFor": [
+            {
+              "@type": "Organization",
+              "name": "Unicorn Heart Brand Management"
+            }
+          ],
+          "creator": [
+            {
+              "@type": "Book",
+              "name": "Unit of One"
+            }
+          ]
+        },
         {
           "@type": "Organization",
-          "name": "Unicorn Heart Brand Management"
+          "@id": "https://www.harperville.me/#unitofone",
+          "name": "Unit of One Movement",
+          "alternateName": ["Unit of One Collective", "U01 Authority"],
+          "url": "https://www.harperville.me",
+          "founder": {
+            "@id": "https://www.harperville.me/#jackharper"
+          },
+          "description": "An advocacy collective and philosophical movement dedicated to structural independence, systemic navigation, self-advocacy, and radical autonomy for individuals operating outside traditional support networks.",
+          "keywords": "Unit of One movement, systemic advocacy collective, structural independence, self-advocacy framework, radical autonomy, individual empowerment, Harperville, U01 Authority, survival math, institutional navigation",
+          "knowsAbout": [
+            "Advocacy",
+            "Autonomy",
+            "Systemic Resilience"
+          ]
         }
-      ],
-      "creator": [
-        {
-          "@type": "Book",
-          "name": "Unit of One"
-        }
-      ]
-    },
-    {
-      "@type": "Organization",
-      "@id": "https://www.harperville.me/#unitofone",
-      "name": "Unit of One Movement",
-      "alternateName": ["Unit of One Collective", "U01 Authority"],
-      "url": "https://www.harperville.me",
-      "founder": {
-        "@id": "https://www.harperville.me/#jackharper"
-      },
-      "description": "An advocacy collective and philosophical movement dedicated to structural independence, systemic navigation, self-advocacy, and radical autonomy for individuals operating outside traditional support networks.",
-      "keywords": "Unit of One movement, systemic advocacy collective, structural independence, self-advocacy framework, radical autonomy, individual empowerment, Harperville, U01 Authority, survival math, institutional navigation",
-      "knowsAbout": [
-        "Advocacy",
-        "Autonomy",
-        "Systemic Resilience"
       ]
     }
-  ]
-}
-</script>  
+    </script>  
 </head>
-<body class="dos-body">
-    <div class="app-container dos-container">
+<body>
+    
+    <!-- THE RESORT HERO SECTION -->
+    <main class="hero-section">
         
-        <div class="dos-content">
-            <!-- The Tagline with Blinking Cursor -->
-            <h1 class="dos-title">Loading Harperville Summer Protocol v2.0<span class="dos-cursor">_</span></h1>
-            
-            <!-- The DOS Loading Bar -->
-            <div class="dos-loading-area">
-                <div class="dos-progress-bar"></div>
+        <h1 class="hero-title">Welcome to Harperville Resorts!</h1>
+        
+        <!-- The 3D Spinning Card Stage -->
+        <div class="card-scene">
+            <div class="card-3d-wrapper">
+                <!-- Assets pull directly from root/assets/images/ -->
+                <div class="card-face card-front"></div>
+                <div class="card-face card-back"></div>
             </div>
-            
-            <!-- The Stalled Subtext -->
-            <p class="dos-subtext">Who wants a unicorn ride?</p>
         </div>
+        
+        <!-- The Quirky CTA -->
+        <button class="btn-reserve" onclick="window.location.href='vault.html';">Reserve Table</button>
 
-    </div>
+    </main>
+
 </body>
 </html>

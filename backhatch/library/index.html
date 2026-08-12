@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Harperville | The Backlist Library</title>
-    <!-- Core Structural Physics -->
-    <link rel="stylesheet" href="../../build2.css">
+    <title>Harperville Resorts | The Backlist Library</title>
+    <!-- Core Structural Physics - Hooked to Casino Theme -->
+    <link rel="stylesheet" href="../../harperville-casino.css">
     <!-- Local Library & Reader Overrides -->
     <link rel="stylesheet" href="library.css">
     
@@ -18,19 +18,19 @@
     <!-- 18+ MATURE CONTENT WARNING MODAL -->
     <div class="age-gate-modal" id="age-gate-modal">
         <div class="glass-panel card age-gate-card">
-            <h2 class="luckiest-header" style="text-align: center; font-size: 2.2rem; margin-bottom: 5px; color: var(--accent-color);">WARNING</h2>
-            <p style="text-align: center; font-family: 'Bowlby One', cursive; color: var(--text-primary); margin-top: 0; margin-bottom: 15px; font-size: 1.1rem;">18+ MATURE AUDIENCES ONLY</p>
+            <h2 style="font-family: var(--font-heading); text-align: center; font-size: 2.2rem; margin-bottom: 5px; color: var(--vegas-red); text-transform: uppercase; letter-spacing: 2px;">WARNING</h2>
+            <p style="text-align: center; font-family: var(--font-heading); color: var(--text-primary); margin-top: 0; margin-bottom: 15px; font-size: 1.1rem; letter-spacing: 1px;">18+ MATURE AUDIENCES ONLY</p>
             
-            <p style="text-align: center; font-size: 0.95rem; line-height: 1.6; margin-bottom: 10px;">
+            <p style="text-align: center; font-size: 0.95rem; line-height: 1.6; margin-bottom: 10px; color: var(--text-primary);">
                 The backlist titles housed in this library contain explicit sexual scenes, depictions of intense lust, and mature romance. 
             </p>
-            <p style="text-align: center; font-size: 0.95rem; line-height: 1.6; font-weight: bold; color: var(--text-primary);">
+            <p style="text-align: center; font-size: 0.95rem; line-height: 1.6; font-weight: bold; color: var(--tiger-orange);">
                 By proceeding, you confirm that you are at least 18 years of age and consent to viewing mature content.
             </p>
 
             <div class="age-btn-wrapper">
-                <button class="page-btn age-btn-accept" id="btn-accept-age">I AM 18+ (ENTER)</button>
-                <a href="../../vault/index.html" class="page-btn age-btn-decline" style="text-decoration: none;">UNDER 18 (LEAVE)</a>
+                <button class="page-btn age-btn-accept" id="btn-accept-age" style="font-family: var(--font-heading); font-weight: 700; letter-spacing: 1px; cursor: pointer;">I AM 18+ (ENTER)</button>
+                <a href="../../vault/index.html" class="page-btn age-btn-decline" style="text-decoration: none; font-family: var(--font-heading); font-weight: 700; letter-spacing: 1px;">UNDER 18 (LEAVE)</a>
             </div>
         </div>
     </div>
@@ -42,21 +42,25 @@
                 <img src="../../jack-aspen-harper-icon.png" alt="Jack Aspen Harper" class="nav-icon">
             </a>
             <nav class="hidden-menu">
-                <a href="../../about.html">Jack Harper</a>
-                <a href="../../blog.html">Blog</a>
-                <a href="../../public-relations.html">PR</a>
-                <a href="../../vault/index.html">The Vault</a>
+                <a href="../../about.html" class="nav-tab">Jack Harper</a>
+                <a href="../../vault/index.html" class="nav-tab">The Vault</a>
             </nav>
         </header>
 
         <!-- Right Panel Wrapper for Responsive Desktop Mode -->
         <div class="right-panel">
             <main class="content-area">
-                <h1 class="luckiest-header" style="text-align: center; font-size: 2.5rem; margin-bottom: 5px;">The Library</h1>
                 
-                <div class="glass-panel card" style="text-align: center; padding: 15px; border-top: 3px solid var(--accent-color); margin-bottom: 10px;">
-                    <p style="margin: 0; font-weight: bold; color: var(--text-primary);">The Backlist Archives</p>
-                    <p style="margin: 5px 0 0 0; font-size: 0.85rem; color: #555;">Heavy, textured, and delightfully aggressive narratives. Tap a cover to begin reading.</p>
+                <!-- BACK TO SPLASH BUTTON -->
+                <div style="text-align: center; margin-bottom: 30px;">
+                    <a href="../../splash.html" class="nav-tab">&lt; BACK TO SPLASH</a>
+                </div>
+
+                <h1 class="hero-title" style="margin-top: 0; font-size: clamp(2rem, 5vw, 3rem); margin-bottom: 15px;">The Library</h1>
+                
+                <div class="resort-card" style="text-align: center; padding: 15px; border-top: 3px solid var(--tiger-orange); margin-bottom: 10px;">
+                    <p style="margin: 0; font-family: var(--font-heading); font-weight: bold; color: var(--tiger-orange); text-transform: uppercase; letter-spacing: 1.5px;">The Backlist Archives</p>
+                    <p style="margin: 5px 0 0 0; font-size: 0.9rem; color: var(--text-muted);">Heavy, textured, and delightfully aggressive narratives. Tap a cover to begin reading.</p>
                 </div>
 
                 <!-- THE CAROUSEL -->
@@ -79,7 +83,7 @@
             <!-- Footer -->
             <footer class="glass-panel main-footer">
                 <img src="../../jack-aspen-harper-icon.png" alt="Jack Aspen Harper" class="footer-logo">
-                <p>&copy; 2026 Harperville Sandbox</p>
+                <p>&copy; 2026 Harperville Resorts</p>
                 <p class="footer-subtext">Jack Aspen Harper</p>
             </footer>
         </div>
@@ -93,14 +97,7 @@
             
             <div class="reader-controls">
                 <button class="reader-btn" id="prev-page">&lt; PREV</button>
-                
-                <div class="tts-controls">
-                    <select id="voice-select" class="tts-select"></select>
-                    <button class="reader-btn tts-btn" id="tts-play">▶ READ</button>
-                    <button class="reader-btn tts-btn" id="tts-pause">⏸</button>
-                    <button class="reader-btn tts-btn" id="tts-stop">⏹</button>
-                </div>
-
+                <!-- Audio Controls Permanently Removed -->
                 <button class="reader-btn" id="next-page">NEXT &gt;</button>
             </div>
         </div>
@@ -163,141 +160,27 @@
             }
         }
 
-        // --- 4. TEXT-TO-SPEECH (TTS) ENGINE ---
-        const synth = window.speechSynthesis;
-        const voiceSelect = document.getElementById('voice-select');
-        const playBtn = document.getElementById('tts-play');
-        const pauseBtn = document.getElementById('tts-pause');
-        const stopBtn = document.getElementById('tts-stop');
-
-        let voices = [];
-        let isAutoReading = false;
-        let currentUtterance = null; 
-
-        function populateVoiceList() {
-            voices = synth.getVoices();
-            voiceSelect.innerHTML = '';
-            const engVoices = voices.filter(voice => voice.lang.includes('en'));
-            engVoices.forEach((voice) => {
-                const option = document.createElement('option');
-                option.textContent = `${voice.name} (${voice.lang})`;
-                option.setAttribute('data-name', voice.name);
-                voiceSelect.appendChild(option);
-            });
-        }
-
-        populateVoiceList();
-        if (speechSynthesis.onvoiceschanged !== undefined) {
-            speechSynthesis.onvoiceschanged = populateVoiceList;
-        }
-
-        // HARD KILL: Strips out events so iOS Safari can't fire ghost page turns
-        function killAudio() {
-            if (currentUtterance) {
-                currentUtterance.onend = null; 
-                currentUtterance.onerror = null;
-            }
-            if (synth.speaking || synth.paused) {
-                synth.cancel();
-            }
-        }
-
-        function extractAndRead() {
-            killAudio(); // Start with a completely clean slate
-
-            const loc = rendition.currentLocation();
-            if (!loc) return;
-
-            Promise.all([
-                currentBook.getRange(loc.start.cfi),
-                currentBook.getRange(loc.end.cfi)
-            ]).then(ranges => {
-                const iframe = document.querySelector("#viewer iframe");
-                if (!iframe) return;
-
-                const activeRange = iframe.contentDocument.createRange();
-                activeRange.setStart(ranges[0].startContainer, ranges[0].startOffset);
-                activeRange.setEnd(ranges[1].endContainer, ranges[1].endOffset);
-                
-                const textToRead = activeRange.toString();
-                
-                if (textToRead.trim() !== '') {
-                    currentUtterance = new SpeechSynthesisUtterance(textToRead);
-                    
-                    const selectedOption = voiceSelect.selectedOptions[0].getAttribute('data-name');
-                    for (let i = 0; i < voices.length; i++) {
-                        if (voices[i].name === selectedOption) {
-                            currentUtterance.voice = voices[i];
-                            break;
-                        }
-                    }
-                    
-                    currentUtterance.onend = function () {
-                        if (isAutoReading && rendition) {
-                            rendition.next().then(() => {
-                                setTimeout(extractAndRead, 400); 
-                            });
-                        }
-                    };
-
-                    currentUtterance.onerror = function (e) {
-                        console.warn("Safari interrupted the voice:", e);
-                    };
-
-                    synth.speak(currentUtterance);
-                }
-            }).catch(err => console.error("Error extracting text:", err));
-        }
-
-        // --- Safe Manual Navigation ---
-        function safeManualTurn(direction) {
-            isAutoReading = false; 
-            killAudio(); 
-            
+        // --- Manual Navigation ---
+        function manualTurn(direction) {
             if (rendition) {
                 if (direction === 'next') rendition.next();
                 if (direction === 'prev') rendition.prev();
             }
         }
 
-        nextBtn.addEventListener('click', () => { safeManualTurn('next'); });
-        prevBtn.addEventListener('click', () => { safeManualTurn('prev'); });
+        nextBtn.addEventListener('click', () => { manualTurn('next'); });
+        prevBtn.addEventListener('click', () => { manualTurn('prev'); });
 
         // --- Keyboard Controls ---
         document.addEventListener('keyup', (e) => {
             if (modal.style.display === 'flex') {
-                if (e.key === 'ArrowRight') safeManualTurn('next');
-                if (e.key === 'ArrowLeft') safeManualTurn('prev');
-                if (e.key === 'Escape') {
-                    isAutoReading = false;
-                    killAudio();
-                    closeReader();
-                }
+                if (e.key === 'ArrowRight') manualTurn('next');
+                if (e.key === 'ArrowLeft') manualTurn('prev');
+                if (e.key === 'Escape') closeReader();
             }
-        });
-
-        // --- Audio Button Controls ---
-        playBtn.addEventListener('click', () => {
-            if (synth.paused && isAutoReading) {
-                synth.resume();
-            } else {
-                isAutoReading = true;
-                extractAndRead();
-            }
-        });
-
-        pauseBtn.addEventListener('click', () => {
-            if (synth.speaking) synth.pause();
-        });
-
-        stopBtn.addEventListener('click', () => {
-            isAutoReading = false;
-            killAudio();
         });
 
         closeBtn.addEventListener('click', () => { 
-            isAutoReading = false;
-            killAudio(); 
             closeReader();
         });
     </script>

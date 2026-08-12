@@ -29,14 +29,14 @@
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     border-radius: 8px;
     overflow: hidden;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.5);
     border: 2px solid var(--glass-border);
 }
 
 .book-tile:hover {
     transform: translateY(-10px) scale(1.05);
-    box-shadow: 0 15px 30px rgba(255, 156, 233, 0.4);
-    border-color: var(--accent-color);
+    box-shadow: 0 15px 30px rgba(221, 125, 22, 0.4);
+    border-color: var(--tiger-orange);
 }
 
 .book-tile img {
@@ -46,12 +46,12 @@
 }
 
 .scroll-btn {
-    background: var(--glass-bg);
+    background: var(--casino-black);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    border: 1px solid var(--glass-border);
-    color: var(--text-primary);
-    font-family: 'Bowlby One', cursive;
+    border: 1px solid var(--text-muted);
+    color: var(--text-muted);
+    font-family: var(--font-heading);
     font-size: 1.5rem;
     width: 50px;
     height: 50px;
@@ -59,30 +59,32 @@
     cursor: pointer;
     position: absolute;
     z-index: 10;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
     transition: all 0.3s ease;
 }
 
 .scroll-btn:hover {
-    color: var(--accent-color);
-    border-color: var(--accent-color);
-    background: rgba(255, 255, 255, 0.8);
+    color: var(--tiger-orange);
+    border-color: var(--tiger-orange);
+    background: rgba(20, 20, 20, 0.9);
+    box-shadow: 0 0 15px rgba(221, 125, 22, 0.4);
 }
 
 .scroll-left { left: -15px; }
 .scroll-right { right: -15px; }
 
+
 /* --- E-READER MODAL (KINDLE AESTHETIC) --- */
 .ereader-modal {
-    display: none; /* Hidden by default */
+    display: none; 
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.85); /* Dark overlay */
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
+    background: rgba(5, 5, 5, 0.95); 
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     z-index: 9999;
     justify-content: center;
     align-items: center;
@@ -95,9 +97,9 @@
     width: 100%;
     max-width: 800px;
     height: 90vh;
-    border-radius: 20px;
-    border: 12px solid #2c2c2c; /* The Kindle bezel */
-    box-shadow: inset 0 0 20px rgba(0,0,0,0.1), 0 20px 50px rgba(0,0,0,0.5);
+    border-radius: 12px;
+    border: 12px solid var(--charcoal-bg); 
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.1), 0 20px 50px rgba(0,0,0,0.8);
     position: relative;
     display: flex;
     flex-direction: column;
@@ -119,39 +121,48 @@
     display: flex;
     justify-content: space-between;
     padding: 10px 20px;
-    background: #2c2c2c;
-    border-top: 1px solid #1a1a1a;
+    background: var(--charcoal-bg);
+    border-top: 1px solid var(--casino-black);
 }
 
 .reader-btn {
     background: transparent;
     border: none;
-    color: #888;
-    font-family: 'Bowlby One', cursive;
+    color: var(--text-muted);
+    font-family: var(--font-heading);
     font-size: 1.2rem;
     cursor: pointer;
     transition: color 0.3s ease;
 }
 
 .reader-btn:hover {
-    color: #fff;
+    color: var(--tiger-orange);
 }
 
 .close-reader {
     position: absolute;
     top: -15px;
     right: -15px;
-    background: var(--accent-color);
-    color: #fff;
-    border: none;
+    background: var(--vegas-red);
+    color: var(--text-primary);
+    border: 2px solid var(--casino-black);
     border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    font-family: 'Bowlby One', cursive;
+    width: 45px;
+    height: 45px;
+    font-family: var(--font-heading);
+    font-weight: 700;
     cursor: pointer;
     box-shadow: 0 4px 10px rgba(0,0,0,0.5);
     z-index: 100;
+    transition: all 0.3s ease;
 }
+
+.close-reader:hover {
+    background: #ff3333;
+    transform: scale(1.05);
+}
+
+
 /* --- 18+ AGE GATE MODAL --- */
 .age-gate-modal {
     position: fixed;
@@ -159,10 +170,10 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.85); /* Deep dark overlay to hide the library behind it */
+    background: rgba(5, 5, 5, 0.95); 
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    z-index: 10000; /* Absolute highest layer, above the navigation */
+    z-index: 10000; 
     display: flex;
     justify-content: center;
     align-items: center;
@@ -173,10 +184,10 @@
 .age-gate-card {
     max-width: 450px;
     width: 100%;
-    box-shadow: 0 15px 50px rgba(255, 183, 178, 0.3);
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.8), 0 0 20px rgba(204, 0, 0, 0.3);
     animation: fadeInAgeGate 0.4s ease-out forwards;
-    border-top: 4px solid var(--unicorn-pink);
-    border-bottom: 4px solid var(--unicorn-pink);
+    border-top: 4px solid var(--vegas-red);
+    border-bottom: 4px solid var(--vegas-red);
 }
 
 @keyframes fadeInAgeGate {
@@ -193,24 +204,25 @@
 }
 
 .age-btn-accept {
-    background: linear-gradient(135deg, var(--unicorn-mint), var(--unicorn-lavender));
-    color: var(--text-primary);
-    border: 1px solid var(--glass-border);
+    background: var(--tiger-orange);
+    color: var(--casino-black);
+    border: 1px solid var(--gold-trim);
     width: 100%;
     max-width: 180px;
     padding: 12px 10px;
+    box-shadow: inset 0 1px 1px rgba(255,255,255,0.3), 0 4px 15px rgba(0,0,0,0.5);
 }
 
 .age-btn-accept:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(181, 234, 215, 0.6);
-    border-color: #fff;
+    box-shadow: 0 6px 20px rgba(221, 125, 22, 0.6);
+    background: #f08c1a;
 }
 
 .age-btn-decline {
-    background: rgba(255, 255, 255, 0.2);
-    color: #ff4444 !important; /* High contrast red for leaving */
-    border: 1px solid rgba(255, 68, 68, 0.4);
+    background: rgba(20, 20, 20, 0.8);
+    color: var(--text-muted);
+    border: 1px solid var(--glass-border);
     width: 100%;
     max-width: 180px;
     padding: 12px 10px;
@@ -221,68 +233,9 @@
 }
 
 .age-btn-decline:hover {
-    background: rgba(255, 68, 68, 0.1);
-    border-color: #ff4444;
+    background: rgba(204, 0, 0, 0.1);
+    color: var(--vegas-red) !important; 
+    border-color: var(--vegas-red);
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(255, 68, 68, 0.2);
-}
-/* --- TTS AUDIO CONTROLS --- */
-.tts-controls {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.tts-select {
-    background: #1a1a1a;
-    color: #888;
-    border: 1px solid #1a1a1a;
-    padding: 4px 8px;
-    font-family: sans-serif;
-    border-radius: 4px;
-    max-width: 140px;
-    outline: none;
-    cursor: pointer;
-}
-
-.tts-select:hover {
-    color: #fff;
-}
-
-.tts-btn {
-    font-size: 1.1rem;
-    padding: 0 5px;
-    margin: 0;
-}
-/* --- MOBILE RESPONSIVE FIX FOR E-READER --- */
-@media (max-width: 650px) {
-    .reader-controls {
-        flex-direction: column;
-        gap: 15px;
-        padding: 15px;
-    }
-    
-    .tts-controls {
-        flex-wrap: wrap;
-        justify-content: center;
-        width: 100%;
-    }
-    
-    .tts-select {
-        max-width: 100%;
-        width: 100%;
-        text-align: center;
-        margin-bottom: 5px;
-    }
-    
-    /* Reposition the PREV and NEXT buttons to sit below the audio controls */
-    .reader-controls #prev-page {
-        order: 2; 
-    }
-    .reader-controls .tts-controls {
-        order: 1;
-    }
-    .reader-controls #next-page {
-        order: 3;
-    }
+    box-shadow: 0 6px 20px rgba(204, 0, 0, 0.3);
 }

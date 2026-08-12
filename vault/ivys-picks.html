@@ -3,119 +3,188 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Harperville Vault | Ivy's Picks</title>
-    <link rel="stylesheet" href="../build2.css">
-    <link rel="stylesheet" href="j-faves2.css">
+    <title>Harperville Resorts | Ivy's Picks</title>
+    <!-- Hooked to the Casino Theme -->
+    <link rel="stylesheet" href="../harperville-casino.css">
+
+    <style>
+        /* --- VIP CATALOG GRID --- */
+        .vip-catalog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        /* --- PRODUCT CARD OVERRIDES --- */
+        .product-card {
+            justify-content: space-between; /* Pushes the button to the bottom */
+        }
+        
+        .product-card h3 {
+            font-family: var(--font-heading);
+            color: var(--text-primary);
+            font-size: 1.4rem;
+            margin: 0 0 15px 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .product-desc {
+            font-family: var(--font-body);
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        /* --- FLOATING CASINO CHIP REWARD ICON --- */
+        .floating-reward-icon {
+            position: fixed; 
+            bottom: 30px; 
+            right: 30px;  
+            width: 70px; 
+            height: 70px;
+            z-index: 100; 
+            background: var(--casino-black); 
+            border: 2px solid var(--gold-trim);
+            border-radius: 50%; /* Perfect Casino Chip Circle */
+            padding: 8px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8), inset 0 0 10px rgba(212, 175, 55, 0.3); 
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .floating-reward-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 50%;
+            display: block;
+        }
+
+        .floating-reward-icon:hover {
+            transform: scale(1.1) translateY(-5px); 
+            background: var(--charcoal-bg);
+            box-shadow: 0 10px 40px rgba(212, 175, 55, 0.5), inset 0 0 15px rgba(212, 175, 55, 0.6); 
+        }
+    </style>
 </head>
 <body class="main-body">
-    <div class="app-container">
-        
-        <div class="sparkle-layer">
-            <div class="sparkles-1"></div>
-            <div class="sparkles-2"></div>
-        </div>
 
-        <header class="glass-panel nav-header">
-            <a href="../splash.html">
-                <img src="../jack-aspen-harper-icon.png" alt="U01 Menu" class="nav-icon">
-            </a>
-            <nav class="hidden-menu">
-                <a href="../about.html">Jack Harper</a>
-                <a href="../blog.html">Blog</a>
-                <a href="../public-relations.html">PR-Kit</a>
-                <a href="index.html">The Vault</a>
-            </nav>
-        </header>
-
-        <!-- Right Panel Wrapper for Responsive Layout -->
-        <div class="right-panel">
-
-            <main class="content-area">
-                <h1 class="luckiest-header" style="text-align: center; font-size: 2.2rem; margin-bottom: 5px;">Ivy's Picks</h1>
-                
-                <p style="text-align: center; color: #1b0101; font-size: 0.9rem; margin-bottom: 25px;">The premium supply drop, approved exclusively by the Chief Executive.</p>
-
-                <div class="glass-panel card" style="border-left: 4px solid var(--emerald-green); text-align: center; margin-bottom: 35px; background: rgba(0, 243, 255, 0.05);">
-                    <h2 style="font-family: 'Bowlby One', cursive; font-size: 1.2rem; margin-top: 0; color: var(--text-primary);">Capital One Shopping</h2>
-                    
-                    <div class="product-image-wrapper" style="border: none; background: transparent; padding: 0;">
-                        <a href="https://capitaloneshopping.com/r/93f06f0f-8825-4b9c-8794-6f44969c958a" target="_blank" rel="noopener noreferrer">
-                            <img src="images/cap-1-shopping.png" alt="Capital One Shopping Logo" class="product-image">
-                        </a>
-                    </div>
-                    
-                    <p style="font-size: 0.95rem; line-height: 1.6; color: #fff;">
-                        <span class="silver-shimmer" style="font-weight: bold;">Hey by the way, you can get $80 in Capital One Shopping rewards when you sign up under my referral link! *Click or tap the image above to sign up.*</span>
-                    </p>
-                    <p style="font-size: 0.85rem; line-height: 1.5; color: #1b0101; margin-top: 10px;">
-                        Spoil your feline assistant while earning cash back. You can earn that bonus by using the extension/app to purchase from 10,000's of online vendors. Bonuses are given within the first 90 days of program sign up <em>*which is absolutely free*</em>. Win-Win! But you must make one initial purchase with the active extension/app in order to qualify.
-                    </p>
-                </div>
-
-                <div class="single-col-grid">
-                    
-                    <div class="product-card ivy-card">
-                        <div class="category-tag ivy-tag">TREATS</div>
-                        <a href="https://www.petsmart.com/cat/food-and-treats/treats/nulo-perfect-puree-lickable-cat-treats-variety-pack-90085.html" target="_blank" rel="noopener noreferrer" class="product-link">Nulo Perfect Purees</a>
-                        
-                        <div class="product-image-wrapper">
-                            <img src="images/nulo-perfect-purees.png" alt="Nulo Purees" class="product-image">
-                        </div>
-                        
-                        <p class="product-desc">When the Dawn Protocol is initiated, this is the only acceptable peace offering. These lickable purees are highly potent, top-tier compensation for a hardworking tortoiseshell administrative assistant.</p>
-                    </div>
-
-                    <div class="product-card ivy-card">
-                        <div class="category-tag ivy-tag">HYDRATION</div>
-                        <a href="https://petlibro.com/products/dockstream-2-smart-fountain" target="_blank" rel="noopener noreferrer" class="product-link">Petlibro Water Fountain</a>
-                        
-                        <div class="product-image-wrapper">
-                            <img src="images/petlibro-dockstream2.png" alt="Petlibro Fountain" class="product-image">
-                        </div>
-                        
-                        <p class="product-desc">Still water is strictly forbidden by executive decree. This automated flowing fountain keeps the hydration crisp, filtered, and constantly moving to satisfy the most demanding feline palates.</p>
-                    </div>
-
-                    <div class="product-card ivy-card">
-                        <div class="category-tag ivy-tag">DINING</div>
-                        <a href="https://petlibro.com/products/petlibro-granary-automatic-pet-feeder-with-camera" target="_blank" rel="noopener noreferrer" class="product-link">Petlibro Automated Kibble Machine</a>
-                        
-                        <div class="product-image-wrapper">
-                            <img src="images/petlibro-granary-feeder.png" alt="Petlibro Feeder" class="product-image">
-                        </div>
-                        
-                        <p class="product-desc">Because the chonker requires her exact schedule maintained even when her Unit of One is down for the count recovering. Set the timer, drop the kibble, and let the robotics handle the daily sustenance.</p>
-                    </div>
-
-                    <div class="product-card ivy-card">
-                        <div class="category-tag ivy-tag">ENRICHMENT</div>
-                        <a href="https://www.petsmart.com/cat/food-and-treats/catnip-and-grass/meowijuana-meowi-waui-catnip-bud-shake-52151.html?redirected=true" target="_blank" rel="noopener noreferrer" class="product-link">Premium Organic Catnip</a>
-                        
-                        <div class="product-image-wrapper">
-                            <img src="images/meowjiwana.png" alt="Premium Catnip" class="product-image">
-                        </div>
-                        
-                        <p class="product-desc">Pure, unadulterated recreational botanicals for the ultimate post-shift relaxation. Perfect for recharging the batteries before the next heavy session of comforter-wrangling and nap enforcement.</p>
-                    </div>
-
-                </div>
-                
-                <div style="height: 30px;"></div>
-            </main>
-
-            <footer class="glass-panel main-footer">
-                <img src="../jack-aspen-harper-icon.png" alt="Jack Aspen Harper" class="footer-logo">
-                <p>&copy; 2026 Harperville Sandbox</p>
-                <p class="footer-subtext">Jack Aspen Harper</p>
-            </footer>
-            
-        </div>
-
-        <!-- Floating icon remains outside right-panel but inside app-container for fixed positioning -->
-        <a href="https://capitaloneshopping.com/r/93f06f0f-8825-4b9c-8794-6f44969c958a" target="_blank" rel="noopener noreferrer" class="floating-reward-icon">
-            <img src="images/cap-1-shopping.png" alt="Capital One Shopping Reward Link">
+    <!-- Navigation Header -->
+    <header class="glass-panel nav-header">
+        <a href="../splash.html">
+            <img src="../jack-aspen-harper-icon.png" alt="Jack Aspen Harper" class="nav-icon">
         </a>
+        <nav class="hidden-menu">
+            <a href="../about.html" class="nav-tab">Jack Harper</a>
+            <a href="index.html" class="nav-tab">The Vault</a>
+        </nav>
+    </header>
 
-    </div> 
+    <!-- Main Content Area (Fluid without wrappers) -->
+    <main class="content-area">
+
+        <!-- BACK TO SPLASH BUTTON -->
+        <div style="text-align: center; margin-bottom: 30px;">
+            <a href="../splash.html" class="nav-tab">&lt; BACK TO SPLASH</a>
+        </div>
+
+        <h1 class="hero-title" style="margin-top: 0; font-size: clamp(2rem, 5vw, 3rem); margin-bottom: 15px;">Ivy's Picks</h1>
+        
+        <p style="text-align: center; color: var(--text-muted); font-size: 1rem; margin-bottom: 35px; text-transform: uppercase; letter-spacing: 1.5px;">The premium supply drop, approved exclusively by the Chief Executive.</p>
+
+        <!-- VIP COMP BANNER (Capital One) -->
+        <div class="resort-card" style="border-top: 4px solid var(--gold-trim); border-bottom: 4px solid var(--gold-trim); text-align: center; margin-bottom: 45px; box-shadow: 0 10px 40px rgba(212, 175, 55, 0.15);">
+            <h2 style="font-family: var(--font-heading); font-size: 1.5rem; margin-top: 0; margin-bottom: 20px; color: var(--gold-trim); text-transform: uppercase; letter-spacing: 2px;">Capital One Shopping</h2>
+            
+            <div style="margin: 0 auto 20px auto; max-width: 200px;">
+                <a href="https://capitaloneshopping.com/r/93f06f0f-8825-4b9c-8794-6f44969c958a" target="_blank" rel="noopener noreferrer" style="display: block; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                    <img src="images/cap-1-shopping.png" alt="Capital One Shopping Logo" style="width: 100%; height: auto; border-radius: 8px;">
+                </a>
+            </div>
+            
+            <p style="font-size: 1.1rem; line-height: 1.6; margin-bottom: 15px;">
+                <span class="metallic-shimmer" style="font-weight: bold; font-family: var(--font-heading); letter-spacing: 1px;">Hey by the way, you can get $80 in Capital One Shopping rewards when you sign up under my referral link! *Click or tap the image above to sign up.*</span>
+            </p>
+            <p style="font-size: 0.9rem; line-height: 1.7; color: var(--text-primary); max-width: 800px; margin: 0 auto;">
+                Spoil your feline assistant while earning cash back. You can earn that bonus by using the extension/app to purchase from 10,000's of online vendors. Bonuses are given within the first 90 days of program sign up <em>*which is absolutely free*</em>. Win-Win! But you must make one initial purchase with the active extension/app in order to qualify.
+            </p>
+        </div>
+
+        <!-- THE VIP CATALOG GRID -->
+        <div class="vip-catalog-grid">
+            
+            <!-- Item 1 -->
+            <div class="resort-card product-card">
+                <div>
+                    <div class="category-tag tag-movie">TREATS</div>
+                    <h3>Nulo Perfect Purees</h3>
+                    <div class="media-wrapper">
+                        <img src="images/nulo-perfect-purees.png" alt="Nulo Purees" class="media-image">
+                    </div>
+                    <p class="product-desc">When the Dawn Protocol is initiated, this is the only acceptable peace offering. These lickable purees are highly potent, top-tier compensation for a hardworking tortoiseshell administrative assistant.</p>
+                </div>
+                <a href="https://www.petsmart.com/cat/food-and-treats/treats/nulo-perfect-puree-lickable-cat-treats-variety-pack-90085.html" target="_blank" rel="noopener noreferrer" class="btn-reserve" style="text-align: center; display: block;">VIEW SUPPLY</a>
+            </div>
+
+            <!-- Item 2 -->
+            <div class="resort-card product-card">
+                <div>
+                    <div class="category-tag tag-tv">HYDRATION</div>
+                    <h3>Petlibro Water Fountain</h3>
+                    <div class="media-wrapper">
+                        <img src="images/petlibro-dockstream2.png" alt="Petlibro Fountain" class="media-image">
+                    </div>
+                    <p class="product-desc">Still water is strictly forbidden by executive decree. This automated flowing fountain keeps the hydration crisp, filtered, and constantly moving to satisfy the most demanding feline palates.</p>
+                </div>
+                <a href="https://petlibro.com/products/dockstream-2-smart-fountain" target="_blank" rel="noopener noreferrer" class="btn-reserve" style="text-align: center; display: block;">VIEW SUPPLY</a>
+            </div>
+
+            <!-- Item 3 -->
+            <div class="resort-card product-card">
+                <div>
+                    <div class="category-tag tag-book">DINING</div>
+                    <h3>Petlibro Automated Kibble Machine</h3>
+                    <div class="media-wrapper">
+                        <img src="images/petlibro-granary-feeder.png" alt="Petlibro Feeder" class="media-image">
+                    </div>
+                    <p class="product-desc">Because the chonker requires her exact schedule maintained even when her Unit of One is down for the count recovering. Set the timer, drop the kibble, and let the robotics handle the daily sustenance.</p>
+                </div>
+                <a href="https://petlibro.com/products/petlibro-granary-automatic-pet-feeder-with-camera" target="_blank" rel="noopener noreferrer" class="btn-reserve" style="text-align: center; display: block;">VIEW SUPPLY</a>
+            </div>
+
+            <!-- Item 4 -->
+            <div class="resort-card product-card">
+                <div>
+                    <div class="category-tag tag-movie">ENRICHMENT</div>
+                    <h3>Premium Organic Catnip</h3>
+                    <div class="media-wrapper">
+                        <img src="images/meowjiwana.png" alt="Premium Catnip" class="media-image">
+                    </div>
+                    <p class="product-desc">Pure, unadulterated recreational botanicals for the ultimate post-shift relaxation. Perfect for recharging the batteries before the next heavy session of comforter-wrangling and nap enforcement.</p>
+                </div>
+                <a href="https://www.petsmart.com/cat/food-and-treats/catnip-and-grass/meowijuana-meowi-waui-catnip-bud-shake-52151.html?redirected=true" target="_blank" rel="noopener noreferrer" class="btn-reserve" style="text-align: center; display: block;">VIEW SUPPLY</a>
+            </div>
+
+        </div>
+        
+        <div style="height: 50px;"></div>
+    </main>
+
+    <footer class="glass-panel main-footer">
+        <img src="../jack-aspen-harper-icon.png" alt="Jack Aspen Harper" class="footer-logo">
+        <p>&copy; 2026 Harperville Resorts</p>
+        <p class="footer-subtext">Jack Aspen Harper</p>
+    </footer>
+    
+    <!-- Floating Reward Icon -->
+    <a href="https://capitaloneshopping.com/r/93f06f0f-8825-4b9c-8794-6f44969c958a" target="_blank" rel="noopener noreferrer" class="floating-reward-icon" title="Get $80 Cash Back!">
+        <img src="images/cap-1-shopping.png" alt="Capital One Shopping Reward Link">
+    </a>
+
 </body>
 </html>

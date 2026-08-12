@@ -3,81 +3,155 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Harperville | The Vault</title>
+    <title>Harperville Resorts | The Vault</title>
     <!-- Stepping UP one level to grab the main CSS -->
-    <link rel="stylesheet" href="../build2.css">
+    <link rel="stylesheet" href="../harperville-casino.css">
+    
+    <style>
+        /* --- CAROUSEL ARCHITECTURE (Imported from Library) --- */
+        .carousel-wrapper {
+            position: relative;
+            width: 100%;
+            margin-top: 30px;
+            display: flex;
+            align-items: center;
+        }
+
+        .carousel-track {
+            display: flex;
+            gap: 25px;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            padding: 20px 10px;
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        .carousel-track::-webkit-scrollbar {
+            display: none;
+        }
+
+        .scroll-btn {
+            background: var(--casino-black);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid var(--text-muted);
+            color: var(--text-muted);
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            position: absolute;
+            z-index: 10;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            transition: all 0.3s ease;
+        }
+
+        .scroll-btn:hover {
+            color: var(--tiger-orange);
+            border-color: var(--tiger-orange);
+            background: rgba(20, 20, 20, 0.9);
+            box-shadow: 0 0 15px rgba(221, 125, 22, 0.4);
+        }
+
+        .scroll-left { left: -15px; }
+        .scroll-right { right: -15px; }
+
+        /* Lock Vault Plaques into the horizontal scroll */
+        .vault-plaque {
+            flex: 0 0 auto;
+            width: 280px;
+            height: 160px; /* Uniform height for a clean track */
+            margin-bottom: 0; /* Overrides any previous vertical spacing */
+        }
+    </style>
 </head>
 <body class="main-body">
-    <div class="app-container">
         
-        <!-- Navigation Header -->
-        <header class="glass-panel nav-header">
-            <!-- Icon linked back to root splash -->
-            <a href="../splash.html">
-                <img src="../jack-aspen-harper-icon.png" alt="Jack Aspen Harper" class="nav-icon">
-            </a>
-            <nav class="hidden-menu">
-                <a href="../about.html">Jack Harper</a>
-                <a href="../blog.html">Blog</a>
-                <a href="../public-relations.html">PR</a>
-                <a href="index.html">The Vault</a>
-            </nav>
-        </header>
+    <!-- Navigation Header -->
+    <header class="glass-panel nav-header">
+        <!-- Icon linked back to root splash -->
+        <a href="../splash.html">
+            <img src="../jack-aspen-harper-icon.png" alt="Jack Aspen Harper" class="nav-icon">
+        </a>
+        <nav class="hidden-menu">
+            <a href="../about.html" class="nav-tab">Jack Harper</a>
+            <a href="index.html" class="nav-tab">The Vault</a>
+        </nav>
+    </header>
 
-        <!-- Right Panel Wrapper for Responsive Layout -->
-        <div class="right-panel">
-
-            <!-- Main Content -->
-            <main class="content-area">
-                <h1 class="luckiest-header" style="text-align: center; font-size: 2.5rem; margin-bottom: 5px;">The Vault</h1>
-                
-                <div class="glass-panel card" style="text-align: center; padding: 15px; border-top: 3px solid var(--emerald-green); margin-bottom: 10px;">
-                    <p style="margin: 0; font-weight: bold; color: var(--gold-aspen);">Welcome to the Inner Sanctum.</p>
-                    <p style="margin: 5px 0 0 0; font-size: 0.85rem; color: #59056e;">A curated grid of hyper-fixations, deep dives, and off-grid aesthetics.</p>
-                </div>
-
-                <!-- THE 2x2 BENTO GRID -->
-                <div class="bento-grid">
-                    
-                    <!-- Box 1: Jack's Faves -->
-                    <a href="jacks-faves.html" class="bento-box" style="border-left: 3px solid var(--gold-aspen);">
-                        <h3 class="bento-title">Jack's Faves</h3>
-                        <p class="bento-subtitle">Music, Book Club, and everyday gotta-haves</p>
-                    </a>
-
-                    <!-- Box 2: Placeholder -->
-                    <a href="/backhatch/library/index.html" class="bento-box" style="border-left: 3px solid var(--gold-aspen);">
-                        <h3 class="bento-title">Jack's Library</h3>
-                        <p class="bento-subtitle">Harperville Reading List</p>
-                    </a>
-
-<!-- Box 4: Placeholder -->
-                    <a href="harpertoons.html" class="bento-box" style="border-left: 3px solid var(--gold-aspen);">
-                        <h3 class="bento-title">HARPERTOONS</h3>
-                        <p class="bento-subtitle">Pure AI Generated comic relief!</p>
-                    </a>
-
-                    <!-- Box 3: Placeholder -->
-                    <a href="/vault/taylor-swift.html" class="bento-box" style="border-left: 3px solid var(--gold-aspen);">
-                        <h3 class="bento-title">Taylor Swift Appreciation</h3>
-                        <p class="bento-subtitle">A legend deserves her fans to appreciate her artistry.</p>
-                    </a>
-
-                    
-                    
-
-                </div>
-                
-            </main>
-
-            <!-- Footer -->
-            <footer class="glass-panel main-footer">
-                <img src="../jack-aspen-harper-icon.png" alt="Jack Aspen Harper" class="footer-logo">
-                <p>&copy; 2026 Harperville Sandbox</p>
-                <p class="footer-subtext">Jack Aspen Harper</p>
-            </footer>
-
+    <!-- Main Content Area (Fluid without app-container wrappers) -->
+    <main class="content-area">
+        
+        <!-- BACK TO SPLASH BUTTON -->
+        <div style="text-align: center; margin-bottom: 30px;">
+            <a href="../splash.html" class="nav-tab">&lt; BACK TO SPLASH</a>
         </div>
-    </div>
+
+        <h1 class="hero-title" style="margin-top: 0; font-size: clamp(2rem, 5vw, 3rem); margin-bottom: 15px;">The Vault</h1>
+        
+        <div class="resort-card" style="text-align: center; padding: 15px; border-top: 3px solid var(--vegas-red); margin-bottom: 10px;">
+            <p style="margin: 0; font-family: var(--font-heading); font-weight: bold; color: var(--tiger-orange); text-transform: uppercase; letter-spacing: 1.5px;">Welcome to the Inner Sanctum.</p>
+            <p style="margin: 5px 0 0 0; font-size: 0.9rem; color: var(--text-muted);">A curated carousel of hyper-fixations, deep dives, and off-grid aesthetics.</p>
+        </div>
+
+        <!-- THE VAULT CAROUSEL -->
+        <div class="carousel-wrapper">
+            <button class="scroll-btn scroll-left" id="scroll-left">&lt;</button>
+            
+            <div class="carousel-track" id="carousel-track">
+                
+                <!-- Box 1: Jack's Faves -->
+                <a href="jacks-faves.html" class="vault-plaque">
+                    <h3 class="plaque-title">Jack's Faves</h3>
+                    <p class="plaque-subtitle">Music, Book Club, and everyday gotta-haves</p>
+                </a>
+
+                <!-- Box 2: Library -->
+                <a href="/backhatch/library/index.html" class="vault-plaque">
+                    <h3 class="plaque-title">Jack's Library</h3>
+                    <p class="plaque-subtitle">Harperville Reading List</p>
+                </a>
+
+                <!-- Box 3: Harpertoons -->
+                <a href="harpertoons.html" class="vault-plaque">
+                    <h3 class="plaque-title">HARPERTOONS</h3>
+                    <p class="plaque-subtitle">Pure AI Generated comic relief!</p>
+                </a>
+
+                <!-- Box 4: Taylor Swift -->
+                <a href="/vault/taylor-swift.html" class="vault-plaque">
+                    <h3 class="plaque-title">Taylor Swift Appreciation</h3>
+                    <p class="plaque-subtitle">A legend deserves her fans to appreciate her artistry.</p>
+                </a>
+
+            </div>
+            
+            <button class="scroll-btn scroll-right" id="scroll-right">&gt;</button>
+        </div>
+        
+    </main>
+
+    <!-- Footer -->
+    <footer class="glass-panel main-footer">
+        <img src="../jack-aspen-harper-icon.png" alt="Jack Aspen Harper" class="footer-logo">
+        <p>&copy; 2026 Harperville Resorts</p>
+        <p class="footer-subtext">Jack Aspen Harper</p>
+    </footer>
+
+    <!-- THE LOGIC ENGINE -->
+    <script>
+        // --- Carousel Scroll Logic ---
+        const track = document.getElementById('carousel-track');
+        document.getElementById('scroll-left').addEventListener('click', () => {
+            track.scrollBy({ left: -300, behavior: 'smooth' });
+        });
+        document.getElementById('scroll-right').addEventListener('click', () => {
+            track.scrollBy({ left: 300, behavior: 'smooth' });
+        });
+    </script>
 </body>
 </html>

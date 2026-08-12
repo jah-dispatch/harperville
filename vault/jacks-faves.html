@@ -3,91 +3,162 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Harperville Vault | Jack's Faves</title>
-    <!-- 1. Load the core structural physics (Updated to build2.css) -->
-    <link rel="stylesheet" href="../build2.css">
-    <!-- 2. Load the local Unicorn overrides -->
-    <link rel="stylesheet" href="j-faves2.css">
+    <title>Harperville Resorts | Jack's Faves</title>
+    <!-- Hooked directly to Casino Theme -->
+    <link rel="stylesheet" href="../harperville-casino.css">
+    
+    <style>
+        /* --- CAROUSEL ARCHITECTURE --- */
+        .carousel-wrapper {
+            position: relative;
+            width: 100%;
+            margin-top: 30px;
+            display: flex;
+            align-items: center;
+        }
+
+        .carousel-track {
+            display: flex;
+            gap: 25px;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            padding: 20px 10px;
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        .carousel-track::-webkit-scrollbar {
+            display: none;
+        }
+
+        .scroll-btn {
+            background: var(--casino-black);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid var(--text-muted);
+            color: var(--text-muted);
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            position: absolute;
+            z-index: 10;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            transition: all 0.3s ease;
+        }
+
+        .scroll-btn:hover {
+            color: var(--tiger-orange);
+            border-color: var(--tiger-orange);
+            background: rgba(20, 20, 20, 0.9);
+            box-shadow: 0 0 15px rgba(221, 125, 22, 0.4);
+        }
+
+        .scroll-left { left: -15px; }
+        .scroll-right { right: -15px; }
+
+        /* Lock Vault Plaques into the horizontal scroll */
+        .vault-plaque {
+            flex: 0 0 auto;
+            width: 280px;
+            height: 160px; /* Uniform height for a clean track */
+            margin-bottom: 0; 
+        }
+    </style>
 </head>
 <body class="main-body">
-    <div class="app-container">
+
+    <!-- Navigation Header -->
+    <header class="glass-panel nav-header">
+        <a href="../splash.html">
+            <img src="../jack-aspen-harper-icon.png" alt="Jack Aspen Harper" class="nav-icon">
+        </a>
+        <nav class="hidden-menu">
+            <a href="../about.html" class="nav-tab">Jack Harper</a>
+            <a href="index.html" class="nav-tab">The Vault</a>
+        </nav>
+    </header>
+
+    <!-- Main Content Area (Fluid without wrappers) -->
+    <main class="content-area">
         
-        <!-- THE SPARKLE ENGINE (Invisible to clicks, visible to the eye) -->
-        <div class="sparkle-layer">
-            <div class="sparkles-1"></div>
-            <div class="sparkles-2"></div>
+        <!-- BACK TO SPLASH BUTTON -->
+        <div style="text-align: center; margin-bottom: 30px;">
+            <a href="../splash.html" class="nav-tab">&lt; BACK TO SPLASH</a>
         </div>
 
-        <!-- Navigation Header (VAULT PAGES) -->
-        <header class="glass-panel nav-header">
-            <a href="../splash.html">
-                <img src="../jack-aspen-harper-icon.png" alt="Jack Aspen Harper" class="nav-icon">
-            </a>
-            <nav class="hidden-menu">
-                <a href="../about.html">Jack Harper</a>
-                <a href="../blog.html">Blog</a>
-                <a href="../public-relations.html">PR-Kit</a>
-                <a href="index.html">The Vault</a>
-            </nav>
-        </header>
-
-        <!-- Right Panel Wrapper for Responsive Layout -->
-        <div class="right-panel">
-
-            <!-- Main Content -->
-            <main class="content-area">
-                <h1 class="luckiest-header" style="text-align: center; font-size: 2.2rem; margin-bottom: 5px;">Jack's Faves</h1>
-                
-                <div class="glass-panel card" style="text-align: center; padding: 15px; border-left: 3px solid var(--gold-aspen); margin-bottom: 10px;">
-                    <p style="margin: 0; font-size: 0.95rem; color: #1b0101;">The meticulously curated, highly unhinged collection of things keeping this Unit of One functional.</p>
-                </div>
-
-                <!-- THE 2x2 BENTO GRID -->
-                <div class="bento-grid">
-                    
-                    <!-- Category 1: Fixed Link -->
-                    <a href="jack-aspen-harper-soundtrack.html" class="bento-box">
-                        <h3 class="bento-title">Musical Favorites</h3>
-                        <p class="bento-subtitle">The Soundtrack</p>
-                    </a>
-
-                    <!-- Category 2 -->
-                    <a href="must-haves.html" class="bento-box">
-                        <h3 class="bento-title">Daily Essentials</h3>
-                        <p class="bento-subtitle">Must-Haves</p>
-                    </a>
-
-                    <!-- Category 3 -->
-                    <a href="ivys-picks.html" class="bento-box">
-                        <h3 class="bento-title">Ivy Willow's Faves</h3>
-                        <p class="bento-subtitle">Feline Approved</p>
-                    </a>
-
-                    <!-- Category 4 -->
-                    <a href="jacks-book-club.html" class="bento-box">
-                        <h3 class="bento-title">Jack's Book Club</h3>
-                        <p class="bento-subtitle">Required Reading</p>
-                    </a>
-
-                     <!-- Category 5 -->
-                    <a href="jacks-viewing-room.html" class="bento-box">
-                        <h3 class="bento-title">Jack's Viewing Room</h3>
-                        <p class="bento-subtitle">Required Watching</p>
-                    </a>
-
-                </div>
-                
-                <div style="height: 30px;"></div>
-            </main>
-
-            <!-- Footer -->
-            <footer class="glass-panel main-footer">
-                <img src="../jack-aspen-harper-icon.png" alt="Jack Aspen Harper" class="footer-logo">
-                <p>&copy; 2026 Harperville Sandbox</p>
-                <p class="footer-subtext">Jack Aspen Harper</p>
-            </footer>
-
+        <h1 class="hero-title" style="margin-top: 0; font-size: clamp(2rem, 5vw, 3rem); margin-bottom: 15px;">Jack's Faves</h1>
+        
+        <div class="resort-card" style="text-align: center; padding: 15px; border-top: 3px solid var(--gold-trim); margin-bottom: 10px;">
+            <p style="margin: 0; font-family: var(--font-heading); font-size: 0.95rem; color: var(--text-primary); text-transform: uppercase; letter-spacing: 1px;">
+                The meticulously curated, highly unhinged collection of things keeping this Unit of One functional.
+            </p>
         </div>
-    </div>
+
+        <!-- THE CAROUSEL -->
+        <div class="carousel-wrapper">
+            <button class="scroll-btn scroll-left" id="scroll-left">&lt;</button>
+            
+            <div class="carousel-track" id="carousel-track">
+                
+                <!-- Category 1 -->
+                <a href="jack-aspen-harper-soundtrack.html" class="vault-plaque">
+                    <h3 class="plaque-title">Musical Favorites</h3>
+                    <p class="plaque-subtitle">The Soundtrack</p>
+                </a>
+
+                <!-- Category 2 -->
+                <a href="must-haves.html" class="vault-plaque">
+                    <h3 class="plaque-title">Daily Essentials</h3>
+                    <p class="plaque-subtitle">Must-Haves</p>
+                </a>
+
+                <!-- Category 3 -->
+                <a href="ivys-picks.html" class="vault-plaque">
+                    <h3 class="plaque-title">Ivy Willow's Faves</h3>
+                    <p class="plaque-subtitle">Feline Approved</p>
+                </a>
+
+                <!-- Category 4 -->
+                <a href="jacks-book-club.html" class="vault-plaque">
+                    <h3 class="plaque-title">Jack's Book Club</h3>
+                    <p class="plaque-subtitle">Required Reading</p>
+                </a>
+
+                 <!-- Category 5 -->
+                <a href="jacks-viewing-room.html" class="vault-plaque">
+                    <h3 class="plaque-title">Jack's Viewing Room</h3>
+                    <p class="plaque-subtitle">Required Watching</p>
+                </a>
+
+            </div>
+            
+            <button class="scroll-btn scroll-right" id="scroll-right">&gt;</button>
+        </div>
+        
+        <div style="height: 30px;"></div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="glass-panel main-footer">
+        <img src="../jack-aspen-harper-icon.png" alt="Jack Aspen Harper" class="footer-logo">
+        <p>&copy; 2026 Harperville Resorts</p>
+        <p class="footer-subtext">Jack Aspen Harper</p>
+    </footer>
+
+    <!-- THE LOGIC ENGINE -->
+    <script>
+        // --- Carousel Scroll Logic ---
+        const track = document.getElementById('carousel-track');
+        document.getElementById('scroll-left').addEventListener('click', () => {
+            track.scrollBy({ left: -300, behavior: 'smooth' });
+        });
+        document.getElementById('scroll-right').addEventListener('click', () => {
+            track.scrollBy({ left: 300, behavior: 'smooth' });
+        });
+    </script>
 </body>
 </html>
