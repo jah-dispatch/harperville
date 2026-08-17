@@ -3,111 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Harperville Resorts | Welcome</title>
-    
-    <!-- Link to the Unified Casino Master Stylesheet -->
+    <title>Jack's Sandbox</title>
     <link rel="stylesheet" href="harperville-casino.css">
-
-    <!-- Schema.org Data (Preserved from v2.0) -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@graph": [
-        {
-          "@type": "Person",
-          "@id": "https://www.harperville.me/#jackharper",
-          "name": "Jack Aspen Harper",
-          "alternateName": ["Jack A. Harper", "Jack Harper"],
-          "jobTitle": ["Author", "Systemic Advocate", "Thought Leader", "Founder"],
-          "description": "Author, systemic advocate, and thought leader based in Colorado. Founder of the Unit of One movement, focusing on radical autonomy, structural independence, and systemic navigation.",
-          "image": {
-            "@type": "ImageObject",
-            "url": "https://www.harperville.me/assets/images/Jack-Aspen-Harper-Biography.jpg",
-            "caption": "Jack A. Harper, Author and Founder of the Unit of One Movement"
-          },
-          "url": "https://www.harperville.me",
-          "sameAs": [
-            "https://www.youtube.com/channel/UCoSpNSr_ZvZlOvLmpi-WZ-w"
-          ],
-          "homeLocation": {
-            "@type": "Place",
-            "name": "Grand Junction, Colorado"
-          },
-          "knowsAbout": [
-            "Brand Management",
-            "Business Identity Development",
-            "Customer Retention Strategies",
-            "Marketing Strategy",
-            "Digital Content Creation",
-            "Narrative Architecture",
-            "Systemic Advocacy",
-            "Structural Independence",
-            "Healthcare System Navigation",
-            "Radical Autonomy",
-            "Philosophical Frameworks",
-            "Digital Brand Management",
-            "Pharmacy Administration",
-            "Pharmacy Law",
-            "Pharmacology",
-            "Taylor Swift"
-          ],
-          "founder": {
-            "@id": "https://www.harperville.me/#unitofone"
-          },
-          "worksFor": [
-            {
-              "@type": "Organization",
-              "name": "Unicorn Heart Brand Management"
-            }
-          ],
-          "creator": [
-            {
-              "@type": "Book",
-              "name": "Unit of One"
-            }
-          ]
-        },
-        {
-          "@type": "Organization",
-          "@id": "https://www.harperville.me/#unitofone",
-          "name": "Unit of One Movement",
-          "alternateName": ["Unit of One Collective", "U01 Authority"],
-          "url": "https://www.harperville.me",
-          "founder": {
-            "@id": "https://www.harperville.me/#jackharper"
-          },
-          "description": "An advocacy collective and philosophical movement dedicated to structural independence, systemic navigation, self-advocacy, and radical autonomy for individuals operating outside traditional support networks.",
-          "keywords": "Unit of One movement, systemic advocacy collective, structural independence, self-advocacy framework, radical autonomy, individual empowerment, Harperville, U01 Authority, survival math, institutional navigation",
-          "knowsAbout": [
-            "Advocacy",
-            "Autonomy",
-            "Systemic Resilience"
-          ]
-        }
-      ]
-    }
-    </script>  
+    <!-- Schema skipped for brevity, leave yours intact! -->
 </head>
 <body>
     
-    <!-- THE RESORT HERO SECTION -->
+    <!-- BACKGROUND PARALLAX LAYER -->
+    <div class="parallax-window">
+        <div class="parallax-layer" style="background-image: url('assets/ui/backgrounds/safe-keeping-1.png');"></div>
+    </div>
+    
+    <!-- EMOJI PARTICLE CONTAINER -->
+    <div id="leaf-container"></div>
+
     <main class="hero-section">
+        <!-- Added the layered autumn text shadow inline -->
+        <h1 class="hero-title" style="text-shadow: 0 4px 15px rgba(0, 0, 0, 0.9), 0 0 25px rgba(200, 109, 42, 0.6);">Jack's Sandbox</h1>
         
-        <h1 class="hero-title">Welcome to Harperville Resorts!</h1>
-        
-        <!-- The 3D Spinning Card Stage -->
         <div class="card-scene">
             <div class="card-3d-wrapper">
-                <!-- Assets pull directly from root/assets/images/ -->
                 <div class="card-face card-front"></div>
                 <div class="card-face card-back"></div>
             </div>
         </div>
         
-        <!-- The Quirky CTA -->
-        <button class="btn-reserve" onclick="window.location.href='splash.html';">Reserve Table</button>
-
+        <!-- UPDATED FALL CTA -->
+        <button class="btn-reserve" onclick="window.location.href='splash.html';">Sweep me into Harperville 🍂</button>
     </main>
 
+    <!-- THE AUTUMN ENGINE JS -->
+    <script>
+        // Parallax Scroll Math
+        window.addEventListener('scroll', () => {
+            const scrolled = window.scrollY;
+            const layer = document.querySelector('.parallax-layer');
+            if(layer) layer.style.transform = `translateY(${scrolled * 0.3}px)`; // 0.3 speed ratio
+        });
+
+        // Emoji Generator
+        const leaves = ['🍂', '🍁', '🤎', '🧡', '🌾'];
+        const container = document.getElementById('leaf-container');
+        const leafCount = 18; // How heavy the breeze is
+
+        for(let i=0; i < leafCount; i++) {
+            let leaf = document.createElement('div');
+            leaf.className = 'emoji-leaf';
+            leaf.innerText = leaves[Math.floor(Math.random() * leaves.length)];
+            leaf.style.left = Math.random() * 100 + 'vw';
+            // Randomize fall speed and delay so they don't drop in a straight line
+            leaf.style.animationDuration = (Math.random() * 6 + 6) + 's';
+            leaf.style.animationDelay = (Math.random() * 5) + 's';
+            // Randomize starting size slightly to create artificial depth
+            leaf.style.fontSize = (Math.random() * 0.8 + 1.2) + 'rem';
+            container.appendChild(leaf);
+        }
+    </script>
 </body>
 </html>

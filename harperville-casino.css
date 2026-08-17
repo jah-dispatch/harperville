@@ -1,38 +1,36 @@
 /* =========================================================================
-   --- HARPERVILLE RESORTS: CASINO MASTER STYLESHEET ---
+   --- HARPERVILLE RESORTS: AUTUMN MASTER STYLESHEET ---
    ========================================================================= */
 
 /* --- GOOGLE FONTS --- */
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Montserrat:wght@300;400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rubik+Dirt&family=Short+Stack&display=swap');
 
-/* --- CASINO DESIGN TOKENS --- */
 :root {
-    /* Core Branding Colors */
-    --tiger-orange: #dd7d16;
-    --vegas-red: #cc0000;
-    --casino-black: #050505;
-    --charcoal-bg: #141414;
-    --gold-trim: #d4af37;
+    /* Autumn Core Branding Colors */
+    --tiger-orange: #C86D2A; 
+    --vegas-red: #8c2614; 
+    --casino-black: #1C120C; 
+    --charcoal-bg: #24151B; 
+    --gold-trim: #E5A93C; 
     
     /* Text */
-    --text-primary: #fcfcfc;
-    --text-muted: #a0a0a0;
+    --text-primary: #F4EFEB; 
+    --text-muted: #c9bcae;
 
-    /* Fonts */
-    --font-heading: 'Cinzel', serif;
-    --font-body: 'Montserrat', sans-serif;
+    /* New Aesthetic Fonts */
+    --font-heading: 'Rouge Script', cursive;
+    --font-body: 'Short Stack', cursive;
     
-    /* Glass Panel Settings - Dark Acrylic */
-    --glass-bg: rgba(20, 20, 20, 0.7);
-    --glass-border: rgba(221, 125, 22, 0.3);
+    /* Glass Panel Settings - Frosted Autumn Acrylic */
+    --glass-bg: rgba(28, 18, 12, 0.72);
+    --glass-border: rgba(229, 169, 60, 0.2);
 }
-
 /* --- BASE (FULL FLUID CANVAS) --- */
 body {
     margin: 0;
     padding: 0;
-    background-color: var(--casino-black);
-    background-image: radial-gradient(circle at top center, var(--charcoal-bg) 0%, var(--casino-black) 100%);
+    /* Transparent background allows the fixed parallax image to show */
+    background-color: transparent; 
     font-family: var(--font-body);
     color: var(--text-primary);
     overflow-x: hidden;
@@ -47,9 +45,63 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* =========================================================================
-   --- HERO SECTION & 3D SPINNING CARD ---
+   --- PARALLAX & PARTICLE ENGINE ---
    ========================================================================= */
 
+.parallax-window {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -2;
+    overflow: hidden;
+    background-color: var(--casino-black);
+}
+
+.parallax-layer {
+    position: absolute;
+    top: -10%;
+    left: -10%;
+    width: 120%;
+    height: 120%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    will-change: transform;
+    /* Smooth out the scroll translation */
+    transition: transform 0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.emoji-leaf {
+    position: fixed;
+    top: -10%;
+    z-index: -1;
+    font-size: 1.8rem;
+    pointer-events: none;
+    user-select: none;
+    opacity: 0.75;
+    animation: leafDrift linear infinite;
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.4));
+}
+
+@keyframes leafDrift {
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+    50% {
+        transform: translate(30px, 55vh) rotate(180deg);
+    }
+    100% {
+        transform: translate(-20px, 110vh) rotate(360deg);
+    }
+}
+
+/* =========================================================================
+   --- UI COMPONENTS & GLASS PANELS ---
+   ========================================================================= */
+
+/* The Resort Hero Section */
 .hero-section {
     width: 100%;
     min-height: 100vh;
@@ -59,6 +111,8 @@ h1, h2, h3, h4, h5, h6 {
     align-items: center;
     padding: 20px;
     box-sizing: border-box;
+    position: relative;
+    z-index: 1;
 }
 
 .hero-title {
@@ -68,46 +122,73 @@ h1, h2, h3, h4, h5, h6 {
     margin-bottom: 50px;
     text-align: center;
     color: var(--text-primary);
-    text-shadow: 0 4px 15px rgba(0, 0, 0, 0.8), 0 0 20px rgba(221, 125, 22, 0.4);
+    text-shadow: 0 4px 15px rgba(0, 0, 0, 0.9), 0 0 25px rgba(200, 109, 42, 0.6);
+}
+
+/* Call to Action Button */
+.btn-reserve {
+    background: rgba(28, 18, 12, 0.6);
+    color: var(--gold-trim);
+    font-family: var(--font-heading);
+    font-size: 1.2rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    padding: 18px 45px;
+    border: 1px solid var(--gold-trim);
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s ease;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+}
+
+.btn-reserve:hover {
+    color: var(--casino-black);
+    background: var(--gold-trim);
+    box-shadow: 0 0 25px rgba(229, 169, 60, 0.5);
+    transform: translateY(-3px);
+}
+
+/* Glass Panels */
+.glass-panel.card, .glass-panel, .resort-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+    margin-bottom: 25px;
+    transition: all 0.3s ease;
+}
+
+.glass-panel.card:hover, .resort-card:hover {
+    background: rgba(40, 25, 18, 0.85);
+    border-color: var(--tiger-orange);
+    box-shadow: 0 20px 45px rgba(200, 109, 42, 0.2);
+    transform: translateY(-4px);
 }
 
 /* 3D Card Stage */
 .card-scene {
-    width: 266px; /* Scaled down slightly from 533px for reasonable web view */
-    height: 355px; /* Scaled to maintain 533x710 ratio */
+    width: 266px; 
+    height: 355px; 
     perspective: 1000px;
     margin-bottom: 50px;
 }
-
-/* The Rotating Object */
 .card-3d-wrapper {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    transform-style: preserve-3d;
-    animation: autoSpinCard 8s linear infinite;
+    width: 100%; height: 100%; position: relative;
+    transform-style: preserve-3d; animation: autoSpinCard 8s linear infinite;
 }
-
-/* Front & Back Faces */
 .card-face {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden;
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
-    filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.6));
+    position: absolute; width: 100%; height: 100%;
+    backface-visibility: hidden; background-size: contain; background-position: center; background-repeat: no-repeat;
+    filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.8));
 }
-
-.card-front {
-    background-image: url('assets/images/card-front.png');
-}
-
-.card-back {
-    background-image: url('assets/images/card-back.png');
-    transform: rotateY(180deg);
-}
+.card-front { background-image: url('assets/images/card-front.png'); }
+.card-back { background-image: url('assets/images/card-back.png'); transform: rotateY(180deg); }
 
 @keyframes autoSpinCard {
     0%   { transform: rotateZ(-5deg) rotateX(10deg) rotateY(0deg); }
@@ -116,549 +197,60 @@ h1, h2, h3, h4, h5, h6 {
     100% { transform: rotateZ(-5deg) rotateX(10deg) rotateY(360deg); }
 }
 
-/* Reserve Table Button (Animated) */
-.btn-reserve {
-    background: transparent;
-    color: var(--tiger-orange);
-    font-family: var(--font-heading);
-    font-size: 1.2rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    padding: 15px 40px;
-    border: 2px solid var(--tiger-orange);
-    border-radius: 4px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-    transition: all 0.3s ease;
-    box-shadow: 0 0 15px rgba(221, 125, 22, 0.2);
-}
-
-.btn-reserve:hover {
-    color: var(--casino-black);
-    background: var(--tiger-orange);
-    box-shadow: 0 0 25px rgba(221, 125, 22, 0.6);
-    transform: translateY(-2px);
-}
-
-/* =========================================================================
-   --- HIGH-ROLLER VAULT PLAQUES (Replacing Bento Boxes) ---
-   ========================================================================= */
-
-.vault-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
-    gap: 20px; 
-    width: 100%;
-    max-width: 1200px;
-    margin: 40px auto;
-    padding: 0 20px;
-    box-sizing: border-box;
-}
-
-/* The Casino Plaque Element */
-.vault-plaque {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    text-align: left;
-    text-decoration: none; 
-    padding: 25px 20px;
-    border-radius: 6px; 
-    background: linear-gradient(145deg, rgba(20, 20, 20, 0.9), rgba(5, 5, 5, 0.95));
-    border: 1px solid rgba(221, 125, 22, 0.2); 
-    position: relative;
-    overflow: hidden;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8), 0 4px 15px rgba(0, 0, 0, 0.5); 
-}
-
-/* The Neon Glow Hover State */
-.vault-plaque:hover {
-    background: linear-gradient(145deg, rgba(30, 30, 30, 0.95), rgba(10, 10, 10, 1));
-    border-color: var(--tiger-orange);
-    transform: translateY(-4px) scale(1.01);
-    box-shadow: inset 0 0 15px rgba(221, 125, 22, 0.1), 0 8px 25px rgba(221, 125, 22, 0.4), 0 0 10px rgba(204, 0, 0, 0.2);
-}
-
-/* Polished Top Edge Highlight */
-.vault-plaque::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
-    opacity: 0.8;
-}
-
-.plaque-title {
-    font-family: var(--font-heading);
-    color: var(--text-primary);
-    font-size: 1.3rem;
-    line-height: 1.2;
-    text-transform: uppercase;
-    transition: color 0.3s ease, text-shadow 0.3s ease;
-}
-
-.vault-plaque:hover .plaque-title {
-    color: var(--tiger-orange);
-    text-shadow: 0 0 10px rgba(221, 125, 22, 0.6);
-}
-
-.plaque-subtitle {
-    font-family: var(--font-body);
-    color: var(--text-muted);
-    font-size: 0.85rem;
-    margin-top: 15px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
-    padding-top: 12px;
-}
-
-/* =========================================================================
-   --- UNIFIED CARD ARCHITECTURE (Products & Posts) ---
-   ========================================================================= */
-
-.resort-card {
-    background: var(--glass-bg);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid var(--glass-border);
-    border-radius: 12px;
-    padding: 25px;
-    display: flex;
-    flex-direction: column;
-    transition: all 0.3s ease;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-}
-
-.resort-card:hover {
-    background: rgba(30, 30, 30, 0.85);
-    border-color: var(--tiger-orange);
-    transform: translateY(-4px);
-    box-shadow: 0 12px 40px rgba(221, 125, 22, 0.15);
-}
-
-/* Category Tags */
-.category-tag {
-    display: inline-block;
-    align-self: flex-start;
-    margin-bottom: 15px;
-    background: var(--casino-black);
-    color: var(--text-primary);
-    border: 1px solid var(--tiger-orange);
-    font-family: var(--font-body);
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    padding: 6px 14px;
-    border-radius: 20px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-}
-
-.tag-tv { border-color: var(--vegas-red); }
-.tag-movie { border-color: var(--gold-trim); }
-.tag-book { border-color: var(--text-muted); }
-
-/* --- IMAGES & MEDIA --- */
-.media-wrapper {
-    width: 100%;
-    border-radius: 8px;
-    overflow: hidden;
-    margin-bottom: 15px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background: #000;
-}
-
-.media-image {
-    width: 100%;
-    height: auto;
-    object-fit: cover;
-    display: block;
-    opacity: 0.9;
-    transition: opacity 0.3s ease;
-}
-
-.resort-card:hover .media-image {
-    opacity: 1;
-}
-
-/* Video Wrapper */
-.video-wrapper {
-    position: relative;
-    width: 100%;
-    padding-bottom: 56.25%;
-    background: #000;
-    border-radius: 8px;
-    overflow: hidden;
-    margin-bottom: 15px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.video-wrapper iframe {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    border: none;
-}
-
-/* =========================================================================
-   --- TEXT EFFECTS & LIGHTBOX ---
-   ========================================================================= */
-
-.metallic-shimmer {
-    background: linear-gradient(-45deg, #8a8a8a 25%, #e8e8e8 40%, #ffffff 50%, #e8e8e8 60%, #8a8a8a 75%);
-    background-size: 200% auto;
-    color: transparent;
-    -webkit-background-clip: text;
-    background-clip: text;
-    animation: metallicSweep 5s linear infinite;
-}
-
-@keyframes metallicSweep {
-    to { background-position: 200% center; }
-}
-
-/* Lightbox UI */
-.modal-overlay {
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(5, 5, 5, 0.95);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    z-index: 9999;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: zoom-out;
-    padding: 20px;
-    box-sizing: border-box;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-}
-
-.modal-overlay.active {
-    opacity: 1;
-    pointer-events: all;
-}
-
-.modal-overlay img {
-    max-width: 100%;
-    max-height: 90vh;
-    border-radius: 8px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.8);
-    border: 2px solid var(--tiger-orange);
-}
-/* =========================================================================
-   --- LEGACY CLASS MAPPING (For splash.html & Firebase JS) ---
-   ========================================================================= */
-
-/* --- LAYOUT WRAPPERS (Flattened for fluid width) --- */
-.main-body {
-    background-color: var(--casino-black);
-    display: block; /* Overriding any old flex centering */
-    height: auto; 
-    overflow-y: auto; 
-}
-
+/* Layout Wrappers */
 .app-container, .right-panel, .content-area {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    box-sizing: border-box;
-    position: relative;
-    box-shadow: none;
-    border: none;
-    background: transparent;
+    width: 100%; max-width: 1200px; margin: 0 auto; box-sizing: border-box; position: relative; z-index: 1;
 }
-
-.content-area {
-    padding: 40px 20px;
-}
-
-/* --- HEADERS --- */
-.luckiest-header {
-    font-family: var(--font-heading);
-    color: var(--text-primary);
-    font-size: 2.5rem;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    margin-bottom: 30px;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
-}
-
-/* --- NAVIGATION MENU --- */
+.content-area { padding: 40px 20px; }
 .nav-header {
-    width: 100%;
-    padding: 20px;
-    display: flex;
-    flex-direction: column; 
-    justify-content: center;
-    align-items: center;
-    gap: 15px; 
-    background: linear-gradient(to bottom, rgba(5, 5, 5, 0.95), rgba(20, 20, 20, 0.8));
+    width: 100%; padding: 20px; display: flex; flex-direction: column; align-items: center; gap: 20px; 
+    background: linear-gradient(to bottom, rgba(28, 18, 12, 0.95), rgba(28, 18, 12, 0.7));
     border-bottom: 1px solid var(--glass-border);
-    box-sizing: border-box;
 }
-
-.nav-icon {
-    width: 50px; 
-    height: 50px;
-    border-radius: 50%;
-    border: 2px solid var(--tiger-orange);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+.hidden-menu { display: flex; justify-content: center; flex-wrap: wrap; gap: 15px; }
+.nav-tab {
+    background: rgba(20, 12, 8, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 12px 25px; border-radius: 4px;
+    color: var(--text-muted); font-family: var(--font-heading); font-size: 0.95rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 2px; text-decoration: none;
+    transition: all 0.2s ease;
 }
-
-.nav-icon:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 15px rgba(221, 125, 22, 0.5);
+.nav-tab:hover {
+    background: var(--tiger-orange); color: var(--casino-black); border-color: var(--tiger-orange);
+    box-shadow: 0 0 20px rgba(200, 109, 42, 0.5); transform: translateY(-2px);
 }
-
-.hidden-menu {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap; 
-    gap: 20px; 
+.nav-icon { width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--gold-trim); transition: transform 0.3s ease; }
+.main-footer {
+    padding: 30px 15px; text-align: center; border-top: 1px solid var(--glass-border);
+    background: linear-gradient(to top, rgba(28, 18, 12, 0.95), rgba(28, 18, 12, 0.7)); margin-top: auto;
 }
-
-.hidden-menu a {
-    color: var(--text-muted);
-    font-family: var(--font-heading);
-    text-decoration: none;
-    font-size: 1rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    transition: color 0.3s ease, text-shadow 0.3s ease;
-}
-
-.hidden-menu a:hover {
-    color: var(--tiger-orange);
-    text-shadow: 0 0 8px rgba(221, 125, 22, 0.6);
-}
-
-/* --- CARDS & PANELS (Mapped to Resort Aesthetics) --- */
-.glass-panel.card, .glass-panel {
-    background: var(--glass-bg);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+/* Update your glass panel CSS to include the texture */
+.glass-panel.card, .glass-panel, .resort-card {
+    /* We layer the dark acrylic color OVER the paper texture */
+    background-image: 
+        linear-gradient(rgba(28, 18, 12, 0.75), rgba(28, 18, 12, 0.75)), 
+        url('assets/ui/backgrounds/watercolor-paper.png');
+    background-blend-mode: multiply; /* Blends the dark color into the paper grain */
+    background-size: cover;
+    
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     border: 1px solid var(--glass-border);
     border-radius: 12px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
     margin-bottom: 25px;
     transition: all 0.3s ease;
 }
+/* Replace your current glass-panel block in harperville-casino.css with this: */
 
-.glass-panel.card:hover {
-    background: rgba(30, 30, 30, 0.85);
-    border-color: var(--tiger-orange);
-    box-shadow: 0 12px 40px rgba(221, 125, 22, 0.15);
-}
-
-/* --- PAGINATION (Casino Chip Buttons) --- */
-.pagination-glass {
-    display: flex;
-    justify-content: center;
-    gap: 12px;
-    margin-top: 30px;
-    margin-bottom: 40px;
-}
-
-.page-btn {
-    background: var(--casino-black);
-    border: 1px solid var(--text-muted);
-    color: var(--text-muted);
-    font-family: var(--font-heading);
-    font-weight: 700;
-    font-size: 1rem;
-    width: 45px; 
-    height: 45px;
-    border-radius: 50%; /* Perfect circle, like a casino chip */
-    cursor: pointer;
+.glass-panel.card, .glass-panel, .resort-card {
+    background: var(--glass-bg); /* This brings back the clean, semi-transparent brown */
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+    margin-bottom: 25px;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-}
-
-.page-btn:hover:not(:disabled) {
-    border-color: var(--tiger-orange);
-    color: var(--tiger-orange);
-    box-shadow: 0 0 15px rgba(221, 125, 22, 0.4);
-    transform: translateY(-2px);
-}
-
-.page-btn.active {
-    background: var(--tiger-orange);
-    border: 1px solid var(--gold-trim);
-    color: var(--casino-black);
-    box-shadow: 0 4px 15px rgba(221, 125, 22, 0.6);
-}
-
-.page-btn:disabled {
-    opacity: 0.3;
-    cursor: not-allowed;
-}
-
-/* --- FOOTER --- */
-.main-footer {
-    padding: 30px 15px; 
-    text-align: center;
-    border-top: 1px solid var(--glass-border);
-    background: linear-gradient(to top, rgba(5, 5, 5, 0.95), rgba(20, 20, 20, 0.8));
-    margin-top: auto;
-}
-
-.footer-logo {
-    width: 30px; 
-    height: 30px;
-    margin-bottom: 10px;
-    opacity: 0.8;
-    filter: grayscale(100%) brightness(150%); /* Fits the dark theme */
-}
-
-.main-footer p {
-    margin: 5px 0; 
-    font-size: 0.85rem;
-    color: var(--text-muted);
-    font-family: var(--font-body);
-}
-
-.footer-subtext {
-    font-size: 0.75rem !important;
-    color: var(--tiger-orange) !important;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-}
-/* --- NAVIGATION MENU --- */
-.nav-header {
-    width: 100%;
-    padding: 20px;
-    display: flex;
-    flex-direction: column; 
-    justify-content: center;
-    align-items: center;
-    gap: 20px; 
-    background: linear-gradient(to bottom, rgba(5, 5, 5, 0.95), rgba(20, 20, 20, 0.8));
-    border-bottom: 1px solid var(--glass-border);
-    box-sizing: border-box;
-}
-
-.nav-icon {
-    width: 50px; 
-    height: 50px;
-    border-radius: 50%;
-    border: 2px solid var(--tiger-orange);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.nav-icon:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 15px rgba(221, 125, 22, 0.5);
-}
-
-.hidden-menu {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap; 
-    gap: 15px; 
-}
-
-/* The VIP Casino Plaque Tabs */
-.nav-tab {
-    background: linear-gradient(145deg, rgba(30, 30, 30, 0.8), rgba(10, 10, 10, 0.9));
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 12px 25px;
-    border-radius: 4px; /* Crisp, sharp edges */
-    color: var(--text-muted);
-    font-family: var(--font-heading);
-    font-size: 0.95rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    text-decoration: none;
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
-    transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1); /* Swift, snappy transition */
-}
-
-/* The Swift Neon Snap */
-.nav-tab:hover, .nav-tab:active {
-    background: var(--tiger-orange);
-    color: var(--casino-black);
-    border-color: var(--tiger-orange);
-    box-shadow: 
-        0 0 20px rgba(221, 125, 22, 0.6), 
-        inset 0 0 10px rgba(255, 255, 255, 0.3);
-    transform: translateY(-2px) scale(1.02);
-}
-/* --- THE SLOT MACHINE BUTTONS --- */
-.nav-tab {
-    background: linear-gradient(to bottom, #2a2a2a, #141414);
-    border: 2px solid var(--casino-black);
-    padding: 12px 40px; /* Extra padding to make room for the lights */
-    border-radius: 8px; /* Slightly rounded like a physical machine button */
-    color: var(--text-primary);
-    font-family: var(--font-heading);
-    font-size: 0.95rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    text-decoration: none;
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    
-    /* The physical 3D unpressed state */
-    box-shadow: 
-        0 6px 0 #050505, /* The thick plastic structural base */
-        0 10px 15px rgba(0,0,0,0.8), /* The ambient drop shadow */
-        inset 0 1px 1px rgba(255,255,255,0.1); /* Top edge glare */
-    transition: all 0.15s ease-out; /* Fast, mechanical transition */
-}
-
-/* The Inactive LED Dots */
-.nav-tab::before,
-.nav-tab::after {
-    content: '';
-    position: absolute;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background-color: #1a1a1a; /* Dark, unlit state */
-    box-shadow: inset 0 1px 3px rgba(0,0,0,0.9); /* Recessed into the plastic */
-    transition: all 0.15s ease-out;
-}
-
-.nav-tab::before { left: 15px; } /* Left LED */
-.nav-tab::after { right: 15px; } /* Right LED */
-
-/* --- THE PHYSICAL PRESS & ILLUMINATION --- */
-.nav-tab:hover, .nav-tab:active {
-    transform: translateY(4px); /* Physically pushes the button down */
-    background: linear-gradient(to bottom, #1a1a1a, #050505);
-    color: var(--text-primary);
-    
-    /* Compressing the physical base and shadow */
-    box-shadow: 
-        0 2px 0 #050505, 
-        0 4px 5px rgba(0,0,0,0.8), 
-        inset 0 1px 1px rgba(255,255,255,0.05);
-}
-
-/* The Left LED Turns Vegas Red */
-.nav-tab:hover::before, .nav-tab:active::before {
-    background-color: var(--vegas-red);
-    box-shadow: 0 0 10px var(--vegas-red), inset 0 0 3px #ffffff;
-}
-
-/* The Right LED Turns Tiger Orange */
-.nav-tab:hover::after, .nav-tab:active::after {
-    background-color: var(--tiger-orange);
-    box-shadow: 0 0 10px var(--tiger-orange), inset 0 0 3px #ffffff;
 }

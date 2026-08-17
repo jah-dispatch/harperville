@@ -8,15 +8,17 @@
     margin-top: 20px;
 }
 
-/* --- THE SLOT MACHINE BUTTONS (Ported from Master CSS) --- */
+/* --- AUTUMN ACRYLIC CHAPTER BUTTONS (Replaces Slot Machines) --- */
 .chapter-btn {
-    background: linear-gradient(to bottom, #2a2a2a, #141414);
-    border: 2px solid var(--casino-black);
+    background: rgba(28, 18, 12, 0.72);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
     padding: 15px 40px; 
-    border-radius: 8px; 
-    color: var(--text-primary);
-    font-family: var(--font-heading);
-    font-size: 1.1rem;
+    border-radius: 12px; 
+    color: var(--tiger-orange);
+    font-family: 'Short Stack', cursive;
+    font-size: 1.2rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 2px;
@@ -28,58 +30,20 @@
     cursor: pointer;
     width: 100%;
     max-width: 400px;
-    
-    /* The physical 3D unpressed state */
-    box-shadow: 
-        0 6px 0 #050505, /* The thick plastic structural base */
-        0 10px 15px rgba(0,0,0,0.8), /* The ambient drop shadow */
-        inset 0 1px 1px rgba(255,255,255,0.1); /* Top edge glare */
-    transition: all 0.15s ease-out; /* Fast, mechanical transition */
+    box-shadow: 0 8px 25px rgba(0,0,0,0.6);
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-/* The Inactive LED Dots */
-.chapter-btn::before,
-.chapter-btn::after {
-    content: '';
-    position: absolute;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background-color: #1a1a1a; /* Dark, unlit state */
-    box-shadow: inset 0 1px 3px rgba(0,0,0,0.9); /* Recessed into the plastic */
-    transition: all 0.15s ease-out;
-}
-
-.chapter-btn::before { left: 15px; } /* Left LED */
-.chapter-btn::after { right: 15px; } /* Right LED */
-
-/* --- THE PHYSICAL PRESS & ILLUMINATION --- */
 .chapter-btn:hover, .chapter-btn:active {
-    transform: translateY(4px); /* Physically pushes the button down */
-    background: linear-gradient(to bottom, #1a1a1a, #050505);
-    color: var(--text-primary);
-    
-    /* Compressing the physical base and shadow */
-    box-shadow: 
-        0 2px 0 #050505, 
-        0 4px 5px rgba(0,0,0,0.8), 
-        inset 0 1px 1px rgba(255,255,255,0.05);
+    transform: translateY(-4px); 
+    background: rgba(40, 25, 18, 0.9);
+    /* FIXED: Changed from casino-black to bright cream linen for high contrast */
+    color: var(--text-primary); 
+    border-color: var(--tiger-orange);
+    box-shadow: 0 12px 35px rgba(200, 109, 42, 0.4), inset 0 0 15px rgba(255, 255, 255, 0.1);
 }
 
-/* The Left LED Turns Vegas Red */
-.chapter-btn:hover::before, .chapter-btn:active::before {
-    background-color: var(--vegas-red);
-    box-shadow: 0 0 10px var(--vegas-red), inset 0 0 3px #ffffff;
-}
-
-/* The Right LED Turns Tiger Orange */
-.chapter-btn:hover::after, .chapter-btn:active::after {
-    background-color: var(--tiger-orange);
-    box-shadow: 0 0 10px var(--tiger-orange), inset 0 0 3px #ffffff;
-}
-
-
-/* --- E-READER MODAL (KINDLE AESTHETIC) --- */
+/* --- E-READER MODAL (AUTUMN PARCHMENT AESTHETIC) --- */
 .ereader-modal {
     display: none; 
     position: fixed;
@@ -88,8 +52,8 @@
     width: 100%;
     height: 100%;
     background: rgba(5, 5, 5, 0.95); 
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
     z-index: 9999;
     justify-content: center;
     align-items: center;
@@ -98,13 +62,13 @@
 }
 
 .kindle-frame {
-    background: #e2dfd8; /* Soft e-ink paper color */
+    background: var(--text-primary); /* Uses the Warm Cream Linen */
     width: 100%;
     max-width: 800px;
     height: 90vh;
     border-radius: 12px;
-    border: 12px solid var(--charcoal-bg); 
-    box-shadow: inset 0 0 20px rgba(0,0,0,0.1), 0 20px 50px rgba(0,0,0,0.8);
+    border: 8px solid var(--casino-black); 
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.1), 0 20px 50px rgba(0,0,0,0.8), 0 0 0 1px var(--tiger-orange);
     position: relative;
     display: flex;
     flex-direction: column;
@@ -125,44 +89,49 @@
 .reader-controls {
     display: flex;
     justify-content: space-between;
-    padding: 10px 20px;
-    background: var(--charcoal-bg);
-    border-top: 1px solid var(--casino-black);
+    padding: 15px 25px;
+    background: var(--casino-black);
+    border-top: 1px solid var(--glass-border);
 }
 
 .reader-btn {
     background: transparent;
     border: none;
     color: var(--text-muted);
-    font-family: var(--font-heading);
-    font-size: 1.2rem;
+    font-family: 'Short Stack', cursive;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
     cursor: pointer;
-    transition: color 0.3s ease;
+    transition: color 0.3s ease, transform 0.3s ease;
 }
 
 .reader-btn:hover {
     color: var(--tiger-orange);
+    transform: scale(1.05);
 }
 
 .close-reader {
     position: absolute;
     top: -15px;
     right: -15px;
-    background: var(--vegas-red);
-    color: var(--text-primary);
-    border: 2px solid var(--casino-black);
+    background: var(--casino-black);
+    color: var(--tiger-orange);
+    border: 2px solid var(--tiger-orange);
     border-radius: 50%;
     width: 45px;
     height: 45px;
-    font-family: var(--font-heading);
+    font-family: 'Short Stack', cursive;
+    font-size: 1.2rem;
     font-weight: 700;
     cursor: pointer;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.6);
     z-index: 100;
     transition: all 0.3s ease;
 }
 
 .close-reader:hover {
-    background: #ff3333;
-    transform: scale(1.05);
+    background: var(--tiger-orange);
+    color: var(--casino-black);
+    transform: scale(1.1) rotate(90deg);
 }

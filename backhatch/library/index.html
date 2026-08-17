@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Harperville Resorts | The Backlist Library</title>
-    <!-- Core Structural Physics - Hooked to Casino Theme -->
+    <title>Harperville | The Backlist Library</title>
+    <!-- Core Structural Physics - Hooked to Autumn Theme -->
     <link rel="stylesheet" href="../../harperville-casino.css">
     <!-- Local Library & Reader Overrides -->
     <link rel="stylesheet" href="library.css">
@@ -12,82 +12,120 @@
     <!-- ePub.js and JSZip Dependencies -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.5/jszip.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/epubjs/dist/epub.min.js"></script>
+
+    <!-- PAGE-SPECIFIC OVERRIDES & FIXED BACKGROUND -->
+    <style>
+        /* Fixed Background Slideshow Container */
+        .fixed-bg-window {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: -2; background-color: var(--casino-black);
+        }
+        
+        .bg-layer {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-size: cover; background-position: center; background-repeat: no-repeat;
+        }
+
+        /* Grayscale & resize the footer logo */
+        .main-footer .footer-logo {
+            width: 45px !important; height: 45px !important;
+            filter: grayscale(100%) !important; opacity: 0.35 !important;
+            margin-bottom: 15px; transition: opacity 0.3s ease;
+        }
+        
+        .main-footer .footer-logo:hover { opacity: 0.8 !important; }
+
+        /* Enforce Rouge Script and protect it from Uppercase/Spacing rules */
+        .hero-title, h1, h2, h3, h4, h5, h6 {
+            font-family: 'Rouge Script', cursive !important;
+            text-transform: none !important;
+            letter-spacing: normal !important;
+        }
+    </style>
 </head>
 <body class="main-body">
+
+    <!-- FIXED BACKGROUND LAYERS (Dual-layer for smooth crossfading) -->
+    <div class="fixed-bg-window">
+        <div id="bg-back" class="bg-layer" style="background-image: url('../../assets/ui/backgrounds/sands-of-time-1.png');"></div>
+        <div id="bg-front" class="bg-layer" style="background-image: url('../../assets/ui/backgrounds/distance-between-him-1.png'); opacity: 0; transition: opacity 2.5s ease-in-out;"></div>
+    </div>
+    
+    <!-- EMOJI PARTICLE CONTAINER -->
+    <div id="leaf-container"></div>
 
     <!-- 18+ MATURE CONTENT WARNING MODAL -->
     <div class="age-gate-modal" id="age-gate-modal">
         <div class="glass-panel card age-gate-card">
-            <h2 style="font-family: var(--font-heading); text-align: center; font-size: 2.2rem; margin-bottom: 5px; color: var(--vegas-red); text-transform: uppercase; letter-spacing: 2px;">WARNING</h2>
-            <p style="text-align: center; font-family: var(--font-heading); color: var(--text-primary); margin-top: 0; margin-bottom: 15px; font-size: 1.1rem; letter-spacing: 1px;">18+ MATURE AUDIENCES ONLY</p>
+            <h2 style="text-align: center; font-size: 3.5rem; margin-bottom: 5px; color: var(--tiger-orange); text-shadow: 0 2px 4px rgba(0,0,0,0.6);">Warning</h2>
+            <p style="text-align: center; font-family: 'Short Stack', cursive; color: var(--gold-trim); margin-top: 0; margin-bottom: 15px; font-size: 1.1rem; letter-spacing: 1px;">18+ MATURE AUDIENCES ONLY</p>
             
-            <p style="text-align: center; font-size: 0.95rem; line-height: 1.6; margin-bottom: 10px; color: var(--text-primary);">
+            <p style="text-align: center; font-size: 0.95rem; line-height: 1.6; margin-bottom: 10px; color: var(--text-primary); font-family: 'Short Stack', cursive;">
                 The backlist titles housed in this library contain explicit sexual scenes, depictions of intense lust, and mature romance. 
             </p>
-            <p style="text-align: center; font-size: 0.95rem; line-height: 1.6; font-weight: bold; color: var(--tiger-orange);">
+            <p style="text-align: center; font-size: 0.95rem; line-height: 1.6; font-weight: bold; color: var(--tiger-orange); font-family: 'Short Stack', cursive;">
                 By proceeding, you confirm that you are at least 18 years of age and consent to viewing mature content.
             </p>
 
             <div class="age-btn-wrapper">
-                <button class="page-btn age-btn-accept" id="btn-accept-age" style="font-family: var(--font-heading); font-weight: 700; letter-spacing: 1px; cursor: pointer;">I AM 18+ (ENTER)</button>
-                <a href="../../vault/index.html" class="page-btn age-btn-decline" style="text-decoration: none; font-family: var(--font-heading); font-weight: 700; letter-spacing: 1px;">UNDER 18 (LEAVE)</a>
+                <button class="age-btn-accept" id="btn-accept-age">I AM 18+ (ENTER)</button>
+                <a href="../../vault/index.html" class="age-btn-decline">UNDER 18 (LEAVE)</a>
             </div>
         </div>
     </div>
 
-    <div class="app-container">
-        <!-- Navigation Header -->
-        <header class="glass-panel nav-header">
-            <a href="../../splash.html">
-                <img src="../../jack-aspen-harper-icon.png" alt="Jack Aspen Harper" class="nav-icon">
-            </a>
-            <nav class="hidden-menu">
-                <a href="../../about.html" class="nav-tab">Jack Harper</a>
-                <a href="../../vault/index.html" class="nav-tab">The Vault</a>
-            </nav>
-        </header>
+    <!-- Navigation Header -->
+    <header class="glass-panel nav-header">
+        <a href="../../splash.html">
+            <img src="../../jack-aspen-harper-icon.png" alt="Jack Aspen Harper" class="nav-icon">
+        </a>
+        <nav class="hidden-menu">
+            <a href="../../about.html" class="nav-tab">Jack Harper</a>
+            <a href="../../vault/index.html" class="nav-tab">The Vault</a>
+        </nav>
+    </header>
 
-        <!-- Right Panel Wrapper for Responsive Desktop Mode -->
-        <div class="right-panel">
-            <main class="content-area">
-                
-                <!-- BACK TO SPLASH BUTTON -->
-                <div style="text-align: center; margin-bottom: 30px;">
-                    <a href="../../splash.html" class="nav-tab">&lt; BACK TO HOME</a>
-                </div>
-
-                <h1 class="hero-title" style="margin-top: 0; font-size: clamp(2rem, 5vw, 3rem); margin-bottom: 15px;">The Library</h1>
-                
-                <div class="resort-card" style="text-align: center; padding: 15px; border-top: 3px solid var(--tiger-orange); margin-bottom: 10px;">
-                    <p style="margin: 0; font-family: var(--font-heading); font-weight: bold; color: var(--tiger-orange); text-transform: uppercase; letter-spacing: 1.5px;">The Backlist Archives</p>
-                    <p style="margin: 5px 0 0 0; font-size: 0.9rem; color: var(--text-muted);">Heavy, textured, and delightfully aggressive narratives. Tap a cover to begin reading.</p>
-                </div>
-
-                <!-- THE CAROUSEL -->
-                <div class="carousel-wrapper">
-                    <button class="scroll-btn scroll-left" id="scroll-left">&lt;</button>
-                    
-                    <div class="carousel-track" id="carousel-track">
-                        <div class="book-tile" data-epub="epubs/distance-between-him.epub"><img src="covers/distance-between-him.jpg" alt="Distance Between Him"></div>
-                        <div class="book-tile" data-epub="epubs/sands-of-time.epub"><img src="covers/sands-of-time.jpg" alt="Sands of Time"></div>
-                        <div class="book-tile" data-epub="epubs/harts-inferno.epub"><img src="covers/harts-inferno.jpg" alt="Hart's Inferno"></div>
-                        <div class="book-tile" data-epub="epubs/island-daddy.epub"><img src="covers/island-daddy.jpg" alt="Island Daddy"></div>
-                        <div class="book-tile" data-epub="epubs/safe-keeping.epub"><img src="covers/safe-keeping.jpg" alt="Safe Keeping"></div>
-                        <div class="book-tile" data-epub="epubs/and-a-bag-of-chips.epub"><img src="covers/and-a-bag-of-chips.jpg" alt="...and a Bag of Chips"></div>
-                    </div>
-                    
-                    <button class="scroll-btn scroll-right" id="scroll-right">&gt;</button>
-                </div>
-            </main>
-
-            <!-- Footer -->
-            <footer class="glass-panel main-footer">
-                <img src="../../jack-aspen-harper-icon.png" alt="Jack Aspen Harper" class="footer-logo">
-                <p>&copy; 2026 Harperville Resorts</p>
-                <p class="footer-subtext">Jack Aspen Harper</p>
-            </footer>
+    <!-- Main Content Area -->
+    <main class="content-area">
+        
+        <!-- BACK TO SPLASH BUTTON -->
+        <div style="text-align: center; margin-bottom: 30px;">
+            <a href="../../splash.html" class="nav-tab">&lt; BACK TO HOME</a>
         </div>
-    </div>
+
+        <h1 class="hero-title" style="margin-top: 0; font-size: clamp(3rem, 6vw, 4.5rem); margin-bottom: 15px; text-align: center;">The Library</h1>
+        
+        <div class="resort-card" style="text-align: center; padding: 15px; border-top: 3px solid var(--tiger-orange); margin-bottom: 10px;">
+            <p style="margin: 0; font-family: 'Short Stack', cursive; font-size: 1.2rem; color: var(--tiger-orange); text-transform: uppercase; letter-spacing: 1px;">The Backlist Archives</p>
+            <p style="margin: 5px 0 0 0; font-family: 'Short Stack', cursive; font-size: 1.05rem; color: var(--text-primary);">Heavy, textured, and delightfully aggressive narratives. Tap a cover to begin reading.</p>
+        </div>
+
+        <!-- THE CAROUSEL -->
+        <div class="carousel-wrapper">
+            <button class="scroll-btn scroll-left" id="scroll-left"><span>&lt;</span></button>
+            
+            <div class="carousel-track" id="carousel-track">
+                <div class="book-tile" data-epub="epubs/distance-between-him.epub"><img src="covers/distance-between-him.jpg" alt="Distance Between Him"></div>
+                <div class="book-tile" data-epub="epubs/sands-of-time.epub"><img src="covers/sands-of-time.jpg" alt="Sands of Time"></div>
+                <div class="book-tile" data-epub="epubs/harts-inferno.epub"><img src="covers/harts-inferno.jpg" alt="Hart's Inferno"></div>
+                <div class="book-tile" data-epub="epubs/island-daddy.epub"><img src="covers/island-daddy.jpg" alt="Island Daddy"></div>
+                <div class="book-tile" data-epub="epubs/safe-keeping.epub"><img src="covers/safe-keeping.jpg" alt="Safe Keeping"></div>
+                <div class="book-tile" data-epub="epubs/and-a-bag-of-chips.epub"><img src="covers/and-a-bag-of-chips.jpg" alt="...and a Bag of Chips"></div>
+            </div>
+            
+            <button class="scroll-btn scroll-right" id="scroll-right"><span>&gt;</span></button>
+        </div>
+        
+        <div style="height: 50px;"></div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="glass-panel main-footer">
+        <img src="../../jack-aspen-harper-icon.png" alt="Jack Aspen Harper" class="footer-logo">
+        <p>&copy; 2026 Harperville</p>
+        <p class="footer-subtext">Jack Aspen Harper</p>
+          </footer>
 
     <!-- THE E-READER MODAL -->
     <div class="ereader-modal" id="ereader-modal">
@@ -97,13 +135,68 @@
             
             <div class="reader-controls">
                 <button class="reader-btn" id="prev-page">&lt; PREV</button>
-                <!-- Audio Controls Permanently Removed -->
                 <button class="reader-btn" id="next-page">NEXT &gt;</button>
             </div>
         </div>
     </div>
 
-    <!-- THE LOGIC ENGINE -->
+    <!-- THE AUTUMN ENGINE JS (Slideshow & Leaves) -->
+    <script>
+        // --- 1. THE AUTUMN SLIDESHOW ENGINE (Randomized with ../../ paths) ---
+        const bgImages = [
+            '../../assets/ui/backgrounds/sands-of-time-1.png',
+            '../../assets/ui/backgrounds/distance-between-him-1.png',
+            '../../assets/ui/backgrounds/safe-keeping-2.png',
+            '../../assets/ui/backgrounds/island-daddy-1.png',
+            '../../assets/ui/backgrounds/and-a-bag-of-chips.png',
+            '../../assets/ui/backgrounds/distance-between-him-2.png',
+            '../../assets/ui/backgrounds/sands-of-time-2.png',
+            '../../assets/ui/backgrounds/safe-keeping-1.png',
+            '../../assets/ui/backgrounds/island-daddy-2.png',
+            '../../assets/ui/backgrounds/sands-of-time-3.png'
+        ];
+
+        let currentBgIndex = 0;
+        const layerBack = document.getElementById('bg-back');
+        const layerFront = document.getElementById('bg-front');
+        let isFrontActive = false;
+
+        bgImages.forEach(src => {
+            const img = new Image();
+            img.src = src;
+        });
+
+        setInterval(() => {
+            currentBgIndex = (currentBgIndex + 1) % bgImages.length;
+            const nextImage = `url('${bgImages[currentBgIndex]}')`;
+
+            if (isFrontActive) {
+                layerBack.style.backgroundImage = nextImage;
+                layerFront.style.opacity = '0';
+            } else {
+                layerFront.style.backgroundImage = nextImage;
+                layerFront.style.opacity = '1';
+            }
+            isFrontActive = !isFrontActive;
+            
+        }, 14000); 
+
+        // --- 2. EMOJI LEAF ENGINE ---
+        const leaves = ['🍂', '🍁', '🤎', '🧡', '🌾']; 
+        const containerLeaves = document.getElementById('leaf-container');
+        for(let i = 0; i < 20; i++) { 
+            let leaf = document.createElement('div');
+            leaf.className = 'emoji-leaf';
+            leaf.innerText = leaves[Math.floor(Math.random() * leaves.length)];
+            leaf.style.left = Math.random() * 100 + 'vw';
+            leaf.style.animationDuration = (Math.random() * 6 + 6) + 's';
+            leaf.style.animationDelay = (Math.random() * 5) + 's';
+            leaf.style.fontSize = (Math.random() * 0.8 + 1.2) + 'rem';
+            containerLeaves.appendChild(leaf);
+        }
+    </script>
+
+    <!-- THE LOGIC ENGINE (ePub.js, Age Gate, Carousel) -->
     <script>
         // --- 1. AGE GATE LOGIC ---
         const ageModal = document.getElementById('age-gate-modal');
@@ -146,8 +239,9 @@
                 width: "100%", height: "100%", spread: "none", manager: "continuous", flow: "paginated"
             });
             
+            // Re-themed the ePub output to match the Autumn aesthetic fonts and colors
             rendition.themes.default({
-                "body": { "font-family": "Georgia, serif", "color": "#333333", "padding": "0 10px" }
+                "body": { "font-family": "Georgia, serif", "color": "#1C120C", "padding": "0 10px", "background": "#F4EFEB" }
             });
             rendition.display();
         }

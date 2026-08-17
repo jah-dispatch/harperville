@@ -3,11 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Harperville Resorts | The Soundtrack</title>
-    <!-- Hooked to the Casino Theme -->
+    <title>Harperville | The Soundtrack</title>
+    <!-- Hooked to the master autumn stylesheet -->
     <link rel="stylesheet" href="../harperville-casino.css">
+
+    <!-- PAGE-SPECIFIC OVERRIDES & FIXED BACKGROUND -->
+    <style>
+        /* Fixed Background Slideshow Container */
+        .fixed-bg-window {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: -2; background-color: var(--casino-black);
+        }
+        
+        .bg-layer {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-size: cover; background-position: center; background-repeat: no-repeat;
+        }
+
+        /* Grayscale & resize the footer logo */
+        .main-footer .footer-logo {
+            width: 45px !important; height: 45px !important;
+            filter: grayscale(100%) !important; opacity: 0.35 !important;
+            margin-bottom: 15px; transition: opacity 0.3s ease;
+        }
+        
+        .main-footer .footer-logo:hover { opacity: 0.8 !important; }
+
+        /* Enforce Rouge Script and protect it from Uppercase/Spacing rules */
+        .hero-title, h1, h2, h3, h4, h5, h6 {
+            font-family: 'Rouge Script', cursive !important;
+            text-transform: none !important;
+            letter-spacing: normal !important;
+        }
+    </style>
 </head>
 <body class="main-body">
+
+    <!-- FIXED BACKGROUND LAYERS (Dual-layer for smooth crossfading) -->
+    <div class="fixed-bg-window">
+        <div id="bg-back" class="bg-layer" style="background-image: url('../assets/ui/backgrounds/safe-keeping-1.png');"></div>
+        <div id="bg-front" class="bg-layer" style="background-image: url('../assets/ui/backgrounds/distance-between-him-2.png'); opacity: 0; transition: opacity 2.5s ease-in-out;"></div>
+    </div>
+    
+    <!-- EMOJI PARTICLE CONTAINER -->
+    <div id="leaf-container"></div>
     
     <!-- Navigation Header -->
     <header class="glass-panel nav-header">
@@ -27,11 +67,11 @@
             <a href="../splash.html" class="nav-tab">&lt; BACK TO HOME</a>
         </div>
 
-        <h1 class="hero-title" style="margin-top: 0; font-size: clamp(2rem, 5vw, 3rem); margin-bottom: 15px;">The Soundtrack</h1>
+        <h1 class="hero-title" style="margin-top: 0; font-size: clamp(3rem, 6vw, 4.5rem); margin-bottom: 15px; text-align: center;">The Soundtrack</h1>
         
         <div class="resort-card" style="text-align: center; padding: 15px; border-top: 3px solid var(--tiger-orange); margin-bottom: 25px;">
-            <p style="margin: 0; font-family: var(--font-heading); font-size: 1rem; color: var(--tiger-orange); letter-spacing: 1.5px; text-transform: uppercase;">The Life of Jack Aspen Harper</p>
-            <p style="margin: 5px 0 0 0; font-size: 0.9rem; color: var(--text-muted);">A sonic breakdown of the journey, the grind, and the unyielding willpower.</p>
+            <p style="margin: 0; font-family: 'Short Stack', cursive; font-size: 1.1rem; color: var(--tiger-orange); letter-spacing: 1px; text-transform: uppercase;">The Life of Jack Aspen Harper</p>
+            <p style="margin: 5px 0 0 0; font-family: 'Short Stack', cursive; font-size: 1.05rem; color: var(--text-primary);">A sonic breakdown of the journey, the grind, and the unyielding willpower.</p>
         </div>
 
         <!-- THE APPLE MUSIC CONTAINER -->
@@ -50,7 +90,7 @@
             </div>
         </div>
 
-        <p style="text-align: center; font-size: 0.85rem; color: var(--gold-trim); font-style: italic; margin-top: 25px; letter-spacing: 1px;">
+        <p style="text-align: center; font-family: 'Short Stack', cursive; font-size: 0.95rem; color: var(--gold-trim); margin-top: 25px; letter-spacing: 1px;">
             *Queue up the tracklist, filter out the background noise, and lock into the zone.*
         </p>
         
@@ -60,9 +100,66 @@
     <!-- Footer -->
     <footer class="glass-panel main-footer">
         <img src="../jack-aspen-harper-icon.png" alt="Jack Aspen Harper" class="footer-logo">
-        <p>&copy; 2026 Harperville Resorts</p>
+        <p>&copy; 2026 Harperville</p>
         <p class="footer-subtext">Jack Aspen Harper</p>
+        
     </footer>
+
+    <!-- THE AUTUMN ENGINE JS (Slideshow & Leaves) -->
+    <script>
+        // --- 1. THE AUTUMN SLIDESHOW ENGINE (Randomized with ../ paths) ---
+        const bgImages = [
+            '../assets/ui/backgrounds/safe-keeping-1.png',
+            '../assets/ui/backgrounds/island-daddy-1.png',
+            '../assets/ui/backgrounds/and-a-bag-of-chips.png',
+            '../assets/ui/backgrounds/sands-of-time-2.png',
+            '../assets/ui/backgrounds/distance-between-him-1.png',
+            '../assets/ui/backgrounds/safe-keeping-2.png',
+            '../assets/ui/backgrounds/island-daddy-2.png',
+            '../assets/ui/backgrounds/distance-between-him-2.png',
+            '../assets/ui/backgrounds/sands-of-time-3.png',
+            '../assets/ui/backgrounds/sands-of-time-1.png'
+        ];
+
+        let currentBgIndex = 0;
+        const layerBack = document.getElementById('bg-back');
+        const layerFront = document.getElementById('bg-front');
+        let isFrontActive = false;
+
+        bgImages.forEach(src => {
+            const img = new Image();
+            img.src = src;
+        });
+
+        setInterval(() => {
+            currentBgIndex = (currentBgIndex + 1) % bgImages.length;
+            const nextImage = `url('${bgImages[currentBgIndex]}')`;
+
+            if (isFrontActive) {
+                layerBack.style.backgroundImage = nextImage;
+                layerFront.style.opacity = '0';
+            } else {
+                layerFront.style.backgroundImage = nextImage;
+                layerFront.style.opacity = '1';
+            }
+            isFrontActive = !isFrontActive;
+            
+        }, 14000); 
+
+        // --- 2. EMOJI LEAF ENGINE ---
+        const leaves = ['🍂', '🍁', '🤎', '🧡', '🌾']; 
+        const container = document.getElementById('leaf-container');
+        for(let i = 0; i < 20; i++) { 
+            let leaf = document.createElement('div');
+            leaf.className = 'emoji-leaf';
+            leaf.innerText = leaves[Math.floor(Math.random() * leaves.length)];
+            leaf.style.left = Math.random() * 100 + 'vw';
+            leaf.style.animationDuration = (Math.random() * 6 + 6) + 's';
+            leaf.style.animationDelay = (Math.random() * 5) + 's';
+            leaf.style.fontSize = (Math.random() * 0.8 + 1.2) + 'rem';
+            container.appendChild(leaf);
+        }
+    </script>
 
 </body>
 </html>

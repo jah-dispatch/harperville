@@ -3,80 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Harperville Resorts | Taylor's Version</title>
-    <!-- Hooked to the Casino Theme -->
+    <title>Harperville | Taylor's Version</title>
+    <!-- Hooked to the master autumn stylesheet (Notice the ../ path) -->
     <link rel="stylesheet" href="../harperville-casino.css">
 
+    <!-- PAGE-SPECIFIC OVERRIDES & FIXED BACKGROUND -->
     <style>
-        /* --- VIP CATALOG GRID --- */
+        /* Fixed Background Slideshow Container */
+        .fixed-bg-window {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: -2; background-color: var(--casino-black);
+        }
+        
+        .bg-layer {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-size: cover; background-position: center; background-repeat: no-repeat;
+        }
+
+        /* Grayscale & resize the footer logo */
+        .main-footer .footer-logo {
+            width: 45px !important; height: 45px !important;
+            filter: grayscale(100%) !important; opacity: 0.35 !important;
+            margin-bottom: 15px; transition: opacity 0.3s ease;
+        }
+        
+        .main-footer .footer-logo:hover { opacity: 0.8 !important; }
+
+        /* Enforce Rouge Script and protect it from Uppercase/Spacing rules */
+        .hero-title, h1, h2, h3, h4, h5, h6 {
+            font-family: 'Rouge Script', cursive !important;
+            text-transform: none !important;
+            letter-spacing: normal !important;
+        }
+
+        /* --- VIP CATALOG GRID (Adapted for Autumn) --- */
         .vip-catalog-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 30px;
-            margin-top: 30px;
-            width: 100%;
+            gap: 30px; margin-top: 30px; width: 100%;
         }
 
         /* --- VIDEO CARD OVERRIDES --- */
-        .video-card {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-        
-        .video-description {
-            padding-top: 20px;
-            flex-grow: 1;
-        }
+        .video-card { display: flex; flex-direction: column; justify-content: space-between; }
+        .video-description { padding-top: 20px; flex-grow: 1; }
 
         .video-description h3 {
-            font-family: var(--font-heading);
-            color: var(--text-primary);
-            font-size: 1.4rem;
+            color: var(--tiger-orange);
+            font-size: 2.4rem; /* Bumped up for the thin cursive script */
             margin: 0 0 10px 0;
-            text-transform: uppercase;
-            letter-spacing: 1px;
         }
 
         .video-description p {
-            font-family: var(--font-body);
-            color: var(--text-muted);
-            font-size: 0.95rem;
+            font-family: 'Short Stack', cursive;
+            color: var(--text-primary);
+            font-size: 1.05rem;
             line-height: 1.6;
             margin: 0;
         }
 
         /* --- Cinematic Widescreen Fix for Thumbnails --- */
         .video-wrapper {
-            position: relative;
-            width: 100%;
-            aspect-ratio: 16 / 9; 
-            border-radius: 8px;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative; width: 100%; aspect-ratio: 16 / 9; 
+            border-radius: 8px; overflow: hidden;
+            border: 1px solid var(--glass-border);
             background: #000;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
             flex-shrink: 0; 
         }
         
         .video-wrapper img {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            opacity: 0.85;
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover; opacity: 0.85;
             transition: opacity 0.3s ease, transform 0.3s ease;
         }
 
         .video-card:hover .video-wrapper img {
-            opacity: 1;
-            transform: scale(1.03);
+            opacity: 1; transform: scale(1.03);
         }
     </style>
 </head>
 <body class="main-body">
+
+    <!-- FIXED BACKGROUND LAYERS (Dual-layer for smooth crossfading) -->
+    <div class="fixed-bg-window">
+        <div id="bg-back" class="bg-layer" style="background-image: url('../assets/ui/backgrounds/sands-of-time-2.png');"></div>
+        <div id="bg-front" class="bg-layer" style="background-image: url('../assets/ui/backgrounds/safe-keeping-1.png'); opacity: 0; transition: opacity 2.5s ease-in-out;"></div>
+    </div>
+    
+    <!-- EMOJI PARTICLE CONTAINER -->
+    <div id="leaf-container"></div>
 
     <!-- Navigation Header -->
     <header class="glass-panel nav-header">
@@ -96,11 +112,12 @@
             <a href="../splash.html" class="nav-tab">&lt; BACK TO HOME</a>
         </div>
 
-        <h1 class="hero-title" style="margin-top: 0; font-size: clamp(2rem, 5vw, 3rem); margin-bottom: 15px;">The Taylor Dedication</h1>
+        <h1 class="hero-title" style="margin-top: 0; font-size: clamp(3rem, 6vw, 4.5rem); margin-bottom: 15px; text-align: center;">The Taylor Dedication</h1>
         
         <div class="resort-card" style="text-align: center; padding: 15px; border-top: 3px solid var(--tiger-orange); margin-bottom: 10px;">
-            <p style="margin: 0; font-family: var(--font-heading); font-weight: bold; color: var(--tiger-orange); text-transform: uppercase; letter-spacing: 1.5px;">Surviving life requires radical autonomy.</p>
-            <p style="margin: 5px 0 0 0; font-size: 0.9rem; color: var(--text-muted);">...and an immaculate, unrelenting discography appreciation.</p>
+            <!-- Swapped to Short Stack here so the uppercase styling doesn't break the cursive -->
+            <p style="margin: 0; font-family: 'Short Stack', cursive; font-weight: bold; color: var(--tiger-orange); text-transform: uppercase; letter-spacing: 1.5px; font-size: 1.1rem;">Surviving life requires radical autonomy.</p>
+            <p style="margin: 5px 0 0 0; font-size: 1rem; color: var(--text-muted);">...and an immaculate, unrelenting discography appreciation.</p>
         </div>
 
         <!-- THE VIDEO GRID -->
@@ -108,7 +125,8 @@
             
             <div class="resort-card video-card">
                 <div>
-                    <div class="category-tag tag-movie" style="align-self: flex-start; margin-bottom: 15px;">MUSIC VIDEO</div>
+                    <!-- Reset tags to Short Stack to keep them blocky and legible -->
+                    <div class="category-tag tag-movie" style="align-self: flex-start; margin-bottom: 15px; font-family: 'Short Stack', cursive;">MUSIC VIDEO</div>
                     <div class="video-wrapper">
                         <img src="https://img.youtube.com/vi/JLf9q36UsBk/maxresdefault.jpg" alt="Out of the Woods Thumbnail">
                     </div>
@@ -117,12 +135,12 @@
                         <p>This has recently become my anthem as I navigate the complex recovery of my neck/spine fusion. It's not been the easiest road, and there are unexplained pains here and there still, but I can at least look to the sky and know that just on Day 12 post-op, I was going to be all right and I was starting to emerge from out of the woods.</p>
                     </div>
                 </div>
-                <a href="https://www.youtube.com/watch?v=JLf9q36UsBk" target="_blank" rel="noopener noreferrer" class="btn-reserve" style="text-align: center; display: block; margin-top: 20px;">WATCH ON YOUTUBE</a>
+                <a href="https://www.youtube.com/watch?v=JLf9q36UsBk" target="_blank" rel="noopener noreferrer" class="btn-reserve" style="text-align: center; display: block; margin-top: 20px; font-family: 'Short Stack', cursive;">WATCH ON YOUTUBE</a>
             </div>
 
             <div class="resort-card video-card">
                 <div>
-                    <div class="category-tag tag-movie" style="align-self: flex-start; margin-bottom: 15px;">MUSIC VIDEO</div>
+                    <div class="category-tag tag-movie" style="align-self: flex-start; margin-bottom: 15px; font-family: 'Short Stack', cursive;">MUSIC VIDEO</div>
                     <div class="video-wrapper">
                         <img src="https://img.youtube.com/vi/FuXNumBwDOM/maxresdefault.jpg" alt="ME! Thumbnail">
                     </div>
@@ -131,12 +149,12 @@
                         <p>From picturesque color splashes to the unapologetic energy of the music video, this track embodies the essence of self-empowerment and confidence.</p>
                     </div>
                 </div>
-                <a href="https://www.youtube.com/watch?v=FuXNumBwDOM" target="_blank" rel="noopener noreferrer" class="btn-reserve" style="text-align: center; display: block; margin-top: 20px;">WATCH ON YOUTUBE</a>
+                <a href="https://www.youtube.com/watch?v=FuXNumBwDOM" target="_blank" rel="noopener noreferrer" class="btn-reserve" style="text-align: center; display: block; margin-top: 20px; font-family: 'Short Stack', cursive;">WATCH ON YOUTUBE</a>
             </div>
 
             <div class="resort-card video-card">
                 <div>
-                    <div class="category-tag tag-movie" style="align-self: flex-start; margin-bottom: 15px;">MUSIC VIDEO</div>
+                    <div class="category-tag tag-movie" style="align-self: flex-start; margin-bottom: 15px; font-family: 'Short Stack', cursive;">MUSIC VIDEO</div>
                     <div class="video-wrapper">
                         <img src="https://img.youtube.com/vi/ko70cExuzZM/maxresdefault.jpg" alt="The Fate of Ophelia Thumbnail">
                     </div>
@@ -145,12 +163,12 @@
                         <p>It took me a little time to adjust to this music video only because I briefly un-became a Swiftie momentarily throughout the fall of last year. I've realized it was just the pain and discomfort my back was going through that dictated my moods. Soon enough, I designed a T shirt based off this song and I can't wait to wear it again. But first, I need to FIT in it again.</p>
                     </div>
                 </div>
-                <a href="https://www.youtube.com/watch?v=ko70cExuzZM" target="_blank" rel="noopener noreferrer" class="btn-reserve" style="text-align: center; display: block; margin-top: 20px;">WATCH ON YOUTUBE</a>
+                <a href="https://www.youtube.com/watch?v=ko70cExuzZM" target="_blank" rel="noopener noreferrer" class="btn-reserve" style="text-align: center; display: block; margin-top: 20px; font-family: 'Short Stack', cursive;">WATCH ON YOUTUBE</a>
             </div>
 
             <div class="resort-card video-card">
                 <div>
-                    <div class="category-tag tag-movie" style="align-self: flex-start; margin-bottom: 15px;">MUSIC VIDEO</div>
+                    <div class="category-tag tag-movie" style="align-self: flex-start; margin-bottom: 15px; font-family: 'Short Stack', cursive;">MUSIC VIDEO</div>
                     <div class="video-wrapper">
                         <img src="https://img.youtube.com/vi/-CmadmM5cOk/maxresdefault.jpg" alt="Style Thumbnail">
                     </div>
@@ -159,21 +177,21 @@
                         <p>This one's all about the beats. And the visual artistry with all the fractals of illusions and clipping mask effects. It takes the cake on my top Taylor videos.</p>
                     </div>
                 </div>
-                <a href="https://www.youtube.com/watch?v=-CmadmM5cOk" target="_blank" rel="noopener noreferrer" class="btn-reserve" style="text-align: center; display: block; margin-top: 20px;">WATCH ON YOUTUBE</a>
+                <a href="https://www.youtube.com/watch?v=-CmadmM5cOk" target="_blank" rel="noopener noreferrer" class="btn-reserve" style="text-align: center; display: block; margin-top: 20px; font-family: 'Short Stack', cursive;">WATCH ON YOUTUBE</a>
             </div>
 
             <div class="resort-card video-card">
                 <div>
-                    <div class="category-tag tag-movie" style="align-self: flex-start; margin-bottom: 15px;">LIVE PERFORMANCE</div>
+                    <div class="category-tag tag-movie" style="align-self: flex-start; margin-bottom: 15px; font-family: 'Short Stack', cursive;">LIVE PERFORMANCE</div>
                     <div class="video-wrapper">
                         <img src="https://img.youtube.com/vi/StNwhuXFPlc/maxresdefault.jpg" alt="This is Why We Can't Have Nice Things Thumbnail">
                     </div>
                     <div class="video-description">
                         <h3>This is Why We Can't Have Nice Things</h3>
-                        <p>Whhile technically not a music video, the choreography and set tells a perfectly compelling story about extending one's worth and efforts only to receive pittance in return. This is the ultimate anthem to reclaiming self-autonomy and demand dignity by controlling your own boundaries and rewrite your narrative.</p>
+                        <p>While technically not a music video, the choreography and set tells a perfectly compelling story about extending one's worth and efforts only to receive pittance in return. This is the ultimate anthem to reclaiming self-autonomy and demand dignity by controlling your own boundaries and rewrite your narrative.</p>
                     </div>
                 </div>
-                <a href="https://www.youtube.com/watch?v=StNwhuXFPlc" target="_blank" rel="noopener noreferrer" class="btn-reserve" style="text-align: center; display: block; margin-top: 20px;">WATCH ON YOUTUBE</a>
+                <a href="https://www.youtube.com/watch?v=StNwhuXFPlc" target="_blank" rel="noopener noreferrer" class="btn-reserve" style="text-align: center; display: block; margin-top: 20px; font-family: 'Short Stack', cursive;">WATCH ON YOUTUBE</a>
             </div>
 
         </div>
@@ -184,9 +202,64 @@
     <!-- Footer -->
     <footer class="glass-panel main-footer">
         <img src="../jack-aspen-harper-icon.png" alt="Jack Aspen Harper" class="footer-logo">
-        <p>&copy; 2026 Harperville Resorts</p>
+        <p>&copy; 2026 Harperville</p>
         <p class="footer-subtext">Jack Aspen Harper</p>
     </footer>
 
+    <!-- THE AUTUMN ENGINE JS (Slideshow & Leaves) -->
+    <script>
+        // --- 1. THE AUTUMN SLIDESHOW ENGINE (Randomized with ../ paths) ---
+        const bgImages = [
+            '../assets/ui/backgrounds/sands-of-time-2.png',
+            '../assets/ui/backgrounds/safe-keeping-1.png',
+            '../assets/ui/backgrounds/distance-between-him-2.png',
+            '../assets/ui/backgrounds/island-daddy-1.png',
+            '../assets/ui/backgrounds/and-a-bag-of-chips.png',
+            '../assets/ui/backgrounds/distance-between-him-1.png',
+            '../assets/ui/backgrounds/safe-keeping-2.png',
+            '../assets/ui/backgrounds/island-daddy-2.png',
+            '../assets/ui/backgrounds/sands-of-time-3.png',
+            '../assets/ui/backgrounds/sands-of-time-1.png'
+        ];
+
+        let currentBgIndex = 0;
+        const layerBack = document.getElementById('bg-back');
+        const layerFront = document.getElementById('bg-front');
+        let isFrontActive = false;
+
+        bgImages.forEach(src => {
+            const img = new Image();
+            img.src = src;
+        });
+
+        setInterval(() => {
+            currentBgIndex = (currentBgIndex + 1) % bgImages.length;
+            const nextImage = `url('${bgImages[currentBgIndex]}')`;
+
+            if (isFrontActive) {
+                layerBack.style.backgroundImage = nextImage;
+                layerFront.style.opacity = '0';
+            } else {
+                layerFront.style.backgroundImage = nextImage;
+                layerFront.style.opacity = '1';
+            }
+            isFrontActive = !isFrontActive;
+            
+        }, 14000); 
+
+        // --- 2. EMOJI LEAF ENGINE ---
+        const leaves = ['🍂', '🍁', '🤎', '🧡', '🌾']; 
+        const container = document.getElementById('leaf-container');
+        for(let i = 0; i < 20; i++) { 
+            let leaf = document.createElement('div');
+            leaf.className = 'emoji-leaf';
+            leaf.innerText = leaves[Math.floor(Math.random() * leaves.length)];
+            leaf.style.left = Math.random() * 100 + 'vw';
+            leaf.style.animationDuration = (Math.random() * 6 + 6) + 's';
+            leaf.style.animationDelay = (Math.random() * 5) + 's';
+            leaf.style.fontSize = (Math.random() * 0.8 + 1.2) + 'rem';
+            container.appendChild(leaf);
+        }
+    </script>
 </body>
 </html>

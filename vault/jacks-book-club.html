@@ -4,42 +4,154 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Harperville Resorts | Jack's Book Club</title>
-    <!-- Hooked to the Casino Theme -->
+    <!-- Hooked to the master autumn stylesheet -->
     <link rel="stylesheet" href="../harperville-casino.css">
 
+    <!-- PAGE-SPECIFIC OVERRIDES & FIXED BACKGROUND -->
     <style>
+        /* Fixed Background Slideshow Container */
+        .fixed-bg-window {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: -2; background-color: var(--casino-black);
+        }
+        
+        .bg-layer {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-size: cover; background-position: center; background-repeat: no-repeat;
+        }
+
+        /* Grayscale & resize the footer logo */
+        .main-footer .footer-logo {
+            width: 45px !important; height: 45px !important;
+            filter: grayscale(100%) !important; opacity: 0.35 !important;
+            margin-bottom: 15px; transition: opacity 0.3s ease;
+        }
+        
+        .main-footer .footer-logo:hover { opacity: 0.8 !important; }
+
+        /* Enforce Rouge Script and protect it from Uppercase/Spacing rules */
+        .hero-title, h1, h2, h3, h4, h5, h6 {
+            font-family: 'Rouge Script', cursive !important;
+            text-transform: none !important;
+            letter-spacing: normal !important;
+        }
+
         /* --- VIP CATALOG GRID --- */
         .vip-catalog-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 30px;
             margin-top: 20px;
+            align-items: stretch; /* Forces equal heights across rows */
         }
 
-        /* --- PRODUCT CARD OVERRIDES --- */
+        /* --- PRODUCT CARD OVERRIDES & BULLETPROOF IMAGE FIX --- */
         .product-card {
+            display: flex;
+            flex-direction: column;
             justify-content: space-between;
+            height: 100%;
+        }
+        
+        .product-card > div {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        /* Locks the image box size so it cannot blow out the grid (taller for books) */
+        .product-card .media-wrapper {
+            width: 100%;
+            height: 260px; 
+            margin: 15px 0;
+            background: rgba(0, 0, 0, 0.4); 
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+            box-sizing: border-box;
+        }
+
+        /* Forces the image to shrink to fit the wrapper */
+        .product-card .media-image {
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
+            height: auto;
+            object-fit: contain; 
+            display: block;
+            border-radius: 4px; /* Slight rounding for book edges */
+            box-shadow: 0 4px 10px rgba(0,0,0,0.6);
         }
         
         .product-card h3 {
-            font-family: var(--font-heading);
-            color: var(--text-primary);
-            font-size: 1.4rem;
-            margin: 0 0 15px 0;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            color: var(--tiger-orange);
+            font-size: 2.2rem; 
+            margin: 0 0 10px 0;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.6);
         }
 
         .product-desc {
-            font-family: var(--font-body);
-            color: var(--text-muted);
-            font-size: 0.95rem;
+            font-family: 'Short Stack', cursive;
+            color: var(--text-primary);
+            font-size: 1.05rem;
             line-height: 1.6;
             margin-bottom: 15px;
+        }
+
+        /* --- RESTORED CATEGORY TAGS --- */
+        .category-tag {
+            display: inline-block;
+            background: rgba(28, 18, 12, 0.85); 
+            font-family: 'Short Stack', cursive !important;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            padding: 6px 14px;
+            border-radius: 20px; 
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            align-self: flex-start;
+            margin-bottom: 15px;
+        }
+
+        /* Color variations for tags based on category */
+        .tag-movie { border: 1px solid var(--tiger-orange); color: var(--tiger-orange); }
+        .tag-tv { border: 1px solid var(--gold-trim); color: var(--gold-trim); }
+        .tag-book { border: 1px solid var(--vegas-red); color: #ff9a8b; }
+
+        /* --- WARM AUTUMN SHIMMER --- */
+        .metallic-shimmer {
+            font-family: 'Short Stack', cursive !important;
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            background: linear-gradient(-45deg, var(--tiger-orange) 25%, var(--gold-trim) 40%, #FFF 50%, var(--gold-trim) 60%, var(--tiger-orange) 75%);
+            background-size: 200% auto;
+            color: transparent;
+            -webkit-background-clip: text;
+            background-clip: text;
+            animation: autumnSweep 5s linear infinite;
+        }
+
+        @keyframes autumnSweep {
+            to { background-position: 200% center; }
         }
     </style>
 </head>
 <body class="main-body">
+
+    <!-- FIXED BACKGROUND LAYERS (Dual-layer for smooth crossfading) -->
+    <div class="fixed-bg-window">
+        <div id="bg-back" class="bg-layer" style="background-image: url('../assets/ui/backgrounds/distance-between-him-1.png');"></div>
+        <div id="bg-front" class="bg-layer" style="background-image: url('../assets/ui/backgrounds/sands-of-time-3.png'); opacity: 0; transition: opacity 2.5s ease-in-out;"></div>
+    </div>
+    
+    <!-- EMOJI PARTICLE CONTAINER -->
+    <div id="leaf-container"></div>
 
     <!-- Navigation Header -->
     <header class="glass-panel nav-header">
@@ -59,9 +171,9 @@
             <a href="../splash.html" class="nav-tab">&lt; BACK TO HOME</a>
         </div>
 
-        <h1 class="hero-title" style="margin-top: 0; font-size: clamp(2rem, 5vw, 3rem); margin-bottom: 15px;">Jack's Book Club</h1>
+        <h1 class="hero-title" style="margin-top: 0; font-size: clamp(3rem, 6vw, 4.5rem); margin-bottom: 15px; text-align: center;">Jack's Book Club</h1>
         
-        <p style="text-align: center; color: var(--text-muted); font-size: 1rem; margin-bottom: 35px; text-transform: uppercase; letter-spacing: 1.5px;">Required reading to survive the systemic friction and escape the chaos.</p>
+        <p style="text-align: center; color: var(--text-muted); font-size: 1.1rem; margin-bottom: 35px; font-family: 'Short Stack', cursive;">Required reading to survive the systemic friction and escape the chaos.</p>
 
         <!-- THE VIP CATALOG GRID -->
         <div class="vip-catalog-grid">
@@ -74,12 +186,12 @@
                     <div class="media-wrapper">
                         <img src="images/my-fathers-closet-aw-turner.jpg" alt="Book Cover Image" class="media-image">
                     </div>
-                    <p class="metallic-shimmer" style="font-weight: bold; font-family: var(--font-heading);">#1 Breakthrough Novel</p>
+                    <p class="metallic-shimmer">#1 Breakthrough Novel</p>
                     <p class="product-desc">Robbie thought he knew his father. Until grief cracked open a drawer full of secrets… and a truth he never saw coming. Four years after his dad’s death, Robbie is still navigating the wreckage: a job he hates, a brother who won’t grow up, and a mother slipping into memory loss. But when a series of explicit discoveries reveal a hidden side of his father’s life — one that includes gay p0rn, paid encounters, and a connection to a man named Ashton, Robbie’s world tilts again.</p>
                     <p class="product-desc">As he searches for answers, Robbie begins to question everything: his family, his identity, and the boundaries of love. Then he meets Ashton — confident, unapologetic, and intimately tied to the past Robbie’s trying to understand. What begins as curiosity becomes something deeper. Something dangerous. Something healing.</p>
                     <p class="product-desc">A story of grief, sexuality, and the messy beauty of acceptance, My Fathers Closet is a raw, tender, and darkly funny exploration of what it means to truly know someone… and yourself.</p>
                 </div>
-                <a href="https://a.co/d/0jeobYb1" target="_blank" rel="noopener noreferrer" class="btn-reserve" style="text-align: center; display: block; margin-top: 15px;">VIEW SUPPLY</a>
+                <a href="https://a.co/d/0jeobYb1" target="_blank" rel="noopener noreferrer" class="btn-reserve" style="text-align: center; display: block; margin-top: 15px; font-family: 'Short Stack', cursive;">VIEW SUPPLY</a>
             </div>
 
             <!-- ROW 2: Drama / Angst -->
@@ -91,11 +203,11 @@
                         <img src="images/becoming-michelle-obama.png" alt="Book Cover Image" class="media-image">
                     </div>
                     <p class="product-desc" style="font-style: italic;">An intimate, powerful, and inspiring memoir by the former First Lady of the United States.</p>
-                    <p class="metallic-shimmer" style="font-weight: bold; font-family: var(--font-heading); font-size: 0.85rem;">#1 NEW YORK TIMES BESTSELLER • WATCH THE EMMY-NOMINATED NETFLIX ORIGINAL DOCUMENTARY • OPRAH’S BOOK CLUB PICK</p>
+                    <p class="metallic-shimmer">#1 NEW YORK TIMES BESTSELLER • OPRAH’S BOOK CLUB PICK</p>
                     <p class="product-desc">In a life filled with meaning and accomplishment, Michelle Obama has emerged as one of the most iconic and compelling women of our era. As First Lady of the United States of America—the first African American to serve in that role—she helped create the most welcoming and inclusive White House in history, while also establishing herself as a powerful advocate for women and girls in the U.S. and around the world, dramatically changing the ways that families pursue healthier and more active lives, and standing with her husband as he led America through some of its most harrowing moments. Along the way, she showed us a few dance moves, crushed Carpool Karaoke, and raised two down-to-earth daughters under an unforgiving media glare.</p>
                     <p class="product-desc">In her memoir, a work of deep reflection and mesmerizing storytelling, Michelle Obama invites readers into her world, chronicling the experiences that have shaped her—from her childhood on the South Side of Chicago to her years as an executive balancing the demands of motherhood and work, to her time spent at the world’s most famous address. With unerring honesty and lively wit, she describes her triumphs and her disappointments, both public and private, telling her full story as she has lived it—in her own words and on her own terms. Warm, wise, and revelatory, Becoming is the deeply personal reckoning of a woman of soul and substance who has steadily defied expectations—and whose story inspires us to do the same.</p>
                 </div>
-                <a href="https://books.apple.com/us/book/becoming/id1352746782" target="_blank" rel="noopener noreferrer" class="btn-reserve" style="text-align: center; display: block; margin-top: 15px;">VIEW SUPPLY</a>
+                <a href="https://books.apple.com/us/book/becoming/id1352746782" target="_blank" rel="noopener noreferrer" class="btn-reserve" style="text-align: center; display: block; margin-top: 15px; font-family: 'Short Stack', cursive;">VIEW SUPPLY</a>
             </div>
 
             <!-- ROW 3: Non-Fiction -->
@@ -106,12 +218,12 @@
                     <div class="media-wrapper">
                         <img src="images/subtle-art-of-not-giving-a-f-mark-manson.png" alt="Book Cover Image" class="media-image">
                     </div>
-                    <p class="metallic-shimmer" style="font-weight: bold; font-family: var(--font-heading);">#1 New York Times Bestseller • More than 10 million Copies Sold</p>
+                    <p class="metallic-shimmer">#1 New York Times Bestseller</p>
                     <p class="product-desc">For decades, we’ve been told that positive thinking is the key to a happy, rich life. "F**k positivity," Mark Manson says. "Let’s be honest, shit is f**ked and we have to live with it." In his wildly popular Internet blog, Manson doesn’t sugarcoat or equivocate. He tells it like it is—a dose of raw, refreshing, honest truth that is sorely lacking today. The Subtle Art of Not Giving a F**k is his antidote to the coddling, let’s-all-feel-good mindset that has infected modern society and spoiled a generation, rewarding them with gold medals just for showing up.</p>
                     <p class="product-desc">Manson makes the argument, backed both by academic research and well-timed poop jokes, that improving our lives hinges not on our ability to turn lemons into lemonade, but on learning to stomach lemons better. Human beings are flawed and limited—"not everybody can be extraordinary, there are winners and losers in society, and some of it is not fair or your fault." Manson advises us to get to know our limitations and accept them. Once we embrace our fears, faults, and uncertainties, once we stop running and avoiding and start confronting painful truths, we can begin to find the courage, perseverance, honesty, responsibility, curiosity, and forgiveness we seek.</p>
                     <p class="product-desc">There are only so many things we can give a f**k about so we need to figure out which ones really matter, Manson makes clear. While money is nice, caring about what you do with your life is better, because true wealth is about experience. A much-needed grab-you-by-the-shoulders-and-look-you-in-the-eye moment of real-talk, filled with entertaining stories and profane, ruthless humor, The Subtle Art of Not Giving a F*ck is a refreshing slap for a generation to help them lead contented, grounded lives.</p>
                 </div>
-                <a href="https://books.apple.com/us/book/the-subtle-art-of-not-giving-a-f-ck/id1071409887" target="_blank" rel="noopener noreferrer" class="btn-reserve" style="text-align: center; display: block; margin-top: 15px;">VIEW SUPPLY</a>
+                <a href="https://books.apple.com/us/book/the-subtle-art-of-not-giving-a-f-ck/id1071409887" target="_blank" rel="noopener noreferrer" class="btn-reserve" style="text-align: center; display: block; margin-top: 15px; font-family: 'Short Stack', cursive;">VIEW SUPPLY</a>
             </div>
 
             <!-- ROW 4: Fiction / General -->
@@ -122,7 +234,7 @@
                     <div class="media-wrapper">
                         <img src="images/the-last-letter-rebecca-yarros.png" alt="Book Cover Image" class="media-image">
                     </div>
-                    <p class="metallic-shimmer" style="font-weight: bold; font-family: var(--font-heading); font-size: 0.9rem;">“The Last Letter is a haunting, heartbreaking and ultimately inspirational love story.“—InTouch Weekly</p>
+                    <p class="metallic-shimmer">“The Last Letter is a haunting, heartbreaking and ultimately inspirational love story.“</p>
                     <p class="product-desc">Beckett,</p>
                     <p class="product-desc">I need one thing from you: get out of the army and get to Telluride.</p>
                     <p class="product-desc">My little sister Ella’s raising the twins alone. She’s too independent and won’t accept help easily, but she has lost our grandmother, our parents, and now me. It’s too much for anyone to endure. It’s not fair.</p>
@@ -131,7 +243,7 @@
                     <p class="product-desc">Please don’t make her go through it alone.</p>
                     <p class="product-desc">Ryan</p>
                 </div>
-                <a href="https://books.apple.com/us/book/the-last-letter/id1409702116" target="_blank" rel="noopener noreferrer" class="btn-reserve" style="text-align: center; display: block; margin-top: 15px;">VIEW SUPPLY</a>
+                <a href="https://books.apple.com/us/book/the-last-letter/id1409702116" target="_blank" rel="noopener noreferrer" class="btn-reserve" style="text-align: center; display: block; margin-top: 15px; font-family: 'Short Stack', cursive;">VIEW SUPPLY</a>
             </div>
 
             <!-- ROW 5: Fiction / General -->
@@ -146,7 +258,7 @@
                     <p class="product-desc">Arthur Parnassus is the master of the orphanage. He would do anything to keep the children safe, even if it means the world will burn. And his secrets will come to light.</p>
                     <p class="product-desc">The House in the Cerulean Sea is an enchanting love story, masterfully told, about the profound experience of discovering an unlikely family in an unexpected place—and realizing that family is yours.</p>
                 </div>
-                <a href="https://books.apple.com/us/book/the-house-in-the-cerulean-sea/id1462642960" target="_blank" rel="noopener noreferrer" class="btn-reserve" style="text-align: center; display: block; margin-top: 15px;">VIEW SUPPLY</a>
+                <a href="https://books.apple.com/us/book/the-house-in-the-cerulean-sea/id1462642960" target="_blank" rel="noopener noreferrer" class="btn-reserve" style="text-align: center; display: block; margin-top: 15px; font-family: 'Short Stack', cursive;">VIEW SUPPLY</a>
             </div>
 
         </div>
@@ -159,7 +271,63 @@
         <img src="../jack-aspen-harper-icon.png" alt="Jack Aspen Harper" class="footer-logo">
         <p>&copy; 2026 Harperville Resorts</p>
         <p class="footer-subtext">Jack Aspen Harper</p>
-    </footer>
+            </footer>
+
+    <!-- THE AUTUMN ENGINE JS (Slideshow & Leaves) -->
+    <script>
+        // --- 1. THE AUTUMN SLIDESHOW ENGINE (Randomized with ../ paths) ---
+        const bgImages = [
+            '../assets/ui/backgrounds/distance-between-him-1.png',
+            '../assets/ui/backgrounds/sands-of-time-3.png',
+            '../assets/ui/backgrounds/island-daddy-1.png',
+            '../assets/ui/backgrounds/distance-between-him-2.png',
+            '../assets/ui/backgrounds/safe-keeping-2.png',
+            '../assets/ui/backgrounds/and-a-bag-of-chips.png',
+            '../assets/ui/backgrounds/sands-of-time-2.png',
+            '../assets/ui/backgrounds/safe-keeping-1.png',
+            '../assets/ui/backgrounds/island-daddy-2.png',
+            '../assets/ui/backgrounds/sands-of-time-1.png'
+        ];
+
+        let currentBgIndex = 0;
+        const layerBack = document.getElementById('bg-back');
+        const layerFront = document.getElementById('bg-front');
+        let isFrontActive = false;
+
+        bgImages.forEach(src => {
+            const img = new Image();
+            img.src = src;
+        });
+
+        setInterval(() => {
+            currentBgIndex = (currentBgIndex + 1) % bgImages.length;
+            const nextImage = `url('${bgImages[currentBgIndex]}')`;
+
+            if (isFrontActive) {
+                layerBack.style.backgroundImage = nextImage;
+                layerFront.style.opacity = '0';
+            } else {
+                layerFront.style.backgroundImage = nextImage;
+                layerFront.style.opacity = '1';
+            }
+            isFrontActive = !isFrontActive;
+            
+        }, 14000); 
+
+        // --- 2. EMOJI LEAF ENGINE ---
+        const leaves = ['🍂', '🍁', '🤎', '🧡', '🌾']; 
+        const container = document.getElementById('leaf-container');
+        for(let i = 0; i < 20; i++) { 
+            let leaf = document.createElement('div');
+            leaf.className = 'emoji-leaf';
+            leaf.innerText = leaves[Math.floor(Math.random() * leaves.length)];
+            leaf.style.left = Math.random() * 100 + 'vw';
+            leaf.style.animationDuration = (Math.random() * 6 + 6) + 's';
+            leaf.style.animationDelay = (Math.random() * 5) + 's';
+            leaf.style.fontSize = (Math.random() * 0.8 + 1.2) + 'rem';
+            container.appendChild(leaf);
+        }
+    </script>
 
 </body>
 </html>
