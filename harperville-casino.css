@@ -2,8 +2,13 @@
    --- HARPERVILLE RESORTS: AUTUMN MASTER STYLESHEET ---
    ========================================================================= */
 
+/* =========================================================================
+   --- HARPERVILLE RESORTS: AUTUMN MASTER STYLESHEET ---
+   ========================================================================= */
+
 /* --- GOOGLE FONTS --- */
-@import url('https://fonts.googleapis.com/css2?family=Rubik+Dirt&family=Short+Stack&display=swap');
+/* Restored Rouge Script to the import URL */
+@import url('https://fonts.googleapis.com/css2?family=Rouge+Script&family=Short+Stack&display=swap');
 
 :root {
     /* Autumn Core Branding Colors */
@@ -17,7 +22,7 @@
     --text-primary: #F4EFEB; 
     --text-muted: #c9bcae;
 
-    /* New Aesthetic Fonts */
+    /* Aesthetic Fonts */
     --font-heading: 'Rouge Script', cursive;
     --font-body: 'Short Stack', cursive;
     
