@@ -20,7 +20,16 @@
     <main class="hero-section">
         <!-- Added the layered autumn text shadow inline -->
         <h1 class="hero-title" style="text-shadow: 0 4px 15px rgba(0, 0, 0, 0.9), 0 0 25px rgba(200, 109, 42, 0.6);">Jack's Sandbox</h1>
-        
+        <!-- THE HIDDEN AUDIO ENGINE -->
+<!-- THE HIDDEN AUDIO ELEMENT (.wav) -->
+    <audio id="harperville-audio" src="assets/audio/harperville-intro.wav" preload="auto"></audio>
+
+    <!-- THE CUSTOM PLAY BUTTON -->
+    <div style="text-align: center; margin-bottom: 40px;">
+        <button id="audio-toggle-btn" class="audio-btn" type="button">
+            <span id="audio-icon" style="font-size: 1.2rem;">▶</span> Listen to Introduction
+        </button>
+    </div>
         <div class="card-scene">
             <div class="card-3d-wrapper">
                 <div class="card-face card-front"></div>
@@ -58,6 +67,30 @@
             leaf.style.fontSize = (Math.random() * 0.8 + 1.2) + 'rem';
             container.appendChild(leaf);
         }
+        // --- AUDIO PLAYER CONTROLLER ---
+    const audio = document.getElementById('harperville-audio');
+    const audioBtn = document.getElementById('audio-toggle-btn');
+    const audioIcon = document.getElementById('audio-icon');
+
+    if (audioBtn && audio) {
+        audioBtn.addEventListener('click', () => {
+            if (audio.paused) {
+                audio.play();
+                audioIcon.textContent = '⏸'; // Switch to Pause icon
+                audioBtn.style.borderColor = 'var(--gold-trim)';
+            } else {
+                audio.pause();
+                audioIcon.textContent = '▶'; // Switch to Play icon
+                audioBtn.style.borderColor = 'var(--tiger-orange)';
+            }
+        });
+
+        // Reset button when audio finishes playing
+        audio.addEventListener('ended', () => {
+            audioIcon.textContent = '▶';
+            audioBtn.style.borderColor = 'var(--tiger-orange)';
+        });
+    }
     </script>
 </body>
 </html>

@@ -254,3 +254,29 @@ h1, h2, h3, h4, h5, h6 {
     margin-bottom: 25px;
     transition: all 0.3s ease;
 }
+/* --- CUSTOM AUDIO BUTTON --- */
+.audio-btn {
+    background: rgba(28, 18, 12, 0.72);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--tiger-orange);
+    color: var(--text-primary);
+    font-family: 'Short Stack', cursive;
+    font-size: 1.1rem;
+    padding: 12px 25px;
+    border-radius: 30px; /* Gives it a sleek pill shape */
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.6);
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.audio-btn:hover {
+    background: var(--tiger-orange);
+    color: var(--casino-black);
+    box-shadow: 0 0 20px rgba(200, 109, 42, 0.6);
+    transform: translateY(-2px);
+}
