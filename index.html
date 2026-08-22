@@ -3,94 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jack's Sandbox</title>
-    <link rel="stylesheet" href="harperville-casino.css">
-    <!-- Schema skipped for brevity, leave yours intact! -->
+    <title>Under Construction</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1a1a1a;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Pure CSS Caution Tape */
+        .caution-tape {
+            width: 100%;
+            height: 45px;
+            background: repeating-linear-gradient(
+                -45deg,
+                #ffcc00,
+                #ffcc00 30px,
+                #000000 30px,
+                #000000 60px
+            );
+            box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+            z-index: 10;
+        }
+
+        .content-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: #ffcc00;
+            margin-bottom: 1rem;
+        }
+
+        p {
+            font-size: 1.25rem;
+            color: #cccccc;
+            max-width: 600px;
+            line-height: 1.6;
+        }
+
+        /* Subtle pulse to show the page is active */
+        .pulse {
+            animation: pulse-opacity 2.5s infinite;
+        }
+
+        @keyframes pulse-opacity {
+            0% { opacity: 1; }
+            50% { opacity: 0.6; }
+            100% { opacity: 1; }
+        }
+    </style>
 </head>
 <body>
-    
-    <!-- BACKGROUND PARALLAX LAYER -->
-    <div class="parallax-window">
-        <div class="parallax-layer" style="background-image: url('assets/ui/backgrounds/safe-keeping-1.png');"></div>
+    <!-- Top Tape -->
+    <div class="caution-tape"></div>
+
+    <div class="content-wrapper">
+        <h1 class="pulse">Under Construction</h1>
+        <p>The site is currently down for a complete redesign. Check back soon!</p>
     </div>
-    
-    <!-- EMOJI PARTICLE CONTAINER -->
-    <div id="leaf-container"></div>
 
-    <main class="hero-section">
-        <!-- Added the layered autumn text shadow inline -->
-        <h1 class="hero-title" style="text-shadow: 0 4px 15px rgba(0, 0, 0, 0.9), 0 0 25px rgba(200, 109, 42, 0.6);">Jack's Sandbox</h1>
-        <!-- THE HIDDEN AUDIO ENGINE -->
-<!-- THE HIDDEN AUDIO ELEMENT (.wav) -->
-    <audio id="harperville-audio" src="assets/audio/harperville-intro.wav" preload="auto"></audio>
-
-    <!-- THE CUSTOM PLAY BUTTON -->
-    <div style="text-align: center; margin-bottom: 40px;">
-        <button id="audio-toggle-btn" class="audio-btn" type="button">
-            <span id="audio-icon" style="font-size: 1.2rem;">▶</span> Listen to Introduction
-        </button>
-    </div>
-        <div class="card-scene">
-            <div class="card-3d-wrapper">
-                <div class="card-face card-front"></div>
-                <div class="card-face card-back"></div>
-            </div>
-        </div>
-        
-        <!-- UPDATED FALL CTA -->
-        <button class="btn-reserve" onclick="window.location.href='splash.html';">Sweep me into Harperville 🍂</button>
-    </main>
-
-    <!-- THE AUTUMN ENGINE JS -->
-    <script>
-        // Parallax Scroll Math
-        window.addEventListener('scroll', () => {
-            const scrolled = window.scrollY;
-            const layer = document.querySelector('.parallax-layer');
-            if(layer) layer.style.transform = `translateY(${scrolled * 0.3}px)`; // 0.3 speed ratio
-        });
-
-        // Emoji Generator
-        const leaves = ['🍂', '🍁', '🤎', '🧡', '🌾'];
-        const container = document.getElementById('leaf-container');
-        const leafCount = 18; // How heavy the breeze is
-
-        for(let i=0; i < leafCount; i++) {
-            let leaf = document.createElement('div');
-            leaf.className = 'emoji-leaf';
-            leaf.innerText = leaves[Math.floor(Math.random() * leaves.length)];
-            leaf.style.left = Math.random() * 100 + 'vw';
-            // Randomize fall speed and delay so they don't drop in a straight line
-            leaf.style.animationDuration = (Math.random() * 6 + 6) + 's';
-            leaf.style.animationDelay = (Math.random() * 5) + 's';
-            // Randomize starting size slightly to create artificial depth
-            leaf.style.fontSize = (Math.random() * 0.8 + 1.2) + 'rem';
-            container.appendChild(leaf);
-        }
-        // --- AUDIO PLAYER CONTROLLER ---
-    const audio = document.getElementById('harperville-audio');
-    const audioBtn = document.getElementById('audio-toggle-btn');
-    const audioIcon = document.getElementById('audio-icon');
-
-    if (audioBtn && audio) {
-        audioBtn.addEventListener('click', () => {
-            if (audio.paused) {
-                audio.play();
-                audioIcon.textContent = '⏸'; // Switch to Pause icon
-                audioBtn.style.borderColor = 'var(--gold-trim)';
-            } else {
-                audio.pause();
-                audioIcon.textContent = '▶'; // Switch to Play icon
-                audioBtn.style.borderColor = 'var(--tiger-orange)';
-            }
-        });
-
-        // Reset button when audio finishes playing
-        audio.addEventListener('ended', () => {
-            audioIcon.textContent = '▶';
-            audioBtn.style.borderColor = 'var(--tiger-orange)';
-        });
-    }
-    </script>
+    <!-- Bottom Tape -->
+    <div class="caution-tape"></div>
 </body>
 </html>
