@@ -38,12 +38,23 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
         body { background-color: var(--bg-dark); color: var(--text-main); height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
 
-        .top-bar { height: 65px; background-color: var(--bg-panel); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 24px; flex-shrink: 0; }
-        .logo { font-size: 28px; font-weight: 900; letter-spacing: 1px; color: var(--text-main); }
-        .logo span { color: var(--brand-pink); }
-        .toolbar-buttons { display: flex; gap: 15px; align-items: center; }
+        /* Windows-Style Menu Bar */
+        .win-menu-bar { background-color: #181818; border-bottom: 1px solid var(--border); display: flex; height: 32px; align-items: center; padding: 0 12px; font-size: 13px; z-index: 100; flex-shrink: 0; }
+        .win-menu { position: relative; display: inline-block; }
+        .win-menu-btn { background: none; border: none; color: var(--text-main); padding: 4px 10px; cursor: pointer; border-radius: 4px; font-size: 13px; }
+        .win-menu-btn:hover { background-color: var(--bg-accent); }
+        .win-dropdown { display: none; position: absolute; top: 100%; left: 0; background-color: var(--bg-panel); min-width: 180px; box-shadow: 0 8px 24px rgba(0,0,0,0.6); border: 1px solid var(--border); border-radius: 6px; z-index: 1000; padding: 6px 0; }
+        .win-menu:hover .win-dropdown { display: block; }
+        .win-dropdown a { color: var(--text-main); padding: 8px 16px; text-decoration: none; display: block; font-size: 13px; transition: background 0.15s; }
+        .win-dropdown a:hover { background-color: var(--brand-pink); color: #fff; }
+        .win-divider { height: 1px; background: var(--border); margin: 4px 0; }
 
-        .btn { background-color: var(--bg-accent); color: var(--text-main); border: 1px solid var(--border); padding: 10px 18px; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.2s ease; display: flex; align-items: center; gap: 8px; }
+        .top-bar { height: 60px; background-color: var(--bg-panel); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 24px; flex-shrink: 0; }
+        .logo { font-size: 26px; font-weight: 900; letter-spacing: 1px; color: var(--text-main); }
+        .logo span { color: var(--brand-pink); }
+        .toolbar-buttons { display: flex; gap: 12px; align-items: center; }
+
+        .btn { background-color: var(--bg-accent); color: var(--text-main); border: 1px solid var(--border); padding: 8px 16px; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.2s ease; display: flex; align-items: center; gap: 8px; font-size: 13px; }
         .btn:hover { background-color: #3d3d3d; border-color: #555; }
         .btn-green { background-color: var(--brand-green); color: #000; border: none; box-shadow: 0 4px 15px rgba(0, 230, 118, 0.2); }
         .btn-green:hover { background-color: #00c968; }
@@ -51,13 +62,6 @@
         .btn-pink:hover { background-color: #e03571; }
         .btn-install { background-color: #007AFF; color: #FFF; border: none; display: none; }
         .btn-install:hover { background-color: #0056b3; }
-
-        .sub-toolbar { height: 45px; background-color: var(--bg-dark); border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 24px; gap: 8px; flex-shrink: 0; overflow-x: auto; }
-        .sub-toolbar::-webkit-scrollbar { display: none; }
-        .sub-btn { background-color: transparent; color: var(--text-main); border: 1px solid var(--border); padding: 6px 10px; border-radius: 6px; font-size: 13px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px; white-space: nowrap; }
-        .sub-btn:hover { background-color: var(--bg-accent); border-color: var(--text-muted); }
-        .sub-btn.icon-only { font-weight: bold; font-family: serif; font-size: 14px; padding: 6px 12px; }
-        .sub-divider { width: 1px; height: 20px; background-color: var(--border); margin: 0 5px; }
 
         .workspace { display: flex; flex: 1; overflow: hidden; min-height: 0; }
         .sidebar { width: 260px; background-color: var(--bg-panel); border-right: 1px solid var(--border); display: flex; flex-direction: column; flex-shrink: 0; overflow: hidden; }
@@ -115,10 +119,15 @@
         .editor-body .msg-sent { background-color: #007AFF; color: #FFF; float: right; border-bottom-right-radius: 5px; }
         .editor-body .msg-bubble:empty:before { content: "Type text message..."; opacity: 0.6; }
         
-        .editor-body .date-header { font-family: var(--book-font-header); font-size: 18px; font-weight: bold; text-align: left; margin-left: -15px; margin-top: 30px; margin-bottom: 15px; color: var(--brand-pink); border-bottom: 1px dashed #444; padding-bottom: 5px; outline: none;}
-        .editor-body .scene-break { text-align: center; margin: 30px 0; font-size: 24px; color: #888; clear: both;}
+        .editor-body .subheader { font-family: var(--book-font-header); font-size: 18px; font-weight: bold; text-align: left; margin-top: 30px; margin-bottom: 15px; color: var(--brand-pink); border-bottom: 1px dashed #444; padding-bottom: 5px; outline: none;}
+        .editor-body .subheader:empty:before { content: "Subheader text..."; color: #555; }
+
+        .editor-body .epub-blockquote { margin: 20px 40px; padding-left: 15px; border-left: 3px solid var(--brand-pink); font-style: italic; color: var(--text-main); outline: none; }
         
-        .editor-body .handwriting-text { font-family: var(--book-font-handwriting); font-size: 18px; color: #aaa; margin: 15px 0; display: block; line-height: 1.4; padding: 10px 20px; text-indent: 0; }
+        .editor-body .scene-break { text-align: center; margin: 30px 0; font-size: 24px; color: #888; clear: both;}
+        .editor-body .scene-break img { max-width: 150px; height: auto; display: inline-block; }
+        
+        .editor-body .handwriting-text { font-family: var(--book-font-handwriting); font-size: 18px; color: #aaa; margin: 15px 0; display: block; line-height: 1.4; padding: 10px 20px; text-indent: 0; white-space: pre-wrap; outline: none; }
         .editor-body .inline-image { max-width: 100%; height: auto; display: block; margin: 20px auto; border-radius: 4px; }
 
         .form-group { margin-bottom: 25px; }
@@ -140,18 +149,18 @@
         .device-frame::-webkit-scrollbar { display: none; }
 
         /* ePub Styles for Preview Content */
-        .epub-chapter-title { text-align: center; font-size: 32px; font-weight: normal; margin-bottom: 5px; margin-top: 20px; font-family: var(--book-font-header); transition: all 0.3s ease; }
-        .epub-chapter-subtitle { text-align: center; font-size: 14px; color: #666; margin-bottom: 30px; letter-spacing: 2px; text-transform: uppercase; font-family: var(--book-font-subtitle); transition: all 0.3s ease; }
+        .epub-chapter-title { text-align: center; font-size: 32px; font-weight: normal; margin-bottom: 5px; margin-top: 20px; font-family: var(--book-font-header); }
+        .epub-chapter-subtitle { text-align: center; font-size: 14px; color: #666; margin-bottom: 30px; letter-spacing: 2px; text-transform: uppercase; font-family: var(--book-font-subtitle); }
         .epub-text { font-size: 16px; line-height: 1.6; text-align: justify; margin-bottom: 0; text-indent: 0.25in; }
         .epub-text.first-paragraph { text-indent: 0; margin-top: 10px; }
         
-        /* Physical Dropcap and Hook styling replacing CSS pseudo elements */
         .dropcap { float: left; font-size: 3.8em; line-height: 0.8; margin-right: 0.1em; margin-top: 0.05em; font-family: var(--book-font-header); color: #000; font-weight: bold; }
         .hook-accent { font-style: italic; font-weight: 600; letter-spacing: 0.5px; color: #333; }
         
         .epub-text.handwriting-wrapper { text-indent: 0 !important; }
         
         .scene-break { text-align: center; margin: 30px 0; font-size: 24px; color: #555; clear: both;}
+        .scene-break img { max-width: 150px; height: auto; display: inline-block; }
         
         .text-msg-container { display: block; overflow: hidden; margin: 15px 0; padding: 0 10px; font-family: sans-serif; }
         .msg-time { text-align: center; font-size: 11px; color: #888; margin: 20px 0 2px 0; font-family: sans-serif; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; clear: both;}
@@ -160,9 +169,10 @@
         .msg-received { background-color: #E5E5EA; color: #000; float: left; border-bottom-left-radius: 5px; }
         .msg-sent { background-color: #007AFF; color: #FFF; float: right; border-bottom-right-radius: 5px; }
         
-        .date-header { font-family: var(--book-font-header); font-size: 18px; font-weight: bold; text-align: left; margin-left: -15px; margin-top: 30px; margin-bottom: 15px; color: #111; border-bottom: 1px solid #ccc; padding-bottom: 5px; }
+        .subheader { font-family: var(--book-font-header); font-size: 18px; font-weight: bold; text-align: left; margin-top: 30px; margin-bottom: 15px; color: #111; border-bottom: 1px solid #ccc; padding-bottom: 5px; }
+        .epub-blockquote { margin: 20px 40px; padding-left: 15px; border-left: 3px solid #333; font-style: italic; color: #222; }
         
-        .handwriting-text { font-family: var(--book-font-handwriting); font-size: 18px; color: #444; margin: 15px 0; display: block; line-height: 1.4; padding: 10px 20px; text-indent: 0; }
+        .handwriting-text { font-family: var(--book-font-handwriting); font-size: 18px; color: #444; margin: 15px 0; display: block; line-height: 1.4; padding: 10px 20px; text-indent: 0; white-space: pre-wrap; }
         .inline-image { max-width: 100%; height: auto; display: block; margin: 20px auto; border-radius: 4px; }
         .epub-text a { color: #007AFF; text-decoration: underline; }
 
@@ -189,6 +199,44 @@
     </style>
 </head>
 <body>
+    <!-- Windows-Style Top Menu Bar -->
+    <div class="win-menu-bar">
+        <div class="win-menu">
+            <button class="win-menu-btn">File</button>
+            <div class="win-dropdown">
+                <a href="#" onclick="triggerLoadProject()">Open... (.inkz)</a>
+                <a href="#" onclick="saveProject()">Save As... (.inkz)</a>
+                <div class="win-divider"></div>
+                <a href="#" onclick="exportToEpub()">Export ePub...</a>
+            </div>
+        </div>
+        <div class="win-menu">
+            <button class="win-menu-btn">Edit</button>
+            <div class="win-dropdown">
+                <a href="#" onclick="createNewChapter()">New Chapter</a>
+            </div>
+        </div>
+        <div class="win-menu">
+            <button class="win-menu-btn">View</button>
+            <div class="win-dropdown">
+                <a href="#" onclick="switchView('cover')">Cover Image</a>
+                <a href="#" onclick="switchView('metadata')">Metadata & Title</a>
+                <a href="#" onclick="switchView('chapter')">Manuscript Editor</a>
+            </div>
+        </div>
+        <div class="win-menu">
+            <button class="win-menu-btn">Format</button>
+            <div class="win-dropdown">
+                <a href="#" onclick="toggleModal('themeModal')">Theme Settings</a>
+                <div class="win-divider"></div>
+                <a href="#" onclick="formatSelection('subheader')">Insert Subheader</a>
+                <a href="#" onclick="formatSelection('blockquote')">Insert Block Quote</a>
+                <a href="#" onclick="formatSelection('handwriting')">Format Handwriting</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Secondary Program Toolbar -->
     <div class="top-bar">
         <div class="logo">INK<span>Z</span></div>
         
@@ -197,24 +245,12 @@
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
                 Install App
             </button>
-            <button class="btn" onclick="triggerLoadProject()" title="Open existing .inkz project file">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
-                Open
-            </button>
-            <button class="btn" onclick="saveProject()" title="Save your work as an .inkz file">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
-                Save
-            </button>
+            <button class="btn" onclick="triggerLoadProject()" title="Open existing .inkz project file">Open</button>
+            <button class="btn" onclick="saveProject()" title="Save your work as an .inkz file">Save</button>
             <div style="width: 1px; height: 24px; background: var(--border); margin: 0 5px;"></div>
-            <button class="btn btn-green" onclick="createNewChapter()">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                New Chapter
-            </button>
-            <button class="btn" onclick="toggleModal('themeModal')">Theme Settings</button>
-            <button class="btn btn-pink" onclick="exportToEpub()" id="exportBtn">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-                Export ePub
-            </button>
+            <button class="btn btn-green" onclick="createNewChapter()">New Chapter</button>
+            <button class="btn" onclick="toggleModal('themeModal')">Themes</button>
+            <button class="btn btn-pink" onclick="exportToEpub()" id="exportBtn">Export ePub</button>
         </div>
         <input type="file" id="load-project-input" accept=".inkz,.json" onchange="handleProjectLoad(event)" style="display: none;">
     </div>
@@ -253,7 +289,8 @@
                     <button class="wysiwyg-btn" onclick="formatSelection('sent')" title="Format as a Sent text message">💬 Sent Text</button>
                     <button class="wysiwyg-btn" onclick="formatSelection('received')" title="Format as a Received text message">💬 Received Text</button>
                     <div class="wysiwyg-divider"></div>
-                    <button class="wysiwyg-btn" onclick="formatSelection('date')" title="Format as a Date Header">📅 Date Header</button>
+                    <button class="wysiwyg-btn" onclick="formatSelection('subheader')" title="Format as a Subheader">📌 Subheader</button>
+                    <button class="wysiwyg-btn" onclick="formatSelection('blockquote')" title="Format as a Block Quote">❝ Block Quote</button>
                     <button class="wysiwyg-btn" onclick="openSceneBreakModal()" title="Insert a scene break at cursor">❦ Scene Break</button>
                     <div class="wysiwyg-divider"></div>
                     <button class="wysiwyg-btn" onclick="formatSelection('handwriting')" title="Format as character handwriting">✍️ Handwriting</button>
@@ -337,7 +374,6 @@
                 <button class="close-btn" onclick="toggleModal('themeModal')">&times;</button>
             </div>
             <div class="theme-grid">
-                <!-- Original Themes -->
                 <div class="theme-card" onclick="applyTheme('EB Garamond', 'EB Garamond', 'EB Garamond')">
                     <div class="theme-preview-box" style="font-family: 'EB Garamond';">
                         <div style="font-size: 22px;">Chapter One</div>
@@ -359,7 +395,6 @@
                     </div>
                     <div class="theme-card-name">The Thriller</div>
                 </div>
-                <!-- New Expanded Themes -->
                 <div class="theme-card" onclick="applyTheme('Cormorant Garamond', 'Cormorant Garamond', 'Cormorant Garamond')">
                     <div class="theme-preview-box" style="font-family: 'Cormorant Garamond';">
                         <div style="font-size: 24px; font-weight:600;">Chapter One</div>
@@ -414,7 +449,7 @@
         </div>
     </div>
 
-    <!-- Scene Break Modal -->
+    <!-- Scene Break Modal (Supports Emoji Symbols & Custom PNG Uploads) -->
     <div class="modal-overlay" id="sceneBreakModal">
         <div class="theme-modal" style="width: 500px;">
             <div class="modal-header">
@@ -428,7 +463,9 @@
                 <div class="break-card" onclick="applySceneBreak('~ ~ ~')">~ ~ ~</div>
                 <div class="break-card" onclick="applySceneBreak('•••')">•••</div>
                 <div class="break-card" onclick="applySceneBreak('❖')">❖</div>
+                <div class="break-card" onclick="document.getElementById('custom-break-upload').click()" style="grid-column: span 2; font-size: 14px; font-weight: bold;">🖼️ Upload Custom PNG Scene Break</div>
             </div>
+            <input type="file" id="custom-break-upload" style="display: none;" accept="image/png" onchange="handleCustomSceneBreakUpload(event)">
         </div>
     </div>
 
@@ -534,7 +571,7 @@
             {
                 title: "Chapter One",
                 subtitle: "Character POV",
-                content: "<p>Paste your chapter text here...</p><p>Use the format bar to drop in handwriting, texts, links, or images!</p>"
+                content: "<p>Paste your chapter text here...</p><p>Use the format bar or menus to drop in subheaders, block quotes, handwriting, or custom scenes!</p>"
             }
         ];
         
@@ -542,7 +579,6 @@
         let currentActiveChapterIndex = 0;
         let draggedChapterIndex = -1;
 
-        // FIXED: Explicitly sync editor contents before building the save file
         function saveProject() {
             if (currentView === 'chapter') saveCurrentChapterEdits();
             updateMetadata();
@@ -808,43 +844,31 @@
             }
         }
 
-        // Custom Safe-Paste Interceptor (Keeps rich text clean)
+        // Custom Safe-Paste Interceptor
         document.getElementById('main-editor').addEventListener('paste', function(e) {
             e.preventDefault();
             let text = (e.originalEvent || e).clipboardData.getData('text/html') || (e.originalEvent || e).clipboardData.getData('text/plain');
-            
             if (!text) return;
             
             if ((e.originalEvent || e).clipboardData.types.includes('text/html')) {
-                // Clean HTML
                 let temp = document.createElement('div');
                 temp.innerHTML = text;
-                
-                // Remove all styles, scripts, and generic tags we don't want
                 const tagsToRemove = ['style', 'script', 'meta', 'link', 'xml', 'o:p'];
                 tagsToRemove.forEach(tag => {
                     let els = temp.getElementsByTagName(tag);
                     for(let i = els.length - 1; i >= 0; i--) els[i].parentNode.removeChild(els[i]);
                 });
-                
-                // Strip attributes from all elements EXCEPT ahref and img src
                 let allEls = temp.getElementsByTagName('*');
                 for (let i = 0; i < allEls.length; i++) {
                     let el = allEls[i];
                     let href = el.getAttribute('href');
                     let src = el.getAttribute('src');
-                    
-                    while(el.attributes.length > 0) {
-                        el.removeAttribute(el.attributes[0].name);
-                    }
-                    
+                    while(el.attributes.length > 0) el.removeAttribute(el.attributes[0].name);
                     if (el.tagName === 'A' && href) el.setAttribute('href', href);
                     if (el.tagName === 'IMG' && src) el.setAttribute('src', src);
                 }
-                
                 document.execCommand('insertHTML', false, temp.innerHTML);
             } else {
-                // Plain text fallback
                 document.execCommand('insertText', false, text);
             }
         });
@@ -857,37 +881,32 @@
             if (!selection.rangeCount) return;
             
             let selectedText = selection.toString().trim();
-            if (!selectedText && type !== 'date') selectedText = "Type message here...";
-            if (!selectedText && type === 'date') selectedText = "Friday 10:42 PM";
+            if (!selectedText && type !== 'subheader') selectedText = "Type message here...";
+            if (!selectedText && type === 'subheader') selectedText = "Subheader Section";
+            if (!selectedText && type === 'blockquote') selectedText = "Enter block quote text here...";
 
             let insertedHTML = "";
             
             if (type === 'sent') {
-                insertedHTML = `<div class="text-msg-container" contenteditable="false">
-                                    <div class="msg-time" contenteditable="true"></div>
-                                    <div class="msg-sender" contenteditable="true"></div>
-                                    <div class="msg-bubble msg-sent" contenteditable="true">${selectedText}</div>
-                                </div><p>&nbsp;</p>`;
+                insertedHTML = `<div class="text-msg-container" contenteditable="false"><div class="msg-time" contenteditable="true"></div><div class="msg-sender" contenteditable="true"></div><div class="msg-bubble msg-sent" contenteditable="true">${selectedText}</div></div><p>&nbsp;</p>`;
                 document.execCommand('insertHTML', false, insertedHTML);
             }
             if (type === 'received') {
-                insertedHTML = `<div class="text-msg-container" contenteditable="false">
-                                    <div class="msg-time" contenteditable="true"></div>
-                                    <div class="msg-sender" contenteditable="true"></div>
-                                    <div class="msg-bubble msg-received" contenteditable="true">${selectedText}</div>
-                                </div><p>&nbsp;</p>`;
+                insertedHTML = `<div class="text-msg-container" contenteditable="false"><div class="msg-time" contenteditable="true"></div><div class="msg-sender" contenteditable="true"></div><div class="msg-bubble msg-received" contenteditable="true">${selectedText}</div></div><p>&nbsp;</p>`;
                 document.execCommand('insertHTML', false, insertedHTML);
             }
-            if (type === 'date') {
-                insertedHTML = `<div class="date-header" contenteditable="true">${selectedText}</div><p>&nbsp;</p>`;
+            if (type === 'subheader') {
+                insertedHTML = `<div class="subheader" contenteditable="true">${selectedText}</div><p>&nbsp;</p>`;
+                document.execCommand('insertHTML', false, insertedHTML);
+            }
+            if (type === 'blockquote') {
+                insertedHTML = `<blockquote class="epub-blockquote" contenteditable="true">${selectedText}</blockquote><p>&nbsp;</p>`;
                 document.execCommand('insertHTML', false, insertedHTML);
             }
             if (type === 'handwriting') {
-                // FIXED: Extracts multi-paragraph highlighted selections safely without wrapping them all into one massive paragraph.
                 const frag = selection.getRangeAt(0).cloneContents();
                 const tempDiv = document.createElement('div');
                 tempDiv.appendChild(frag);
-                
                 let contentHTML = tempDiv.innerHTML || selectedText || "Type handwriting here...";
                 insertedHTML = `<div class="handwriting-text" contenteditable="true">${contentHTML}</div><p>&nbsp;</p>`;
                 document.execCommand('insertHTML', false, insertedHTML);
@@ -924,10 +943,25 @@
         function applySceneBreak(symbol) {
             toggleModal('sceneBreakModal');
             restoreSelection();
-            // Force an empty paragraph after the break to escape the block
             const html = `<div class="scene-break" contenteditable="false">${symbol}</div><p>&nbsp;</p>`;
             document.execCommand('insertHTML', false, html);
             parseEditorToPreview();
+        }
+
+        function handleCustomSceneBreakUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            toggleModal('sceneBreakModal');
+            restoreSelection();
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const html = `<div class="scene-break" contenteditable="false"><img src="${e.target.result}"/></div><p>&nbsp;</p>`;
+                document.execCommand('insertHTML', false, html);
+                parseEditorToPreview();
+                document.getElementById('custom-break-upload').value = '';
+            };
+            reader.readAsDataURL(file);
         }
 
         function handleInlineImageUpload(event) {
@@ -941,7 +975,6 @@
             const reader = new FileReader();
             reader.onload = function(e) {
                 restoreSelection();
-                // Force an empty paragraph after the image
                 const html = `<p style="text-align:center;" contenteditable="false"><img src="${e.target.result}" class="inline-image"/></p><p>&nbsp;</p>`;
                 document.execCommand('insertHTML', false, html);
                 parseEditorToPreview();
@@ -950,7 +983,6 @@
             reader.readAsDataURL(file);
         }
 
-        // FIXED: Physically injects Drop Cap and Hook span tags to bypass Apple/Kindle CSS restrictions
         function applyPhysicalDropCapAndHook(htmlString) {
             const temp = document.createElement('div');
             temp.innerHTML = htmlString;
@@ -984,7 +1016,6 @@
             return temp.innerHTML;
         }
 
-        // WYSIWYG Parsing Engine (Editor -> Preview & Compile)
         function generateHTMLForChapter(titleText, subtitleText, editorNodes) {
             let htmlOutput = '';
 
@@ -995,11 +1026,8 @@
             let afterSceneBreak = false;
 
             editorNodes.forEach(node => {
-                if (node.nodeType === 1) { // Element Node
-                    // Sandbox exact pass-throughs
-                    if (node.classList.contains('text-msg-container') || node.classList.contains('msg-time') || node.classList.contains('date-header') || node.classList.contains('scene-break') || node.classList.contains('inline-image')) {
-                        
-                        // Strip contenteditable attributes for preview/epub output
+                if (node.nodeType === 1) {
+                    if (node.classList.contains('text-msg-container') || node.classList.contains('msg-time') || node.classList.contains('subheader') || node.classList.contains('epub-blockquote') || node.classList.contains('scene-break') || node.classList.contains('inline-image')) {
                         const cleanNode = node.cloneNode(true);
                         cleanNode.querySelectorAll('[contenteditable]').forEach(el => el.removeAttribute('contenteditable'));
                         cleanNode.removeAttribute('contenteditable');
@@ -1015,11 +1043,9 @@
                         }
                     } else if (node.nodeName === 'P' || node.nodeName === 'DIV') {
                         let innerHtml = node.innerHTML;
-                        // Safely skip empty paragraphs that were just used to escape blocks
                         if (innerHtml.replace(/&nbsp;/g, '').replace(/<br>/g, '').trim() === '' && node.querySelectorAll('img').length === 0) return; 
 
                         let classNames = 'epub-text';
-                        
                         let isHandwriting = node.classList.contains('handwriting-text') || (node.querySelector('.handwriting-text') !== null && node.textContent.trim() === node.querySelector('.handwriting-text').textContent.trim());
                         
                         if (isHandwriting) {
@@ -1065,7 +1091,6 @@
             const subtitleElement = document.getElementById('main-editor-subtitle');
             const editorElement = document.getElementById('main-editor');
             
-            // FIXED: Synchronize instantly on every keystroke so saving is perfect
             if(bookChapters[currentActiveChapterIndex]) {
                  bookChapters[currentActiveChapterIndex].title = titleElement.innerText;
                  bookChapters[currentActiveChapterIndex].subtitle = subtitleElement.innerText;
@@ -1102,10 +1127,17 @@
 
             const metaInf = zip.folder("META-INF");
             metaInf.file("container.xml", `<?xml version="1.0"?>\n<container version="1.0" xmlns="urn:oasis:names:tc:opendocument:xmlns:container">\n  <rootfiles>\n    <rootfile full-path="OEBPS/content.opf" media-type="application/oebps-package+xml"/>\n  </rootfiles>\n</container>`);
+            
+            // Critical Apple Books XML configuration for embedded fonts & layouts
+            metaInf.file("com.apple.ibooks.display-options.xml", `<?xml version="1.0" encoding="UTF-8"?>
+<display_options>
+  <platform name="*">
+    <option name="specified-fonts">true</option>
+  </platform>
+</display_options>`);
 
             const oebps = zip.folder("OEBPS");
             
-            // FIXED: Master Stylesheet. Injecting Google Fonts API for eReaders and enforcing !important rules for dark mode colors
             const cssContent = `
                 @import url('https://fonts.googleapis.com/css2?family=Aldrich&family=Bubblegum+Sans&family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=Ephesis&family=JetBrains+Mono:wght@400;700&family=Patrick+Hand&family=Cinzel:wght@400;700&family=Lora:ital,wght@0,400;0,600;1,400&family=Merriweather:ital,wght@0,400;0,700;1,400&family=Montserrat:ital,wght@0,400;0,600;1,400&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Oswald:wght@400;600&display=swap');
                 
@@ -1118,10 +1150,13 @@
                 .dropcap { float: left; font-size: 3.5em; line-height: 0.8; margin-right: 0.1em; margin-top: 0.05em; font-family: ${currentThemeFonts.header}; font-weight: bold; color: #000; }
                 .hook-accent { font-style: italic; font-weight: bold; color: #333; }
                 
-                .handwriting-text, .epub-text.handwriting-wrapper { text-indent: 0 !important; font-family: 'Patrick Hand', cursive !important; font-size: 1.1em !important; color: #333 !important; line-height: 1.4 !important; margin: 1em 0 !important; display: block !important;}
+                .handwriting-text, .epub-text.handwriting-wrapper { text-indent: 0 !important; font-family: 'Patrick Hand', cursive !important; font-size: 1.1em !important; color: #333 !important; line-height: 1.4 !important; margin: 1em 0 !important; display: block !important; white-space: pre-wrap !important; }
                 
                 .scene-break { text-align: center; margin: 2em 0; font-size: 1.5em; color: #555; clear: both;}
-                .date-header { font-family: ${currentThemeFonts.header}; font-size: 1.2em; font-weight: bold; margin-bottom: 1em; margin-top: 1.5em; border-bottom: 1px solid #ccc; padding-bottom: 0.2em; }
+                .scene-break img { max-width: 150px; height: auto; display: inline-block; }
+                
+                .subheader { font-family: ${currentThemeFonts.header}; font-size: 1.2em; font-weight: bold; margin-bottom: 1em; margin-top: 1.5em; border-bottom: 1px solid #ccc; padding-bottom: 0.2em; }
+                .epub-blockquote { margin: 1.5em 2.5em; padding-left: 1em; border-left: 3px solid #333; font-style: italic; color: #222; }
                 
                 .text-msg-container { margin: 1em 0; padding: 0 5%; display: block; overflow: hidden; clear: both; width: 100%;}
                 .msg-time { text-align: center; font-size: 0.8em; color: #888; margin: 1.5em 0 0.2em 0; font-family: sans-serif; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; clear: both;}
@@ -1143,7 +1178,10 @@
             if (bookCoverBase64) {
                 const ext = bookCoverMime === 'image/png' ? 'png' : 'jpg';
                 oebps.file(`Images/cover.${ext}`, bookCoverBase64, {base64: true});
-                oebps.file("Text/cover.xhtml", `<?xml version="1.0" encoding="utf-8"?>\n<!DOCTYPE html>\n<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">\n<head><title>Cover</title><style type="text/css"> body { margin: 0; padding: 0; text-align: center; } img { max-width: 100%; height: auto; } </style></head>\n<body><img src="../Images/cover.${ext}" alt="Cover Image"/></body></html>`);
+                
+                // Escaping HTML structural tags to prevent VS Code Live Server from crashing the script
+                oebps.file("Text/cover.xhtml", `<?xml version="1.0" encoding="utf-8"?>\n<!DOCTYPE html>\n<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">\n<head><title>Cover<\/title><style type="text/css"> body { margin: 0; padding: 0; text-align: center; } img { max-width: 100%; height: auto; } <\/style><\/head>\n<body><img src="../Images/cover.${ext}" alt="Cover Image"/><\/body><\/html>`);
+                
                 coverMetaString = `<meta name="cover" content="cover-image"/>`;
                 coverManifestString = `<item id="cover-image" href="Images/cover.${ext}" media-type="${bookCoverMime}" properties="cover-image"/>\n<item id="cover-page" href="Text/cover.xhtml" media-type="application/xhtml+xml"/>`;
                 coverSpineString = `<itemref idref="cover-page" linear="yes"/>`;
@@ -1181,7 +1219,8 @@
                 formattedHtml = formattedHtml.replace(/<\/div><\/div>/g, '</div></div><div class="clear"></div>');
                 formattedHtml = formattedHtml.replace(/<br>/g, '<br/>').replace(/&nbsp;/g, '&#160;');
 
-                const xhtml = `<?xml version="1.0" encoding="utf-8"?>\n<!DOCTYPE html>\n<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" lang="${bookMetadata.lang}">\n<head>\n    <title>${chapter.title}</title>\n    <link href="../Styles/style.css" rel="stylesheet" type="text/css"/>\n</head>\n<body>\n    ${formattedHtml}\n</body>\n</html>`;
+                // Escaping HTML structural tags to prevent VS Code Live Server from crashing the script
+                const xhtml = `<?xml version="1.0" encoding="utf-8"?>\n<!DOCTYPE html>\n<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" lang="${bookMetadata.lang}">\n<head>\n    <title>${chapter.title}<\/title>\n    <link href="../Styles/style.css" rel="stylesheet" type="text/css"/>\n<\/head>\n<body>\n    ${formattedHtml}\n<\/body>\n<\/html>`;
                 
                 oebps.file(`Text/${chapterId}.xhtml`, xhtml);
                 manifestItems += `<item id="${chapterId}" href="Text/${chapterId}.xhtml" media-type="application/xhtml+xml"/>\n`;
@@ -1191,20 +1230,17 @@
                 ncxNavPoints += `<navPoint id="navPoint-${index+1}" playOrder="${index+1}">\n  <navLabel><text>${chapter.title}</text></navLabel>\n  <content src="Text/${chapterId}.xhtml"/>\n</navPoint>\n`;
             });
 
-            // Auto-Generate EPUB3 Navigation TOC
-            const navXhtml = `<?xml version="1.0" encoding="utf-8"?>\n<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">\n<head><title>Table of Contents</title><link href="../Styles/style.css" rel="stylesheet" type="text/css"/></head>\n<body>\n  <h1 class="epub-chapter-title" style="margin-bottom: 30px;">Table of Contents</h1>\n  <nav epub:type="toc" id="toc">\n    <ol style="list-style:none; padding:0; text-align:center; line-height: 2;">\n      ${navTOCList}\n    </ol>\n  </nav>\n</body>\n</html>`;
+            // Escaping HTML structural tags to prevent VS Code Live Server from crashing the script
+            const navXhtml = `<?xml version="1.0" encoding="utf-8"?>\n<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">\n<head><title>Table of Contents<\/title><link href="../Styles/style.css" rel="stylesheet" type="text/css"/><\/head>\n<body>\n  <h1 class="epub-chapter-title" style="margin-bottom: 30px;">Table of Contents<\/h1>\n  <nav epub:type="toc" id="toc">\n    <ol style="list-style:none; padding:0; text-align:center; line-height: 2;">\n      ${navTOCList}\n    <\/ol>\n  <\/nav>\n<\/body>\n<\/html>`;
             oebps.file("Text/nav.xhtml", navXhtml);
             manifestItems += `<item id="nav" href="Text/nav.xhtml" media-type="application/xhtml+xml" properties="nav"/>\n`;
             
-            // Build content.opf
             const contentOpf = `<?xml version="1.0" encoding="utf-8"?>\n<package version="3.0" unique-identifier="BookId" xmlns="http://www.idpf.org/2007/opf">\n  <metadata xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:opf="http://www.idpf.org/2007/opf">\n    <dc:title>${bookMetadata.title}</dc:title>\n    <dc:creator>${bookMetadata.author}</dc:creator>\n    <dc:language>${bookMetadata.lang}</dc:language>\n    <dc:identifier id="BookId">${bookMetadata.isbn || "urn:uuid:" + crypto.randomUUID()}</dc:identifier>\n    ${coverMetaString}\n  </metadata>\n  <manifest>\n    <item id="ncx" href="toc.ncx" media-type="application/x-dtbncx+xml"/>\n    <item id="css" href="Styles/style.css" media-type="text/css"/>\n    ${coverManifestString}\n    ${manifestItems}\n  </manifest>\n  <spine toc="ncx">\n    ${coverSpineString}\n    <itemref idref="nav"/>\n    ${spineItems}\n  </spine>\n</package>`;
             oebps.file("content.opf", contentOpf);
 
-            // Build toc.ncx
             const tocNcx = `<?xml version="1.0" encoding="utf-8"?>\n<ncx version="2005-1" xmlns="http://www.daisy.org/z3986/2005/ncx/">\n  <head>\n    <meta name="dtb:uid" content="${bookMetadata.isbn || "unknown"}"/>\n    <meta name="dtb:depth" content="1"/>\n    <meta name="dtb:totalPageCount" content="0"/>\n    <meta name="dtb:maxPageNumber" content="0"/>\n  </head>\n  <docTitle><text>${bookMetadata.title}</text></docTitle>\n  <navMap>\n    ${ncxNavPoints}\n  </navMap>\n</ncx>`;
             oebps.file("toc.ncx", tocNcx);
 
-            // Generate & Download Zip
             try {
                 const content = await zip.generateAsync({type:"blob", mimeType: "application/epub+zip"});
                 const link = document.createElement("a");
@@ -1224,14 +1260,12 @@
             }
         }
 
-        // Show beta modal on load
         window.addEventListener('load', () => {
             setTimeout(() => {
                 toggleModal('betaModal');
             }, 500);
         });
 
-        // Init
         renderSidebar();
         loadChapter(0);
     </script>
