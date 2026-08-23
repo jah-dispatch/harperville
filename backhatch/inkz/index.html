@@ -900,12 +900,11 @@
                 document.execCommand('insertHTML', false, insertedHTML);
             }
             if (type === 'blockquote') {
-                insertedHTML = `</p><blockquote class="epub-blockquote" contenteditable="true">${selectedText.replace(/\n/g, '<br><br>')}</blockquote><p><br></p>`;
+                insertedHTML = `</p><blockquote class="epub-blockquote" contenteditable="true">${selectedText.replace(/\n/g, '<br>')}</blockquote><p><br></p>`;
                 document.execCommand('insertHTML', false, insertedHTML);
             }
             if (type === 'handwriting') {
-                // FIXED: Extracts string safely and drops it into a clean div to prevent nasty DOM nesting bugs with active paragraphs
-                let contentHTML = selectedText ? selectedText.replace(/\n/g, '<br><br>') : "Type handwriting here...";
+                let contentHTML = selectedText ? selectedText.replace(/\n/g, '<br>') : "Type handwriting here...";
                 insertedHTML = `</p><div class="handwriting-text" contenteditable="true">${contentHTML}</div><p><br></p>`;
                 document.execCommand('insertHTML', false, insertedHTML);
             }
@@ -1025,7 +1024,9 @@
 
             editorNodes.forEach(node => {
                 if (node.nodeType === 1) {
-                    if (node.classList.contains('text-msg-container') || node.classList.contains('msg-time') || node.classList.contains('subheader') || node.classList.contains('epub-blockquote') || node.classList.contains('scene-break') || node.classList.contains('inline-image')) {
+                    // FIXED: Added handwriting-text to the sandbox so it passes through without being stripped
+                    if (node.classList.contains('text-msg-container') || node.classList.contains('msg-time') || node.classList.contains('subheader') || node.classList.contains('epub-blockquote') || node.classList.contains('scene-break') || node.classList.contains('inline-image') || node.classList.contains('handwriting-text')) {
+                        
                         const cleanNode = node.cloneNode(true);
                         cleanNode.querySelectorAll('[contenteditable]').forEach(el => el.removeAttribute('contenteditable'));
                         cleanNode.removeAttribute('contenteditable');
@@ -1042,17 +1043,13 @@
                     } else if (node.nodeName === 'P' || node.nodeName === 'DIV') {
                         let innerHtml = node.innerHTML;
                         
-                        // FIXED: Aggressively target and strip out empty spacing paragraphs that bloat ePubs
+                        // Aggressively target and strip out empty spacing paragraphs that bloat ePubs
                         if (innerHtml.replace(/&nbsp;/g, '').replace(/<br\s*\/?>/gi, '').trim() === '' && node.querySelectorAll('img').length === 0) return; 
 
                         let classNames = 'epub-text';
-                        let isHandwriting = node.classList.contains('handwriting-text') || (node.querySelector('.handwriting-text') !== null && node.textContent.trim() === node.querySelector('.handwriting-text').textContent.trim());
                         
-                        if (isHandwriting) {
-                            classNames += ' handwriting-wrapper';
-                            isFirstParagraph = false;
-                            afterSceneBreak = false;
-                        } else if (isFirstParagraph) {
+                        // Drop cap logic
+                        if (isFirstParagraph) {
                             classNames += ' first-paragraph chapter-first-paragraph';
                             innerHtml = applyPhysicalDropCapAndHook(innerHtml);
                             isFirstParagraph = false;
