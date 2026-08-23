@@ -149,15 +149,15 @@
         .device-frame::-webkit-scrollbar { display: none; }
 
         /* ePub Styles for Preview Content */
-        .epub-chapter-title { text-align: center; font-size: 32px; font-weight: normal; margin-bottom: 5px; margin-top: 20px; font-family: var(--book-font-header); }
-        .epub-chapter-subtitle { text-align: center; font-size: 14px; color: #666; margin-bottom: 30px; letter-spacing: 2px; text-transform: uppercase; font-family: var(--book-font-subtitle); }
-        .epub-text { font-size: 16px; line-height: 1.6; text-align: justify; margin-bottom: 0; text-indent: 0.25in; }
-        .epub-text.first-paragraph { text-indent: 0; margin-top: 10px; }
+        h1.epub-chapter-title { text-align: center; font-size: 32px; font-weight: normal; margin-bottom: 5px; margin-top: 20px; font-family: var(--book-font-header); }
+        h2.epub-chapter-subtitle { text-align: center; font-size: 14px; color: #666; margin-bottom: 30px; letter-spacing: 2px; text-transform: uppercase; font-family: var(--book-font-subtitle); font-weight: normal; }
+        p.epub-text { font-size: 16px; line-height: 1.6; text-align: justify; margin: 0 0 10px 0; text-indent: 0.25in; }
+        p.epub-text.first-paragraph { text-indent: 0; margin-top: 10px; }
         
         .dropcap { float: left; font-size: 3.8em; line-height: 0.8; margin-right: 0.1em; margin-top: 0.05em; font-family: var(--book-font-header); color: #000; font-weight: bold; }
         .hook-accent { font-style: italic; font-weight: 600; letter-spacing: 0.5px; color: #333; }
         
-        .epub-text.handwriting-wrapper { text-indent: 0 !important; }
+        p.epub-text.handwriting-wrapper { text-indent: 0 !important; }
         
         .scene-break { text-align: center; margin: 30px 0; font-size: 24px; color: #555; clear: both;}
         .scene-break img { max-width: 150px; height: auto; display: inline-block; }
@@ -169,7 +169,7 @@
         .msg-received { background-color: #E5E5EA; color: #000; float: left; border-bottom-left-radius: 5px; }
         .msg-sent { background-color: #007AFF; color: #FFF; float: right; border-bottom-right-radius: 5px; }
         
-        .subheader { font-family: var(--book-font-header); font-size: 18px; font-weight: bold; text-align: left; margin-top: 30px; margin-bottom: 15px; color: #111; border-bottom: 1px solid #ccc; padding-bottom: 5px; }
+        h3.subheader { font-family: var(--book-font-header); font-size: 18px; font-weight: bold; text-align: left; margin-top: 30px; margin-bottom: 15px; color: #111; border-bottom: 1px solid #ccc; padding-bottom: 5px; }
         .epub-blockquote { margin: 20px 40px; padding-left: 15px; border-left: 3px solid #333; font-style: italic; color: #222; }
         
         .handwriting-text { font-family: 'Patrick Hand', cursive; font-size: 18px; color: #444; margin: 15px 0; display: block; line-height: 1.4; padding: 10px 20px; text-indent: 0; white-space: pre-wrap; }
@@ -899,7 +899,7 @@
                 document.execCommand('insertHTML', false, insertedHTML);
             }
             if (type === 'subheader') {
-                insertedHTML = `</p><div class="subheader" contenteditable="true">${selectedText.replace(/\n/g, '<br>')}</div><p><br></p>`;
+                insertedHTML = `</p><h3 class="subheader" contenteditable="true">${selectedText.replace(/\n/g, '<br>')}</h3><p><br></p>`;
                 document.execCommand('insertHTML', false, insertedHTML);
             }
             if (type === 'blockquote') {
@@ -1049,25 +1049,29 @@
         function generateHTMLForChapter(titleText, subtitleText, editorNodes) {
             let htmlOutput = '';
 
-            if (titleText.trim() !== '') htmlOutput += `<div class="epub-chapter-title">${titleText}</div>`;
-            if (subtitleText.trim() !== '') htmlOutput += `<div class="epub-chapter-subtitle">${subtitleText}</div>`;
+            if (titleText.trim() !== '') htmlOutput += `<h1 class="epub-chapter-title">${titleText}</h1>`;
+            if (subtitleText.trim() !== '') htmlOutput += `<h2 class="epub-chapter-subtitle">${subtitleText}</h2>`;
 
             let isFirstParagraph = true;
 
             editorNodes.forEach(node => {
                 if (node.nodeType === 1) {
-                    if (node.classList.contains('text-msg-container') || node.classList.contains('msg-time') || node.classList.contains('subheader') || node.classList.contains('epub-blockquote') || node.classList.contains('scene-break') || node.classList.contains('inline-image') || node.classList.contains('handwriting-text')) {
+                    if (node.classList.contains('text-msg-container') || node.classList.contains('msg-time') || node.classList.contains('epub-blockquote') || node.classList.contains('scene-break') || node.classList.contains('inline-image') || node.classList.contains('handwriting-text')) {
                         const cleanNode = node.cloneNode(true);
                         cleanNode.querySelectorAll('[contenteditable]').forEach(el => el.removeAttribute('contenteditable'));
                         cleanNode.removeAttribute('contenteditable');
-                        cleanNode.removeAttribute('data-dropcap'); // clean up data attributes on export
+                        cleanNode.removeAttribute('data-dropcap'); 
                         
                         htmlOutput += cleanNode.outerHTML;
                         
-                        // We no longer trigger a Drop Cap after a scene break.
                         if (!node.classList.contains('scene-break')) {
                             isFirstParagraph = false;
                         }
+                    } else if (node.classList.contains('subheader')) {
+                        const cleanNode = node.cloneNode(true);
+                        cleanNode.querySelectorAll('[contenteditable]').forEach(el => el.removeAttribute('contenteditable'));
+                        htmlOutput += `<h3 class="subheader">${cleanNode.innerHTML}</h3>`;
+                        isFirstParagraph = false;
                     } else if (node.nodeName === 'P' || node.nodeName === 'DIV') {
                         let innerHtml = node.innerHTML;
                         
@@ -1076,7 +1080,6 @@
                         let classNames = 'epub-text';
                         let isHandwriting = node.classList.contains('handwriting-text') || (node.querySelector('.handwriting-text') !== null && node.textContent.trim() === node.querySelector('.handwriting-text').textContent.trim());
                         
-                        // Detect manual toggle overrides
                         let forceDropcap = node.getAttribute('data-dropcap') === 'force';
                         let preventDropcap = node.getAttribute('data-dropcap') === 'none';
 
@@ -1090,17 +1093,17 @@
                         } else {
                             if (isFirstParagraph) isFirstParagraph = false;
                         }
-                        htmlOutput += `<div class="${classNames}">${innerHtml}</div>`;
+                        htmlOutput += `<p class="${classNames}">${innerHtml}</p>`;
                     }
                 } 
                 else if (node.nodeType === 3 && node.textContent.trim() !== '') {
                      let classNames = 'epub-text';
                      if (isFirstParagraph) {
                         classNames += ' first-paragraph chapter-first-paragraph';
-                        htmlOutput += `<div class="${classNames}">${applyPhysicalDropCapAndHook(node.textContent)}</div>`;
+                        htmlOutput += `<p class="${classNames}">${applyPhysicalDropCapAndHook(node.textContent)}</p>`;
                         isFirstParagraph = false;
                      } else {
-                         htmlOutput += `<div class="${classNames}">${node.textContent}</div>`;
+                         htmlOutput += `<p class="${classNames}">${node.textContent}</p>`;
                      }
                 }
             });
@@ -1143,7 +1146,7 @@
             
             const btn = document.getElementById('exportBtn');
             const originalText = btn.innerHTML;
-            btn.innerHTML = "Generating...";
+            btn.innerHTML = "Bundling Fonts...";
             btn.disabled = true;
 
             const zip = new JSZip();
@@ -1152,6 +1155,7 @@
             const metaInf = zip.folder("META-INF");
             metaInf.file("container.xml", `<?xml version="1.0"?>\n<container version="1.0" xmlns="urn:oasis:names:tc:opendocument:xmlns:container">\n  <rootfiles>\n    <rootfile full-path="OEBPS/content.opf" media-type="application/oebps-package+xml"/>\n  </rootfiles>\n</container>`);
             
+            // Critical Apple Books XML configuration for embedded fonts
             metaInf.file("com.apple.ibooks.display-options.xml", `<?xml version="1.0" encoding="UTF-8"?>
 <display_options>
   <platform name="*">
@@ -1160,25 +1164,85 @@
 </display_options>`);
 
             const oebps = zip.folder("OEBPS");
+            const fontsFolder = oebps.folder("Fonts");
+            let fontManifestItems = '';
+            let embeddedFontFaceCSS = '';
+
+            try {
+                // 1. Identify which fonts the theme is currently using
+                const extractName = (fontStr) => fontStr.split(',')[0].replace(/['"]/g, '').trim();
+                const requiredFonts = new Set();
+                
+                [currentThemeFonts.header, currentThemeFonts.subtitle, currentThemeFonts.body, "'Patrick Hand'"].forEach(f => {
+                    const name = extractName(f);
+                    if (name && name !== 'system-ui' && name !== 'sans-serif' && name !== 'serif') {
+                        requiredFonts.add(name);
+                    }
+                });
+
+                // 2. Fetch the raw CSS map from Google Fonts
+                const fontParams = Array.from(requiredFonts).map(f => `family=${f.replace(/ /g, '+')}`).join('&');
+                const googleFontsUrl = `https://fonts.googleapis.com/css2?${fontParams}&display=swap`;
+                
+                const cssResponse = await fetch(googleFontsUrl);
+                let fontCssText = await cssResponse.text();
+
+                // 3. Parse out the .woff2 URLs, download them, and inject them into the ZIP
+                const urlRegex = /url\((https:\/\/[^)]+)\)/g;
+                let match;
+                let fontCounter = 0;
+                const fontDownloads = [];
+                const fontReplacements = [];
+
+                while ((match = urlRegex.exec(fontCssText)) !== null) {
+                    const fontUrl = match[1];
+                    const fontFileName = `font_${fontCounter}.woff2`;
+                    const fontId = `font_item_${fontCounter}`;
+                    
+                    fontDownloads.push(
+                        fetch(fontUrl).then(res => res.blob()).then(blob => {
+                            fontsFolder.file(fontFileName, blob);
+                            fontManifestItems += `<item id="${fontId}" href="Fonts/${fontFileName}" media-type="font/woff2"/>\n`;
+                        })
+                    );
+                    
+                    fontReplacements.push({ original: match[0], newUrl: `url('../Fonts/${fontFileName}')` });
+                    fontCounter++;
+                }
+
+                await Promise.all(fontDownloads);
+
+                // Rewrite the CSS to point to the new local font files
+                fontReplacements.forEach(rep => {
+                    fontCssText = fontCssText.replace(rep.original, rep.newUrl);
+                });
+                
+                embeddedFontFaceCSS = fontCssText;
+                btn.innerHTML = "Building ePub...";
+
+            } catch(err) {
+                console.error("Font bundling failed, falling back to system fonts.", err);
+            }
             
+            // Generate Master Stylesheet with embedded @font-face blocks
             const cssContent = `
-                @import url('https://fonts.googleapis.com/css2?family=Aldrich&family=Bubblegum+Sans&family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=Ephesis&family=JetBrains+Mono:wght@400;700&family=Patrick+Hand&family=Cinzel:wght@400;700&family=Lora:ital,wght@0,400;0,600;1,400&family=Merriweather:ital,wght@0,400;0,700;1,400&family=Montserrat:ital,wght@0,400;0,600;1,400&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Oswald:wght@400;600&display=swap');
+                ${embeddedFontFaceCSS}
                 
                 body { font-family: ${currentThemeFonts.body} !important; color: #000; background: #fff; margin: 0; padding: 0; }
-                .epub-chapter-title { text-align: center; font-size: 2.2em; margin-bottom: 0.2em; margin-top: 1.5em; font-family: ${currentThemeFonts.header} !important; font-weight: normal; }
-                .epub-chapter-subtitle { text-align: center; font-size: 0.9em; color: #666; margin-bottom: 2em; letter-spacing: 2px; text-transform: uppercase; font-family: ${currentThemeFonts.subtitle} !important; }
-                .epub-text { font-size: 1em; line-height: 1.6; text-align: justify; margin: 0 0 0.5em 0; text-indent: 1.5em; font-family: ${currentThemeFonts.body} !important; }
-                .epub-text.first-paragraph { text-indent: 0; margin-top: 0.5em; }
+                h1.epub-chapter-title { text-align: center; font-size: 2.2em; margin-bottom: 0.2em; margin-top: 1.5em; font-family: ${currentThemeFonts.header} !important; font-weight: normal; }
+                h2.epub-chapter-subtitle { text-align: center; font-size: 0.9em; color: #666; margin-bottom: 2em; letter-spacing: 2px; text-transform: uppercase; font-family: ${currentThemeFonts.subtitle} !important; font-weight: normal; }
+                p.epub-text { font-size: 1em; line-height: 1.6; text-align: justify; margin: 0 0 0.5em 0; text-indent: 1.5em; font-family: ${currentThemeFonts.body} !important; }
+                p.epub-text.first-paragraph { text-indent: 0; margin-top: 0.5em; }
                 
                 .dropcap { float: left; font-size: 3.5em; line-height: 0.8; margin-right: 0.1em; margin-top: 0.05em; font-family: ${currentThemeFonts.header} !important; font-weight: bold; color: #000; }
                 .hook-accent { font-style: italic; font-weight: bold; color: #333; font-family: ${currentThemeFonts.body} !important; }
                 
-                .handwriting-text, .epub-text.handwriting-wrapper { text-indent: 0 !important; font-family: 'Patrick Hand', 'Comic Sans MS', 'Bradley Hand', cursive !important; font-size: 1.2em !important; color: #333 !important; line-height: 1.5 !important; margin: 1em 0 !important; display: block !important; white-space: pre-wrap !important; font-style: italic; }
+                .handwriting-text, p.epub-text.handwriting-wrapper { text-indent: 0 !important; font-family: 'Patrick Hand', 'Comic Sans MS', 'Bradley Hand', cursive !important; font-size: 1.2em !important; color: #333 !important; line-height: 1.5 !important; margin: 1em 0 !important; display: block !important; white-space: pre-wrap !important; font-style: italic; }
                 
                 .scene-break { text-align: center; margin: 1.5em 0; font-size: 1.5em; color: #555; clear: both;}
                 .scene-break img { max-width: 150px; height: auto; display: inline-block; }
                 
-                .subheader { font-family: ${currentThemeFonts.header} !important; font-size: 1.2em; font-weight: bold; margin-bottom: 1em; margin-top: 1.5em; border-bottom: 1px solid #ccc; padding-bottom: 0.2em; }
+                h3.subheader { font-family: ${currentThemeFonts.header} !important; font-size: 1.2em; font-weight: bold; margin-bottom: 1em; margin-top: 1.5em; border-bottom: 1px solid #ccc; padding-bottom: 0.2em; }
                 .epub-blockquote { margin: 1em 2em; padding-left: 1em; border-left: 3px solid #333; font-style: italic; color: #222; font-family: ${currentThemeFonts.body} !important; }
                 
                 .text-msg-container { margin: 1.2em 0; padding: 0 5%; display: block; overflow: hidden; clear: both; width: 100%; font-family: sans-serif !important; }
@@ -1209,7 +1273,7 @@
                 coverSpineString = `<itemref idref="cover-page" linear="yes"/>`;
             }
 
-            let manifestItems = '';
+            let manifestItems = fontManifestItems; // Inject bundled fonts into manifest
             let spineItems = '';
             let ncxNavPoints = '';
             let navTOCList = ''; 
@@ -1239,7 +1303,12 @@
                 
                 let formattedHtml = generateHTMLForChapter(chapter.title, chapter.subtitle, tempDiv.childNodes);
                 formattedHtml = formattedHtml.replace(/<\/div><\/div>/g, '</div></div><div class="clear"></div>');
-                formattedHtml = formattedHtml.replace(/<br>/g, '<br/>').replace(/&nbsp;/g, '&#160;');
+                
+                // Strict XHTML self-closing tags
+                formattedHtml = formattedHtml.replace(/<br\s*\/?>/gi, '<br/>').replace(/&nbsp;/gi, '&#160;');
+                formattedHtml = formattedHtml.replace(/<img([^>]+?)>/gi, (match, attributes) => {
+                    return attributes.trim().endsWith('/') ? match : `<img${attributes} />`;
+                });
 
                 const xhtml = `<?xml version="1.0" encoding="utf-8"?>\n<!DOCTYPE html>\n<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" lang="${bookMetadata.lang}">\n<head>\n    <title>${chapter.title}<\/title>\n    <link href="../Styles/style.css" rel="stylesheet" type="text/css"/>\n<\/head>\n<body>\n    ${formattedHtml}\n<\/body>\n<\/html>`;
                 
