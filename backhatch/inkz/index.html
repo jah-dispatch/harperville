@@ -127,7 +127,7 @@
         .editor-body .scene-break { text-align: center; margin: 30px 0; font-size: 24px; color: #888; clear: both;}
         .editor-body .scene-break img { max-width: 150px; height: auto; display: inline-block; }
         
-        .editor-body .handwriting-text { font-family: var(--book-font-handwriting); font-size: 18px; color: #aaa; margin: 15px 0; display: block; line-height: 1.4; padding: 10px 20px; text-indent: 0; white-space: pre-wrap; outline: none; }
+        .editor-body .handwriting-text { font-family: var(--book-font-handwriting); font-size: 18px; color: #e0e0e0; margin: 15px 0; display: block; line-height: 1.4; padding: 10px 20px; text-indent: 0; white-space: pre-wrap; outline: none; }
         .editor-body .inline-image { max-width: 100%; height: auto; display: block; margin: 20px auto; border-radius: 4px; }
 
         .form-group { margin-bottom: 25px; }
@@ -172,7 +172,7 @@
         .subheader { font-family: var(--book-font-header); font-size: 18px; font-weight: bold; text-align: left; margin-top: 30px; margin-bottom: 15px; color: #111; border-bottom: 1px solid #ccc; padding-bottom: 5px; }
         .epub-blockquote { margin: 20px 40px; padding-left: 15px; border-left: 3px solid #333; font-style: italic; color: #222; }
         
-        .handwriting-text { font-family: var(--book-font-handwriting); font-size: 18px; color: #444; margin: 15px 0; display: block; line-height: 1.4; padding: 10px 20px; text-indent: 0; white-space: pre-wrap; }
+        .handwriting-text { font-family: 'Patrick Hand', cursive; font-size: 18px; color: #444; margin: 15px 0; display: block; line-height: 1.4; padding: 10px 20px; text-indent: 0; white-space: pre-wrap; }
         .inline-image { max-width: 100%; height: auto; display: block; margin: 20px auto; border-radius: 4px; }
         .epub-text a { color: #007AFF; text-decoration: underline; }
 
@@ -888,27 +888,25 @@
             let insertedHTML = "";
             
             if (type === 'sent') {
-                insertedHTML = `<div class="text-msg-container" contenteditable="false"><div class="msg-time" contenteditable="true"></div><div class="msg-sender" contenteditable="true"></div><div class="msg-bubble msg-sent" contenteditable="true">${selectedText}</div></div><p>&nbsp;</p>`;
+                insertedHTML = `</p><div class="text-msg-container" contenteditable="false"><div class="msg-time" contenteditable="true"></div><div class="msg-sender" contenteditable="true"></div><div class="msg-bubble msg-sent" contenteditable="true">${selectedText.replace(/\n/g, '<br>')}</div></div><p><br></p>`;
                 document.execCommand('insertHTML', false, insertedHTML);
             }
             if (type === 'received') {
-                insertedHTML = `<div class="text-msg-container" contenteditable="false"><div class="msg-time" contenteditable="true"></div><div class="msg-sender" contenteditable="true"></div><div class="msg-bubble msg-received" contenteditable="true">${selectedText}</div></div><p>&nbsp;</p>`;
+                insertedHTML = `</p><div class="text-msg-container" contenteditable="false"><div class="msg-time" contenteditable="true"></div><div class="msg-sender" contenteditable="true"></div><div class="msg-bubble msg-received" contenteditable="true">${selectedText.replace(/\n/g, '<br>')}</div></div><p><br></p>`;
                 document.execCommand('insertHTML', false, insertedHTML);
             }
             if (type === 'subheader') {
-                insertedHTML = `<div class="subheader" contenteditable="true">${selectedText}</div><p>&nbsp;</p>`;
+                insertedHTML = `</p><div class="subheader" contenteditable="true">${selectedText.replace(/\n/g, '<br>')}</div><p><br></p>`;
                 document.execCommand('insertHTML', false, insertedHTML);
             }
             if (type === 'blockquote') {
-                insertedHTML = `<blockquote class="epub-blockquote" contenteditable="true">${selectedText}</blockquote><p>&nbsp;</p>`;
+                insertedHTML = `</p><blockquote class="epub-blockquote" contenteditable="true">${selectedText.replace(/\n/g, '<br><br>')}</blockquote><p><br></p>`;
                 document.execCommand('insertHTML', false, insertedHTML);
             }
             if (type === 'handwriting') {
-                const frag = selection.getRangeAt(0).cloneContents();
-                const tempDiv = document.createElement('div');
-                tempDiv.appendChild(frag);
-                let contentHTML = tempDiv.innerHTML || selectedText || "Type handwriting here...";
-                insertedHTML = `<div class="handwriting-text" contenteditable="true">${contentHTML}</div><p>&nbsp;</p>`;
+                // FIXED: Extracts string safely and drops it into a clean div to prevent nasty DOM nesting bugs with active paragraphs
+                let contentHTML = selectedText ? selectedText.replace(/\n/g, '<br><br>') : "Type handwriting here...";
+                insertedHTML = `</p><div class="handwriting-text" contenteditable="true">${contentHTML}</div><p><br></p>`;
                 document.execCommand('insertHTML', false, insertedHTML);
             }
             
@@ -943,7 +941,7 @@
         function applySceneBreak(symbol) {
             toggleModal('sceneBreakModal');
             restoreSelection();
-            const html = `<div class="scene-break" contenteditable="false">${symbol}</div><p>&nbsp;</p>`;
+            const html = `</p><div class="scene-break" contenteditable="false">${symbol}</div><p><br></p>`;
             document.execCommand('insertHTML', false, html);
             parseEditorToPreview();
         }
@@ -956,7 +954,7 @@
 
             const reader = new FileReader();
             reader.onload = function(e) {
-                const html = `<div class="scene-break" contenteditable="false"><img src="${e.target.result}"/></div><p>&nbsp;</p>`;
+                const html = `</p><div class="scene-break" contenteditable="false"><img src="${e.target.result}"/></div><p><br></p>`;
                 document.execCommand('insertHTML', false, html);
                 parseEditorToPreview();
                 document.getElementById('custom-break-upload').value = '';
@@ -975,7 +973,7 @@
             const reader = new FileReader();
             reader.onload = function(e) {
                 restoreSelection();
-                const html = `<p style="text-align:center;" contenteditable="false"><img src="${e.target.result}" class="inline-image"/></p><p>&nbsp;</p>`;
+                const html = `</p><p style="text-align:center;" contenteditable="false"><img src="${e.target.result}" class="inline-image"/></p><p><br></p>`;
                 document.execCommand('insertHTML', false, html);
                 parseEditorToPreview();
                 document.getElementById('inline-image-upload').value = '';
@@ -1043,7 +1041,9 @@
                         }
                     } else if (node.nodeName === 'P' || node.nodeName === 'DIV') {
                         let innerHtml = node.innerHTML;
-                        if (innerHtml.replace(/&nbsp;/g, '').replace(/<br>/g, '').trim() === '' && node.querySelectorAll('img').length === 0) return; 
+                        
+                        // FIXED: Aggressively target and strip out empty spacing paragraphs that bloat ePubs
+                        if (innerHtml.replace(/&nbsp;/g, '').replace(/<br\s*\/?>/gi, '').trim() === '' && node.querySelectorAll('img').length === 0) return; 
 
                         let classNames = 'epub-text';
                         let isHandwriting = node.classList.contains('handwriting-text') || (node.querySelector('.handwriting-text') !== null && node.textContent.trim() === node.querySelector('.handwriting-text').textContent.trim());
@@ -1128,7 +1128,6 @@
             const metaInf = zip.folder("META-INF");
             metaInf.file("container.xml", `<?xml version="1.0"?>\n<container version="1.0" xmlns="urn:oasis:names:tc:opendocument:xmlns:container">\n  <rootfiles>\n    <rootfile full-path="OEBPS/content.opf" media-type="application/oebps-package+xml"/>\n  </rootfiles>\n</container>`);
             
-            // Critical Apple Books XML configuration for embedded fonts & layouts
             metaInf.file("com.apple.ibooks.display-options.xml", `<?xml version="1.0" encoding="UTF-8"?>
 <display_options>
   <platform name="*">
@@ -1138,31 +1137,33 @@
 
             const oebps = zip.folder("OEBPS");
             
+            // FIXED: Removed body padding (eReaders do this automatically). 
+            // FIXED: Added massive fallback stack to Handwriting to survive Kindle conversion.
             const cssContent = `
                 @import url('https://fonts.googleapis.com/css2?family=Aldrich&family=Bubblegum+Sans&family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=Ephesis&family=JetBrains+Mono:wght@400;700&family=Patrick+Hand&family=Cinzel:wght@400;700&family=Lora:ital,wght@0,400;0,600;1,400&family=Merriweather:ital,wght@0,400;0,700;1,400&family=Montserrat:ital,wght@0,400;0,600;1,400&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Oswald:wght@400;600&display=swap');
                 
-                body { font-family: ${currentThemeFonts.body}; color: #000; background: #fff; margin: 0; padding: 5%; }
+                body { font-family: ${currentThemeFonts.body}; color: #000; background: #fff; margin: 0; padding: 0; }
                 .epub-chapter-title { text-align: center; font-size: 2.2em; margin-bottom: 0.2em; margin-top: 1.5em; font-family: ${currentThemeFonts.header}; font-weight: normal; }
                 .epub-chapter-subtitle { text-align: center; font-size: 0.9em; color: #666; margin-bottom: 2em; letter-spacing: 2px; text-transform: uppercase; font-family: ${currentThemeFonts.subtitle}; }
-                .epub-text { font-size: 1em; line-height: 1.6; text-align: justify; margin: 0; text-indent: 1.5em; }
+                .epub-text { font-size: 1em; line-height: 1.6; text-align: justify; margin: 0 0 0.5em 0; text-indent: 1.5em; }
                 .epub-text.first-paragraph { text-indent: 0; margin-top: 0.5em; }
                 
                 .dropcap { float: left; font-size: 3.5em; line-height: 0.8; margin-right: 0.1em; margin-top: 0.05em; font-family: ${currentThemeFonts.header}; font-weight: bold; color: #000; }
                 .hook-accent { font-style: italic; font-weight: bold; color: #333; }
                 
-                .handwriting-text, .epub-text.handwriting-wrapper { text-indent: 0 !important; font-family: 'Patrick Hand', cursive !important; font-size: 1.1em !important; color: #333 !important; line-height: 1.4 !important; margin: 1em 0 !important; display: block !important; white-space: pre-wrap !important; }
+                .handwriting-text, .epub-text.handwriting-wrapper { text-indent: 0 !important; font-family: 'Patrick Hand', 'Comic Sans MS', 'Bradley Hand', cursive !important; font-size: 1.2em !important; color: #333 !important; line-height: 1.5 !important; margin: 1em 0 !important; display: block !important; white-space: pre-wrap !important; font-style: italic; }
                 
-                .scene-break { text-align: center; margin: 2em 0; font-size: 1.5em; color: #555; clear: both;}
+                .scene-break { text-align: center; margin: 1.5em 0; font-size: 1.5em; color: #555; clear: both;}
                 .scene-break img { max-width: 150px; height: auto; display: inline-block; }
                 
                 .subheader { font-family: ${currentThemeFonts.header}; font-size: 1.2em; font-weight: bold; margin-bottom: 1em; margin-top: 1.5em; border-bottom: 1px solid #ccc; padding-bottom: 0.2em; }
-                .epub-blockquote { margin: 1.5em 2.5em; padding-left: 1em; border-left: 3px solid #333; font-style: italic; color: #222; }
+                .epub-blockquote { margin: 1em 2em; padding-left: 1em; border-left: 3px solid #333; font-style: italic; color: #222; }
                 
-                .text-msg-container { margin: 1em 0; padding: 0 5%; display: block; overflow: hidden; clear: both; width: 100%;}
-                .msg-time { text-align: center; font-size: 0.8em; color: #888; margin: 1.5em 0 0.2em 0; font-family: sans-serif; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; clear: both;}
+                .text-msg-container { margin: 1.2em 0; padding: 0 5%; display: block; overflow: hidden; clear: both; width: 100%;}
+                .msg-time { text-align: center; font-size: 0.8em; color: #888; margin: 0 0 0.2em 0; font-family: sans-serif; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; clear: both;}
                 .msg-sender { text-align: center; font-size: 0.8em; color: #666; margin-bottom: 0.5em; font-weight: bold; font-family: sans-serif; }
                 
-                .msg-bubble { max-width: 75%; padding: 0.8em 1em; border-radius: 20px; font-size: 0.95em; line-height: 1.4; font-family: sans-serif; border: 1px solid rgba(0,0,0,0.1); }
+                .msg-bubble { max-width: 75%; padding: 0.8em 1em; border-radius: 20px; font-size: 0.95em; line-height: 1.4; font-family: sans-serif; border: 1px solid rgba(0,0,0,0.1); margin-bottom: 0.5em; }
                 .msg-received { background-color: #E5E5EA !important; color: #000 !important; float: left; border-bottom-left-radius: 5px; }
                 .msg-sent { background-color: #007AFF !important; color: #FFF !important; float: right; border-bottom-right-radius: 5px; }
                 .clear { clear: both; }
@@ -1179,7 +1180,6 @@
                 const ext = bookCoverMime === 'image/png' ? 'png' : 'jpg';
                 oebps.file(`Images/cover.${ext}`, bookCoverBase64, {base64: true});
                 
-                // Escaping HTML structural tags to prevent VS Code Live Server from crashing the script
                 oebps.file("Text/cover.xhtml", `<?xml version="1.0" encoding="utf-8"?>\n<!DOCTYPE html>\n<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">\n<head><title>Cover<\/title><style type="text/css"> body { margin: 0; padding: 0; text-align: center; } img { max-width: 100%; height: auto; } <\/style><\/head>\n<body><img src="../Images/cover.${ext}" alt="Cover Image"/><\/body><\/html>`);
                 
                 coverMetaString = `<meta name="cover" content="cover-image"/>`;
@@ -1219,7 +1219,6 @@
                 formattedHtml = formattedHtml.replace(/<\/div><\/div>/g, '</div></div><div class="clear"></div>');
                 formattedHtml = formattedHtml.replace(/<br>/g, '<br/>').replace(/&nbsp;/g, '&#160;');
 
-                // Escaping HTML structural tags to prevent VS Code Live Server from crashing the script
                 const xhtml = `<?xml version="1.0" encoding="utf-8"?>\n<!DOCTYPE html>\n<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" lang="${bookMetadata.lang}">\n<head>\n    <title>${chapter.title}<\/title>\n    <link href="../Styles/style.css" rel="stylesheet" type="text/css"/>\n<\/head>\n<body>\n    ${formattedHtml}\n<\/body>\n<\/html>`;
                 
                 oebps.file(`Text/${chapterId}.xhtml`, xhtml);
@@ -1230,7 +1229,6 @@
                 ncxNavPoints += `<navPoint id="navPoint-${index+1}" playOrder="${index+1}">\n  <navLabel><text>${chapter.title}</text></navLabel>\n  <content src="Text/${chapterId}.xhtml"/>\n</navPoint>\n`;
             });
 
-            // Escaping HTML structural tags to prevent VS Code Live Server from crashing the script
             const navXhtml = `<?xml version="1.0" encoding="utf-8"?>\n<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">\n<head><title>Table of Contents<\/title><link href="../Styles/style.css" rel="stylesheet" type="text/css"/><\/head>\n<body>\n  <h1 class="epub-chapter-title" style="margin-bottom: 30px;">Table of Contents<\/h1>\n  <nav epub:type="toc" id="toc">\n    <ol style="list-style:none; padding:0; text-align:center; line-height: 2;">\n      ${navTOCList}\n    <\/ol>\n  <\/nav>\n<\/body>\n<\/html>`;
             oebps.file("Text/nav.xhtml", navXhtml);
             manifestItems += `<item id="nav" href="Text/nav.xhtml" media-type="application/xhtml+xml" properties="nav"/>\n`;
