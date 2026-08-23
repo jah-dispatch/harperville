@@ -286,6 +286,8 @@
                     <button class="wysiwyg-btn icon-only" onclick="document.execCommand('italic', false, null)" title="Italic" style="font-style: italic;">I</button>
                     <button class="wysiwyg-btn icon-only" onclick="document.execCommand('underline', false, null)" title="Underline" style="text-decoration: underline;">U</button>
                     <div class="wysiwyg-divider"></div>
+                    <button class="wysiwyg-btn" onclick="toggleDropCap()" title="Toggle Drop Cap (On/Off) for current paragraph">🅰️ Drop Cap</button>
+                    <div class="wysiwyg-divider"></div>
                     <button class="wysiwyg-btn" onclick="formatSelection('sent')" title="Format as a Sent text message">💬 Sent Text</button>
                     <button class="wysiwyg-btn" onclick="formatSelection('received')" title="Format as a Received text message">💬 Received Text</button>
                     <div class="wysiwyg-divider"></div>
@@ -549,8 +551,9 @@
             const root = document.documentElement;
             const finalBodyFont = bodyFont === 'sans-serif' ? "system-ui, -apple-system, sans-serif" : `'${bodyFont}', serif`;
             const finalSubtitleFont = subtitleFont === 'sans-serif' ? "system-ui, -apple-system, sans-serif" : `'${subtitleFont}', serif`;
+            const finalHeaderFont = headerFont === 'sans-serif' ? "system-ui, -apple-system, sans-serif" : `'${headerFont}', serif`;
             
-            currentThemeFonts.header = `'${headerFont}', sans-serif`;
+            currentThemeFonts.header = finalHeaderFont;
             currentThemeFonts.subtitle = finalSubtitleFont;
             currentThemeFonts.body = finalBodyFont;
 
@@ -911,6 +914,36 @@
             
             parseEditorToPreview(); 
         }
+        
+        function toggleDropCap() {
+            if (currentView !== 'chapter') return;
+            const editor = document.getElementById('main-editor');
+            editor.focus();
+            const selection = window.getSelection();
+            if (!selection.rangeCount) return;
+
+            let node = selection.anchorNode;
+            if (node.nodeType === 3) node = node.parentNode; 
+
+            // Find the parent paragraph/div within the editor
+            while (node && node.id !== 'main-editor' && node.nodeName !== 'P' && node.nodeName !== 'DIV') {
+                node = node.parentNode;
+            }
+
+            if (node && (node.nodeName === 'P' || node.nodeName === 'DIV') && node.id !== 'main-editor') {
+                const currentStatus = node.getAttribute('data-dropcap');
+                
+                // 3-way manual toggle override switch 
+                if (!currentStatus) {
+                    node.setAttribute('data-dropcap', 'force');
+                } else if (currentStatus === 'force') {
+                    node.setAttribute('data-dropcap', 'none');
+                } else {
+                    node.removeAttribute('data-dropcap');
+                }
+                parseEditorToPreview();
+            }
+        }
 
         function openLinkModal() {
             if (currentView !== 'chapter') return;
@@ -1020,44 +1053,42 @@
             if (subtitleText.trim() !== '') htmlOutput += `<div class="epub-chapter-subtitle">${subtitleText}</div>`;
 
             let isFirstParagraph = true;
-            let afterSceneBreak = false;
 
             editorNodes.forEach(node => {
                 if (node.nodeType === 1) {
-                    // FIXED: Added handwriting-text to the sandbox so it passes through without being stripped
                     if (node.classList.contains('text-msg-container') || node.classList.contains('msg-time') || node.classList.contains('subheader') || node.classList.contains('epub-blockquote') || node.classList.contains('scene-break') || node.classList.contains('inline-image') || node.classList.contains('handwriting-text')) {
-                        
                         const cleanNode = node.cloneNode(true);
                         cleanNode.querySelectorAll('[contenteditable]').forEach(el => el.removeAttribute('contenteditable'));
                         cleanNode.removeAttribute('contenteditable');
+                        cleanNode.removeAttribute('data-dropcap'); // clean up data attributes on export
                         
                         htmlOutput += cleanNode.outerHTML;
                         
-                        if (node.classList.contains('scene-break')) {
-                            afterSceneBreak = true;
+                        // We no longer trigger a Drop Cap after a scene break.
+                        if (!node.classList.contains('scene-break')) {
                             isFirstParagraph = false;
-                        } else {
-                            isFirstParagraph = false;
-                            afterSceneBreak = false;
                         }
                     } else if (node.nodeName === 'P' || node.nodeName === 'DIV') {
                         let innerHtml = node.innerHTML;
                         
-                        // Aggressively target and strip out empty spacing paragraphs that bloat ePubs
                         if (innerHtml.replace(/&nbsp;/g, '').replace(/<br\s*\/?>/gi, '').trim() === '' && node.querySelectorAll('img').length === 0) return; 
 
                         let classNames = 'epub-text';
+                        let isHandwriting = node.classList.contains('handwriting-text') || (node.querySelector('.handwriting-text') !== null && node.textContent.trim() === node.querySelector('.handwriting-text').textContent.trim());
                         
-                        // Drop cap logic
-                        if (isFirstParagraph) {
+                        // Detect manual toggle overrides
+                        let forceDropcap = node.getAttribute('data-dropcap') === 'force';
+                        let preventDropcap = node.getAttribute('data-dropcap') === 'none';
+
+                        if (isHandwriting) {
+                            classNames += ' handwriting-wrapper';
+                            isFirstParagraph = false;
+                        } else if (forceDropcap || (isFirstParagraph && !preventDropcap)) {
                             classNames += ' first-paragraph chapter-first-paragraph';
                             innerHtml = applyPhysicalDropCapAndHook(innerHtml);
                             isFirstParagraph = false;
-                            afterSceneBreak = false;
-                        } else if (afterSceneBreak) {
-                            classNames += ' first-paragraph';
-                            innerHtml = applyPhysicalDropCapAndHook(innerHtml);
-                            afterSceneBreak = false;
+                        } else {
+                            if (isFirstParagraph) isFirstParagraph = false;
                         }
                         htmlOutput += `<div class="${classNames}">${innerHtml}</div>`;
                     }
@@ -1068,10 +1099,6 @@
                         classNames += ' first-paragraph chapter-first-paragraph';
                         htmlOutput += `<div class="${classNames}">${applyPhysicalDropCapAndHook(node.textContent)}</div>`;
                         isFirstParagraph = false;
-                     } else if (afterSceneBreak) {
-                        classNames += ' first-paragraph';
-                        htmlOutput += `<div class="${classNames}">${applyPhysicalDropCapAndHook(node.textContent)}</div>`;
-                        afterSceneBreak = false;
                      } else {
                          htmlOutput += `<div class="${classNames}">${node.textContent}</div>`;
                      }
@@ -1134,33 +1161,31 @@
 
             const oebps = zip.folder("OEBPS");
             
-            // FIXED: Removed body padding (eReaders do this automatically). 
-            // FIXED: Added massive fallback stack to Handwriting to survive Kindle conversion.
             const cssContent = `
                 @import url('https://fonts.googleapis.com/css2?family=Aldrich&family=Bubblegum+Sans&family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=Ephesis&family=JetBrains+Mono:wght@400;700&family=Patrick+Hand&family=Cinzel:wght@400;700&family=Lora:ital,wght@0,400;0,600;1,400&family=Merriweather:ital,wght@0,400;0,700;1,400&family=Montserrat:ital,wght@0,400;0,600;1,400&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Oswald:wght@400;600&display=swap');
                 
-                body { font-family: ${currentThemeFonts.body}; color: #000; background: #fff; margin: 0; padding: 0; }
-                .epub-chapter-title { text-align: center; font-size: 2.2em; margin-bottom: 0.2em; margin-top: 1.5em; font-family: ${currentThemeFonts.header}; font-weight: normal; }
-                .epub-chapter-subtitle { text-align: center; font-size: 0.9em; color: #666; margin-bottom: 2em; letter-spacing: 2px; text-transform: uppercase; font-family: ${currentThemeFonts.subtitle}; }
-                .epub-text { font-size: 1em; line-height: 1.6; text-align: justify; margin: 0 0 0.5em 0; text-indent: 1.5em; }
+                body { font-family: ${currentThemeFonts.body} !important; color: #000; background: #fff; margin: 0; padding: 0; }
+                .epub-chapter-title { text-align: center; font-size: 2.2em; margin-bottom: 0.2em; margin-top: 1.5em; font-family: ${currentThemeFonts.header} !important; font-weight: normal; }
+                .epub-chapter-subtitle { text-align: center; font-size: 0.9em; color: #666; margin-bottom: 2em; letter-spacing: 2px; text-transform: uppercase; font-family: ${currentThemeFonts.subtitle} !important; }
+                .epub-text { font-size: 1em; line-height: 1.6; text-align: justify; margin: 0 0 0.5em 0; text-indent: 1.5em; font-family: ${currentThemeFonts.body} !important; }
                 .epub-text.first-paragraph { text-indent: 0; margin-top: 0.5em; }
                 
-                .dropcap { float: left; font-size: 3.5em; line-height: 0.8; margin-right: 0.1em; margin-top: 0.05em; font-family: ${currentThemeFonts.header}; font-weight: bold; color: #000; }
-                .hook-accent { font-style: italic; font-weight: bold; color: #333; }
+                .dropcap { float: left; font-size: 3.5em; line-height: 0.8; margin-right: 0.1em; margin-top: 0.05em; font-family: ${currentThemeFonts.header} !important; font-weight: bold; color: #000; }
+                .hook-accent { font-style: italic; font-weight: bold; color: #333; font-family: ${currentThemeFonts.body} !important; }
                 
                 .handwriting-text, .epub-text.handwriting-wrapper { text-indent: 0 !important; font-family: 'Patrick Hand', 'Comic Sans MS', 'Bradley Hand', cursive !important; font-size: 1.2em !important; color: #333 !important; line-height: 1.5 !important; margin: 1em 0 !important; display: block !important; white-space: pre-wrap !important; font-style: italic; }
                 
                 .scene-break { text-align: center; margin: 1.5em 0; font-size: 1.5em; color: #555; clear: both;}
                 .scene-break img { max-width: 150px; height: auto; display: inline-block; }
                 
-                .subheader { font-family: ${currentThemeFonts.header}; font-size: 1.2em; font-weight: bold; margin-bottom: 1em; margin-top: 1.5em; border-bottom: 1px solid #ccc; padding-bottom: 0.2em; }
-                .epub-blockquote { margin: 1em 2em; padding-left: 1em; border-left: 3px solid #333; font-style: italic; color: #222; }
+                .subheader { font-family: ${currentThemeFonts.header} !important; font-size: 1.2em; font-weight: bold; margin-bottom: 1em; margin-top: 1.5em; border-bottom: 1px solid #ccc; padding-bottom: 0.2em; }
+                .epub-blockquote { margin: 1em 2em; padding-left: 1em; border-left: 3px solid #333; font-style: italic; color: #222; font-family: ${currentThemeFonts.body} !important; }
                 
-                .text-msg-container { margin: 1.2em 0; padding: 0 5%; display: block; overflow: hidden; clear: both; width: 100%;}
-                .msg-time { text-align: center; font-size: 0.8em; color: #888; margin: 0 0 0.2em 0; font-family: sans-serif; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; clear: both;}
-                .msg-sender { text-align: center; font-size: 0.8em; color: #666; margin-bottom: 0.5em; font-weight: bold; font-family: sans-serif; }
+                .text-msg-container { margin: 1.2em 0; padding: 0 5%; display: block; overflow: hidden; clear: both; width: 100%; font-family: sans-serif !important; }
+                .msg-time { text-align: center; font-size: 0.8em; color: #888; margin: 0 0 0.2em 0; font-family: sans-serif !important; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; clear: both;}
+                .msg-sender { text-align: center; font-size: 0.8em; color: #666; margin-bottom: 0.5em; font-weight: bold; font-family: sans-serif !important; }
                 
-                .msg-bubble { max-width: 75%; padding: 0.8em 1em; border-radius: 20px; font-size: 0.95em; line-height: 1.4; font-family: sans-serif; border: 1px solid rgba(0,0,0,0.1); margin-bottom: 0.5em; }
+                .msg-bubble { max-width: 75%; padding: 0.8em 1em; border-radius: 20px; font-size: 0.95em; line-height: 1.4; font-family: sans-serif !important; border: 1px solid rgba(0,0,0,0.1); margin-bottom: 0.5em; }
                 .msg-received { background-color: #E5E5EA !important; color: #000 !important; float: left; border-bottom-left-radius: 5px; }
                 .msg-sent { background-color: #007AFF !important; color: #FFF !important; float: right; border-bottom-right-radius: 5px; }
                 .clear { clear: both; }
